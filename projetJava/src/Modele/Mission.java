@@ -22,12 +22,17 @@ public class Mission {
     private int dureeJ;
     private List<Personnel> personnels;
     private List<Personnel> personnelsRec;
-    private Statut status;
+    private Statut statut;
     
     public Mission(int idMission, Date dateDebut, int dureeJ, int nbPersNecessaire) {
         this.idMission = idMission;
         this.dateDebut = dateDebut;
         this.dureeJ = dureeJ;
         this.nbPersNecessaire = nbPersNecessaire;
+        this.statut = Statut.en_preparation;
+    }
+    
+    public void affecterPersonnel(Personnel p) {
+        
     }
 }

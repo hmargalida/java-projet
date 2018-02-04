@@ -22,7 +22,7 @@ public class Personnel {
     private String prenom;
     private String dateEntree;
     private Set<Competence> competencesPers;
-    public static List<Personnel> personnels = new ArrayList<>();
+    //public static List<Personnel> personnels = new ArrayList<>();
     
     public Personnel(String nom, String prenom, String dateEntree, int idP) {
         this.nom = nom;
@@ -30,15 +30,26 @@ public class Personnel {
         this.dateEntree = dateEntree;
         this.idPersonnel = idP; // incrémentation automatique ? 
         this.competencesPers = new HashSet<>();
-        personnels.add(this);
+        //personnels.add(this);
     }
     
-    public void addCompetence(Competence comp) {
-        this.competencesPers.add(comp);
+    public void addCompetencePers(Competence comp) {
+        if (!competencesPers.contains(comp)) {
+            this.competencesPers.add(comp);
+        }
+        else  {
+            System.out.println("L'employé possède déjà cette compétence");
+        }
     }
     
-    public void removeCompetence(Competence comp) {
-        this.competencesPers.remove(comp);
+    public void removeCompetencePers(Competence comp) {
+        if (competencesPers.contains(comp)) {
+            this.competencesPers.remove(comp);
+        }
+        else  {
+            System.out.println("L'employé ne possède pas cette compétence");
+        }
+        
     }
     
     public String toString() {

@@ -17,19 +17,21 @@ import java.util.List;
  * @author heloise
  */
 public class Entreprise {
-    public static List<Personnel> personnels;
-    private static List<Mission> missions;
+    public static List<Personnel> personnels = new ArrayList<Personnel>();
+    private static List<Mission> missions = new ArrayList<Mission>();
+    public static List<Competence> competences = new ArrayList<Competence>();
     
-    public Entreprise() {
-        this.personnels = new ArrayList<Personnel>();
-        this.missions = new ArrayList<Mission>();
+    public static void addPersonnel(Personnel p) {
+        Entreprise.personnels.add(p);
     }
     
-    public void addPersonnel(Personnel p) {
-        this.personnels.add(p);
+    public static void removePersonnel(Personnel p) {
+        Entreprise.personnels.remove(p);
     }
     
-    public void removePersonnel(Personnel p) {
-        this.personnels.remove(p);
+    public static void addCompetence(Competence c) {
+        if(!competences.contains(c)) {
+            competences.add(c);
+        }
     }
 }

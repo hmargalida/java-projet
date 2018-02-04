@@ -25,6 +25,7 @@ public class Outils {
             String line = scan.nextLine();
             String[] tab = line.split(";");
             Competence comp = new Competence(tab[0], tab[1], tab[2]);
+            Entreprise.addCompetence(comp);
         }
     }
     
@@ -41,6 +42,7 @@ public class Outils {
                 String dateEntree = tab[2];
                 int idp = Integer.parseInt(tab[3]);
                 Personnel p = new Personnel(nom, prenom, dateEntree, idp);
+                Entreprise.personnels.add(p);
             }
         }
         br.close();
