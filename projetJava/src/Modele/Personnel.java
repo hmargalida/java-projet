@@ -60,7 +60,6 @@ public class Personnel {
     }
     
     public String formatFic() {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        return this.prenom + ";" + this.nom + ";" + sdf.format(this.dateEntree) + ";" + this.idPersonnel;
+        return this.prenom + ";" + this.nom + ";" + Outils.sdf.format(this.dateEntree) + ";" + this.idPersonnel;
     }
 }

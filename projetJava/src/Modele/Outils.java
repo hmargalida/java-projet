@@ -22,6 +22,9 @@ import java.util.Scanner;
  */
 public class Outils {
     
+    public static final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+    public static Date dateAuj = new Date();
+    
     public static void chargerCompetence(String fileName) throws FileNotFoundException {
         File fic = new File("data/"+fileName);
         Scanner scan = new Scanner(fic);
@@ -34,7 +37,6 @@ public class Outils {
     }
     
     public static void chargerPersonnel(String fileName) throws IOException, ParseException {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         FileReader fr = new FileReader("data/"+fileName);
         BufferedReader br = new BufferedReader(fr);
         br.readLine(); // skip first line
