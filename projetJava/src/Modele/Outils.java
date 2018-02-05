@@ -11,9 +11,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -32,7 +33,8 @@ public class Outils {
         }
     }
     
-    public static void chargerPersonnel(String fileName) throws IOException {
+    public static void chargerPersonnel(String fileName) throws IOException, ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         FileReader fr = new FileReader("data/"+fileName);
         BufferedReader br = new BufferedReader(fr);
         br.readLine(); // skip first line
@@ -42,7 +44,8 @@ public class Outils {
                 String [] tab = line.split(";");
                 String nom = tab[1];
                 String prenom = tab[0];
-                String dateEntree = tab[2];
+                String dateEntreeS = tab[2];
+                Date dateEntree = sdf.parse(dateEntreeS);
                 int idp = Integer.parseInt(tab[3]);
                 Personnel p = new Personnel(nom, prenom, dateEntree, idp);
                 Entreprise.personnels.add(p);
@@ -50,6 +53,10 @@ public class Outils {
         }
         br.close();
         fr.close();
+    }
+    
+    public static void chargerMission(String fileName) {
+        
     }
     
     public static void sauvegarderPersonnel(String fileName) throws IOException {
@@ -85,5 +92,9 @@ public class Outils {
             fw.write(comp.formatFic()+"\n");
         }
         fw.close();
+    }
+    
+    public static void sauvegarderMission(String fileName) {
+        
     }
 }

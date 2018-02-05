@@ -5,6 +5,7 @@
  */
 package Modele;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -20,10 +21,10 @@ public class Personnel {
     private int idPersonnel;
     private String nom;
     private String prenom;
-    private String dateEntree;
+    private Date dateEntree;
     private Set<Competence> competencesPers;
     
-    public Personnel(String nom, String prenom, String dateEntree, int idP) {
+    public Personnel(String nom, String prenom, Date dateEntree, int idP) {
         this.nom = nom;
         this.prenom = prenom;
         this.dateEntree = dateEntree;
@@ -59,6 +60,7 @@ public class Personnel {
     }
     
     public String formatFic() {
-        return this.prenom + ";" + this.nom + ";" + this.dateEntree + ";" + this.idPersonnel;
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        return this.prenom + ";" + this.nom + ";" + sdf.format(this.dateEntree) + ";" + this.idPersonnel;
     }
 }

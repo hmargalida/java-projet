@@ -2,9 +2,12 @@ package Modele;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -17,7 +20,7 @@ import java.util.Date;
  * @author heloise
  */
 public class Test {
-    public static void main(String[] args) throws FileNotFoundException, IOException {
+    public static void main(String[] args) throws FileNotFoundException, IOException, ParseException {
         try {
             Outils.chargerCompetence("liste_competences.csv");
             Outils.chargerPersonnel("liste_personnel.csv");
@@ -27,8 +30,11 @@ public class Test {
         }
         catch (IOException eIO) {
             System.err.println("ERREUR I/O");
+        } catch (ParseException ex) {
+            System.err.println("ERREUR - Format de date incorrecte");
         }
-        Personnel p1 = new Personnel("MacFly", "Marty", "25/01/2018", 1);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Personnel p1 = new Personnel("MacFly", "Marty", sdf.parse("25/01/2018"), 1);
         Competence c1 = new Competence("1", "Test FR", "Test EN");
         Entreprise.addCompetence(c1);
         p1.addCompetencePers(c1);
