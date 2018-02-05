@@ -9,8 +9,11 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -49,13 +52,25 @@ public class Outils {
         fr.close();
     }
     
-    public void sauvegarderPersonnel(String file) {
-        // Lecture de la liste
-        // Affichage ligne par ligne des infos personnel
-        // Ecriture dans le fichier ligne par ligne
+    public static void sauvegarderPersonnel(String fileName) throws IOException {
+        File f = new File("./data/"+fileName);
+        FileWriter fw;
+        if (f.exists()) {
+            fw = new FileWriter(f, false);
+        }
+        else {
+            f.createNewFile();
+            fw = new FileWriter(f);
+        }
+        
+        fw.write("prenom;nom;dateEntreeEntreprise;identifiant\n");
+        for (Personnel p : Entreprise.personnels) {
+            fw.write(p.formatFic()+"\n");
+        }
+        fw.close();
     }
     
-    public void sauvegarderCompetence(String file) {
+    public void sauvegarderCompetence(String fileName) {
         // Lecture de la liste
         // Affichage ligne par ligne des infos comp
         // Ecriture dans le fichier ligne par ligne

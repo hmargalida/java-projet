@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class Entreprise {
     public static List<Personnel> personnels = new ArrayList<Personnel>();
-    private static List<Mission> missions = new ArrayList<Mission>();
+    public static List<Mission> missions = new ArrayList<Mission>();
     public static List<Competence> competences = new ArrayList<Competence>();
     
     public static void addPersonnel(Personnel p) {

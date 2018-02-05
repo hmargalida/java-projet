@@ -58,5 +58,9 @@ public class Personnel {
             msg += "\t" + c.toString() + "\n";
         }
         return msg;
-     }
+    }
+    
+    public String formatFic() {
+        return this.prenom + ";" + this.nom + ";" + this.dateEntree + ";" + this.idPersonnel;
+    }
 }

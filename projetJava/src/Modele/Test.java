@@ -33,8 +33,6 @@ public class Test {
         Entreprise.addCompetence(c1);
         p1.addCompetencePers(c1);
         Entreprise.personnels.add(p1);
-        for(Personnel p : Entreprise.personnels) {
-            System.out.println(p.toString());
-        }
+        Outils.sauvegarderPersonnel("persSauv.csv");
     }
 }
