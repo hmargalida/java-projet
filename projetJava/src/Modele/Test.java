@@ -33,6 +33,6 @@ public class Test {
         Entreprise.addCompetence(c1);
         p1.addCompetencePers(c1);
         Entreprise.personnels.add(p1);
-        Outils.sauvegarderPersonnel("persSauv.csv");
+        Outils.sauvegarderPersonnel("persSauv");
     }
 }

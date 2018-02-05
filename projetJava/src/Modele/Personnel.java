@@ -22,7 +22,6 @@ public class Personnel {
     private String prenom;
     private String dateEntree;
     private Set<Competence> competencesPers;
-    //public static List<Personnel> personnels = new ArrayList<>();
     
     public Personnel(String nom, String prenom, String dateEntree, int idP) {
         this.nom = nom;
@@ -30,7 +29,6 @@ public class Personnel {
         this.dateEntree = dateEntree;
         this.idPersonnel = idP; // incrémentation automatique ? 
         this.competencesPers = new HashSet<>();
-        //personnels.add(this);
     }
     
     public void addCompetencePers(Competence comp) {

@@ -53,7 +53,7 @@ public class Outils {
     }
     
     public static void sauvegarderPersonnel(String fileName) throws IOException {
-        File f = new File("./data/"+fileName);
+        File f = new File("./data/"+fileName+".csv");
         FileWriter fw;
         if (f.exists()) {
             fw = new FileWriter(f, false);
@@ -62,7 +62,7 @@ public class Outils {
             f.createNewFile();
             fw = new FileWriter(f);
         }
-        
+
         fw.write("prenom;nom;dateEntreeEntreprise;identifiant\n");
         for (Personnel p : Entreprise.personnels) {
             fw.write(p.formatFic()+"\n");
