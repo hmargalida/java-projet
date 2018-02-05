@@ -70,9 +70,20 @@ public class Outils {
         fw.close();
     }
     
-    public void sauvegarderCompetence(String fileName) {
-        // Lecture de la liste
-        // Affichage ligne par ligne des infos comp
-        // Ecriture dans le fichier ligne par ligne
+    public static void sauvegarderCompetence(String fileName) throws IOException {
+        File f = new File("./data/"+fileName+".csv");
+        FileWriter fw;
+        if (f.exists()) {
+            fw = new FileWriter(f, false);
+        }
+        else {
+            f.createNewFile();
+            fw = new FileWriter(f);
+        }
+
+        for (Competence comp : Entreprise.competences) {
+            fw.write(comp.formatFic()+"\n");
+        }
+        fw.close();
     }
 }

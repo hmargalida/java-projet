@@ -34,5 +34,6 @@ public class Test {
         p1.addCompetencePers(c1);
         Entreprise.personnels.add(p1);
         Outils.sauvegarderPersonnel("persSauv");
+        Outils.sauvegarderCompetence("compSauv");
     }
 }
