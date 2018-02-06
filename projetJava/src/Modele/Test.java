@@ -38,8 +38,11 @@ public class Test {
         Competence c1 = new Competence("1", "Test FR", "Test EN");
         Entreprise.addCompetence(c1);
         p1.addCompetencePers(c1);
-        Entreprise.personnels.add(p1);
-        Outils.sauvegarderPersonnel("persSauv");
-        Outils.sauvegarderCompetence("compSauv");
+        Entreprise.addPersonnel(p1);
+        for (Personnel p : Entreprise.personnels) {
+            System.out.println(p);
+        }
+        //Outils.sauvegarderPersonnel("persSauv");
+        //Outils.sauvegarderCompetence("compSauv");
     }
 }

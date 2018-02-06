@@ -5,11 +5,7 @@
  */
 package Modele;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -22,11 +18,21 @@ public class Entreprise {
     public static List<Competence> competences = new ArrayList<Competence>();
     
     public static void addPersonnel(Personnel p) {
-        Entreprise.personnels.add(p);
+        if (!personnels.contains(p)) {
+            Entreprise.personnels.add(p);
+        }
+        else {
+            System.err.println("L'employé fait déjà partie de l'entreprise");
+        }
     }
     
     public static void removePersonnel(Personnel p) {
-        Entreprise.personnels.remove(p);
+        if (personnels.contains(p)) {
+            Entreprise.personnels.remove(p);
+        }
+        else {
+            System.err.println("Cet employé ne fait pas partie de l'entreprise");
+        }
     }
     
     public static void addCompetence(Competence c) {

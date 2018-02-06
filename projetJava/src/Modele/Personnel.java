@@ -28,7 +28,7 @@ public class Personnel {
         this.nom = nom;
         this.prenom = prenom;
         this.dateEntree = dateEntree;
-        this.idPersonnel = idP; // incrémentation automatique ? 
+        this.idPersonnel = idP; // incrémentation automatique ? Surcharge de constructeur ?
         this.competencesPers = new HashSet<>();
     }
     
@@ -37,7 +37,7 @@ public class Personnel {
             this.competencesPers.add(comp);
         }
         else  {
-            System.out.println("L'employé possède déjà cette compétence");
+            System.err.println("L'employé possède déjà cette compétence");
         }
     }
     
@@ -46,7 +46,7 @@ public class Personnel {
             this.competencesPers.remove(comp);
         }
         else  {
-            System.out.println("L'employé ne possède pas cette compétence");
+            System.err.println("L'employé ne possède pas cette compétence");
         }
         
     }
