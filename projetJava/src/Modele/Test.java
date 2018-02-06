@@ -40,8 +40,9 @@ public class Test {
         p1.addCompetencePers(c1);
         Entreprise.addPersonnel(p1);
         for (Personnel p : Entreprise.personnels) {
-            System.out.println(p);
+            //System.out.println(p);
         }
+        System.out.println(Outils.dateAuj);
         //Outils.sauvegarderPersonnel("persSauv");
         //Outils.sauvegarderCompetence("compSauv");
     }

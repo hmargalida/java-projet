@@ -57,6 +57,20 @@ public class Outils {
         fr.close();
     }
     
+    public static void chargerCompetencePers(String fileName) throws FileNotFoundException, IOException {
+        FileReader fr = new FileReader("data/"+fileName);
+        BufferedReader br = new BufferedReader(fr);
+        br.readLine(); //skip first line
+        while(br.ready()) {//tant qu'il y a des lignes à lire
+            String line = br.readLine();
+            if(!line.equals("")) { 
+                String [] extract = line.split(";");
+                String idEmp = extract[0];
+                
+            }
+        }
+    }
+    
     public static void chargerMission(String fileName) {
         
     }
@@ -71,7 +85,6 @@ public class Outils {
             f.createNewFile();
             fw = new FileWriter(f);
         }
-
         fw.write("prenom;nom;dateEntreeEntreprise;identifiant\n");
         for (Personnel p : Entreprise.personnels) {
             fw.write(p.formatFic()+"\n");
@@ -89,7 +102,6 @@ public class Outils {
             f.createNewFile();
             fw = new FileWriter(f);
         }
-
         for (Competence comp : Entreprise.competences) {
             fw.write(comp.formatFic()+"\n");
         }
