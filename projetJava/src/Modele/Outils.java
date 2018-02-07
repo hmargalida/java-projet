@@ -71,7 +71,7 @@ public class Outils {
                 int idEmp = Integer.parseInt(extract[0]);
                 Personnel p = Entreprise.personnels.get(idEmp);
                 for(int i=1; i<extract.length; i++) {
-                    p.addCompetencePers(Entreprise.competences.get(extract[i]));// affecter competence
+                    p.addCompetencePers(Entreprise.competences.get(extract[i])); // affecter compétences
                 }
             }
         }
@@ -94,6 +94,23 @@ public class Outils {
         fw.write("prenom;nom;dateEntreeEntreprise;identifiant\n");
         for (int idp : Entreprise.personnels.keySet()) {
             fw.write(Entreprise.personnels.get(idp).formatFic()+"\n");
+        }
+        fw.close();
+    }
+    
+    public static void sauvegarderCompPersonnel(String fileName) throws IOException {
+        File f = new File("./data/"+fileName+".csv");
+        FileWriter fw;
+        if (f.exists()) {
+            fw = new FileWriter(f, false);
+        }
+        else {
+            f.createNewFile();
+            fw = new FileWriter(f);
+        }
+        fw.write("Employé;Liste Competence\n");
+        for (int idp : Entreprise.personnels.keySet()) {
+            fw.write(Entreprise.personnels.get(idp).formatFicComp()+"\n");
         }
         fw.close();
     }

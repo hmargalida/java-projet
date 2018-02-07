@@ -66,4 +66,12 @@ public class Personnel {
     public String formatFic() {
         return this.prenom + ";" + this.nom + ";" + Outils.sdf.format(this.dateEntree) + ";" + this.idPersonnel;
     }
+    
+    public String formatFicComp() {
+        String msg = ""+this.idPersonnel;
+        for(Competence c : this.competencesPers) {
+            msg += ";" + c.getIdComp();
+        }
+        return msg;
+    }
 }

@@ -4,10 +4,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -43,8 +39,8 @@ public class Test {
         for (int p : Entreprise.personnels.keySet()) {
             System.out.println(Entreprise.personnels.get(p));
         }
-        System.out.println(Outils.dateAuj);
         Outils.sauvegarderPersonnel("persSauv");
         Outils.sauvegarderCompetence("compSauv");
+        //Outils.sauvegarderCompPersonnel("compPersSauv");
     }
 }
