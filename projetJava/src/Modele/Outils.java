@@ -108,7 +108,7 @@ public class Outils {
             f.createNewFile();
             fw = new FileWriter(f);
         }
-        fw.write("Employé;Liste Competence\n");
+        fw.write("Employe;Liste competence\n");
         for (int idp : Entreprise.personnels.keySet()) {
             fw.write(Entreprise.personnels.get(idp).formatFicComp()+"\n");
         }

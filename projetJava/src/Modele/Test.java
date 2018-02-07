@@ -41,6 +41,6 @@ public class Test {
         }
         Outils.sauvegarderPersonnel("persSauv");
         Outils.sauvegarderCompetence("compSauv");
-        //Outils.sauvegarderCompPersonnel("compPersSauv");
+        Outils.sauvegarderCompPersonnel("compPersSauv");
     }
 }
