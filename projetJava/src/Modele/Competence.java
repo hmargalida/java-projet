@@ -24,6 +24,10 @@ public class Competence {
         this.libelleEN = libelleEN;
     }
     
+    public String getIdComp() {
+        return this.idComp;
+    }
+    
     public String toString() {
         return this.idComp + " - " + this.libelleFR + " (" + this.libelleEN + ")";
     }

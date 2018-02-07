@@ -24,6 +24,7 @@ public class Test {
         try {
             Outils.chargerCompetence("liste_competences.csv");
             Outils.chargerPersonnel("liste_personnel.csv");
+            Outils.chargerCompetencePers("competences_personnel.csv");
         }
         catch (FileNotFoundException eF) {
             System.err.println("ERREUR - Le fichier est introuvable");
@@ -39,11 +40,11 @@ public class Test {
         Entreprise.addCompetence(c1);
         p1.addCompetencePers(c1);
         Entreprise.addPersonnel(p1);
-        for (Personnel p : Entreprise.personnels) {
-            //System.out.println(p);
+        for (int p : Entreprise.personnels.keySet()) {
+            System.out.println(Entreprise.personnels.get(p));
         }
         System.out.println(Outils.dateAuj);
-        //Outils.sauvegarderPersonnel("persSauv");
-        //Outils.sauvegarderCompetence("compSauv");
+        Outils.sauvegarderPersonnel("persSauv");
+        Outils.sauvegarderCompetence("compSauv");
     }
 }

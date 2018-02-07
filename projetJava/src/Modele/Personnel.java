@@ -51,6 +51,10 @@ public class Personnel {
         
     }
     
+    public int getId() {
+        return this.idPersonnel;
+    }
+    
     public String toString() {
         String msg = this.prenom + " " + this.nom + " (" + this.idPersonnel + "), date d'entree : " + this.dateEntree + "\n";
         for (Competence c : this.competencesPers) {

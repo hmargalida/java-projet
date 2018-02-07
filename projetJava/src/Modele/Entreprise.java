@@ -6,20 +6,22 @@
 package Modele;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
  * @author heloise
  */
 public class Entreprise {
-    public static List<Personnel> personnels = new ArrayList<Personnel>();
+    public static Map<Integer, Personnel> personnels = new HashMap<Integer,Personnel>();
     public static List<Mission> missions = new ArrayList<Mission>();
-    public static List<Competence> competences = new ArrayList<Competence>();
+    public static Map<String,Competence> competences = new HashMap<String,Competence>();
     
     public static void addPersonnel(Personnel p) {
-        if (!personnels.contains(p)) {
-            Entreprise.personnels.add(p);
+        if (!personnels.containsValue(p)) {
+            Entreprise.personnels.put(p.getId(),p);
         }
         else {
             System.err.println("L'employé fait déjà partie de l'entreprise");
@@ -27,17 +29,24 @@ public class Entreprise {
     }
     
     public static void removePersonnel(Personnel p) {
-        if (personnels.contains(p)) {
-            Entreprise.personnels.remove(p);
+        if (personnels.containsValue(p)) {
+            Entreprise.personnels.remove(p.getId());
         }
         else {
             System.err.println("Cet employé ne fait pas partie de l'entreprise");
         }
     }
     
+    public static Personnel getEmploye(int idEmp) {
+        return personnels.get(idEmp);
+    }
+    
     public static void addCompetence(Competence c) {
-        if(!competences.contains(c)) {
-            competences.add(c);
+        if(!competences.containsValue(c)) {
+            competences.put(c.getIdComp(),c);
+        }
+        else {
+            System.err.println("Cette compétence est déjà dans la liste");
         }
     }
 }

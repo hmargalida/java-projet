@@ -22,6 +22,9 @@ import java.util.Scanner;
  */
 public class Outils {
     
+    /**
+     *
+     */
     public static final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     public static Date dateAuj = new Date();
     
@@ -50,7 +53,7 @@ public class Outils {
                 Date dateEntree = sdf.parse(dateEntreeS);
                 int idp = Integer.parseInt(tab[3]);
                 Personnel p = new Personnel(nom, prenom, dateEntree, idp);
-                Entreprise.personnels.add(p);
+                Entreprise.personnels.put(idp,p);
             }
         }
         br.close();
@@ -65,8 +68,11 @@ public class Outils {
             String line = br.readLine();
             if(!line.equals("")) { 
                 String [] extract = line.split(";");
-                String idEmp = extract[0];
-                
+                int idEmp = Integer.parseInt(extract[0]);
+                Personnel p = Entreprise.personnels.get(idEmp);
+                for(int i=1; i<extract.length; i++) {
+                    p.addCompetencePers(Entreprise.competences.get(extract[i]));// affecter competence
+                }
             }
         }
     }
@@ -86,8 +92,8 @@ public class Outils {
             fw = new FileWriter(f);
         }
         fw.write("prenom;nom;dateEntreeEntreprise;identifiant\n");
-        for (Personnel p : Entreprise.personnels) {
-            fw.write(p.formatFic()+"\n");
+        for (int idp : Entreprise.personnels.keySet()) {
+            fw.write(Entreprise.personnels.get(idp).formatFic()+"\n");
         }
         fw.close();
     }
@@ -102,8 +108,8 @@ public class Outils {
             f.createNewFile();
             fw = new FileWriter(f);
         }
-        for (Competence comp : Entreprise.competences) {
-            fw.write(comp.formatFic()+"\n");
+        for (String idcomp : Entreprise.competences.keySet()) {
+            fw.write(Entreprise.competences.get(idcomp).formatFic()+"\n");
         }
         fw.close();
     }
