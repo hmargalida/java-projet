@@ -20,7 +20,7 @@ public class Entreprise {
     public static Map<String,Competence> competences = new HashMap<String,Competence>();
     
     public static void addPersonnel(Personnel p) {
-        if (!personnels.containsValue(p)) {
+        if (!personnels.containsKey(p.getId())) {
             Entreprise.personnels.put(p.getId(),p);
         }
         else {

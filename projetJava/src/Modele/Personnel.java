@@ -5,11 +5,8 @@
  */
 package Modele;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -23,12 +20,22 @@ public class Personnel {
     private String prenom;
     private Date dateEntree;
     private Set<Competence> competencesPers;
+    private static int countEmp;
     
     public Personnel(String nom, String prenom, Date dateEntree, int idP) {
         this.nom = nom;
         this.prenom = prenom;
         this.dateEntree = dateEntree;
-        this.idPersonnel = idP; // incrémentation automatique ? Surcharge de constructeur ?
+        this.idPersonnel = idP; 
+        Personnel.countEmp++;
+        this.competencesPers = new HashSet<>();
+    }
+    
+    public Personnel(String nom, String prenom, Date dateEntree) {
+        this.nom = nom;
+        this.prenom = prenom;
+        this.dateEntree = dateEntree;
+        this.idPersonnel = ++Personnel.countEmp;
         this.competencesPers = new HashSet<>();
     }
     

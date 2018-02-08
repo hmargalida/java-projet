@@ -1,5 +1,5 @@
 prenom;nom;dateEntreeEntreprise;identifiant
-Marty;MacFly;25/01/2018;1
+Ollie;Galasso;13/03/2006;1
 Jon;Seastrunk;12/01/2007;2
 Ted;Luat;17/07/2007;3
 Myron;Quaife;28/09/2007;4
@@ -49,3 +49,5 @@ Luigi;Gerrish;09/03/2015;47
 Greg;Defrancisco;10/03/2015;48
 August;Novinger;20/04/2016;49
 Carmelo;Roosa;16/11/2016;50
+Marty;MacFly;25/01/2018;51
+Helo;Marga;12/01/2018;52
