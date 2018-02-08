@@ -6,7 +6,6 @@
 package Modele;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,32 +15,40 @@ import java.util.Map;
  */
 public class Mission {
     
-    private String idMission;
+    private int idMission;
     private int nbPersNecessaire;
-    private Map<String, Integer> nbPersComp; // idComp, nbPers
+    private Map<Competence, Integer> nbPersComp;
     private Date dateDebut;
     private int dureeJ;
     private List<Personnel> personnels;
     private List<Personnel> personnelsRec;
     private Statut statut;
+    private boolean modifiable;
     
-    public Mission(String idMission, Date dateDebut, int dureeJ, int nbPersNecessaire) {
+    public Mission(int idMission, Date dateDebut, int dureeJ, int nbPersNecessaire) {
         this.idMission = idMission;
         this.dateDebut = dateDebut;
         this.dureeJ = dureeJ;
         this.nbPersNecessaire = nbPersNecessaire;
         this.statut = Statut.en_preparation;
-        nbPersComp = new HashMap<>();
+        this.modifiable = true;
     }
     
-    public void competencesReq(String idComp, int nbPersComp) {
-        this.nbPersComp.put(idComp, nbPersComp);
+    public String toString(){
+        String chaine;
+        chaine = "ID mission: " + this.idMission + ". debut mission: " + this.dateDebut + ". durée: " + this.dureeJ + " jours. Nombre de personnes nécessaires: " + this.nbPersNecessaire +". Statut: " + this.statut;
+        return chaine;
     }
     
-    public void affecterPersonnel(Personnel p, Competence c) {
-        // il faudrait préciser pour quelle compétence on affecte le personnel à la mission
-        // peut être une map affectation ? Map<idComp, List<Personnel>> 
-        // Vérifier que le personnel p possede la competence c
-        // vérifier que le besoin n'est pas encore rempli dans la competence c
+    public String formatFic() {
+        return this.idMission+ ";" + this.dateDebut + ";" + this.dureeJ + ";" + this.nbPersNecessaire + ";" + this.statut;
+    }
+    
+    public void changerStatutPlannifiee(){
+    
+    }
+    
+    public void affecterPersonnel(Personnel p) {
+        
     }
 }

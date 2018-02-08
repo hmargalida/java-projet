@@ -31,16 +31,22 @@ public class Test {
             System.err.println("ERREUR - Format de date incorrecte");
         }
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        Personnel p1 = new Personnel("MacFly", "Marty", sdf.parse("25/01/2018"));
-        Personnel p2 = new Personnel("Marga", "Helo", sdf.parse("12/01/2018"));
+        Personnel p1 = new Personnel("MacFly", "Marty", sdf.parse("25/01/2018"), 1);
         Competence c1 = new Competence("1", "Test FR", "Test EN");
         Entreprise.addCompetence(c1);
         p1.addCompetencePers(c1);
         Entreprise.addPersonnel(p1);
-        Entreprise.addPersonnel(p2);
         for (int p : Entreprise.personnels.keySet()) {
             System.out.println(Entreprise.personnels.get(p));
         }
+        
+        
+        // Création mission
+        
+        Mission missionTest1 = new Mission(1, sdf.parse("08/02/2018"), 6, 5);
+        System.out.println(missionTest1.toString());
+        System.out.println(missionTest1.formatFic());
+        
         Outils.sauvegarderPersonnel("persSauv");
         Outils.sauvegarderCompetence("compSauv");
         Outils.sauvegarderCompPersonnel("compPersSauv");
