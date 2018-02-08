@@ -6,6 +6,7 @@
 package Modele;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,24 +16,32 @@ import java.util.Map;
  */
 public class Mission {
     
-    private int idMission;
+    private String idMission;
     private int nbPersNecessaire;
-    private Map<Competence, Integer> nbPersComp;
+    private Map<String, Integer> nbPersComp; // idComp, nbPers
     private Date dateDebut;
     private int dureeJ;
     private List<Personnel> personnels;
     private List<Personnel> personnelsRec;
     private Statut statut;
     
-    public Mission(int idMission, Date dateDebut, int dureeJ, int nbPersNecessaire) {
+    public Mission(String idMission, Date dateDebut, int dureeJ, int nbPersNecessaire) {
         this.idMission = idMission;
         this.dateDebut = dateDebut;
         this.dureeJ = dureeJ;
         this.nbPersNecessaire = nbPersNecessaire;
         this.statut = Statut.en_preparation;
+        nbPersComp = new HashMap<>();
     }
     
-    public void affecterPersonnel(Personnel p) {
-        
+    public void competencesReq(String idComp, int nbPersComp) {
+        this.nbPersComp.put(idComp, nbPersComp);
+    }
+    
+    public void affecterPersonnel(Personnel p, Competence c) {
+        // il faudrait préciser pour quelle compétence on affecte le personnel à la mission
+        // peut être une map affectation ? Map<idComp, List<Personnel>> 
+        // Vérifier que le personnel p possede la competence c
+        // vérifier que le besoin n'est pas encore rempli dans la competence c
     }
 }

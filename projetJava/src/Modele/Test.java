@@ -38,7 +38,6 @@ public class Test {
         p1.addCompetencePers(c1);
         Entreprise.addPersonnel(p1);
         Entreprise.addPersonnel(p2);
-        System.out.println(p1.getId() + " " + p2.getId());
         for (int p : Entreprise.personnels.keySet()) {
             System.out.println(Entreprise.personnels.get(p));
         }
