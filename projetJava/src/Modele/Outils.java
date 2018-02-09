@@ -75,10 +75,29 @@ public class Outils {
                 }
             }
         }
+        br.close();
+        fr.close();
     }
     
-    public static void chargerMission(String fileName) {
-        
+    public static void chargerMission(String fileName) throws FileNotFoundException, IOException, ParseException {
+        FileReader fr = new FileReader("data/"+fileName);
+        BufferedReader br = new BufferedReader(fr);
+        br.readLine(); // skip first line
+        while(br.ready()) { 
+            String line = br.readLine();
+            if (!line.equals("")) { // ignore empty lines
+                String [] tab = line.split(";");
+                int idM = Integer.parseInt(tab[0]);
+                Date dateDeb = sdf.parse(tab[1]);
+                int duree = Integer.parseInt(tab[2]);
+                int nbPers = Integer.parseInt(tab[3]);
+                String statut = tab[4];
+                Mission m = new Mission(idM, dateDeb, duree, nbPers, statut);
+                Entreprise.missions.put(idM,m);
+            }
+        }
+        br.close();
+        fr.close();
     }
     
     public static void sauvegarderPersonnel(String fileName) throws IOException {
@@ -131,7 +150,20 @@ public class Outils {
         fw.close();
     }
     
-    public static void sauvegarderMission(String fileName) {
-        
+    public static void sauvegarderMission(String fileName) throws IOException {
+        File f = new File("./data/"+fileName+".csv");
+        FileWriter fw;
+        if (f.exists()) {
+            fw = new FileWriter(f, false);
+        }
+        else {
+            f.createNewFile();
+            fw = new FileWriter(f);
+        }
+        fw.write("idM;dateDeb;duree;nombreEmpNecessaire;statut\n");
+        for (int idMission : Entreprise.missions.keySet()) {
+            fw.write(Entreprise.missions.get(idMission).formatFic()+"\n");
+        }
+        fw.close();
     }
 }
