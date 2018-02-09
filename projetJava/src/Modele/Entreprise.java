@@ -15,8 +15,8 @@ import java.util.Map;
  * @author heloise
  */
 public class Entreprise {
-    public static Map<Integer, Personnel> personnels = new HashMap<Integer,Personnel>();
-    public static List<Mission> missions = new ArrayList<Mission>();
+    public static Map<Integer,Personnel> personnels = new HashMap<Integer,Personnel>();
+    public static Map<Integer,Mission> missions = new HashMap<Integer,Mission>();
     public static Map<String,Competence> competences = new HashMap<String,Competence>();
     
     public static void addPersonnel(Personnel p) {
@@ -25,6 +25,24 @@ public class Entreprise {
         }
         else {
             System.err.println("L'employé fait déjà partie de l'entreprise");
+        }
+    }
+    
+    public static void addCompetence(Competence c) {
+        if(!competences.containsValue(c)) {
+            competences.put(c.getIdComp(),c);
+        }
+        else {
+            System.err.println("Cette compétence est déjà dans la liste");
+        }
+    }
+    
+    public static void addMission(Mission m) {
+        if(!missions.containsKey(m.getIdM())) {
+            missions.put(m.getIdM(), m);
+        }
+        else {
+            System.err.println("Cette mission est déjà dans la liste");
         }
     }
     
@@ -39,14 +57,5 @@ public class Entreprise {
     
     public static Personnel getEmploye(int idEmp) {
         return personnels.get(idEmp);
-    }
-    
-    public static void addCompetence(Competence c) {
-        if(!competences.containsValue(c)) {
-            competences.put(c.getIdComp(),c);
-        }
-        else {
-            System.err.println("Cette compétence est déjà dans la liste");
-        }
     }
 }

@@ -34,14 +34,25 @@ public class Mission {
         this.modifiable = true;
     }
     
+    public Mission(int idMission, Date dateDebut, int dureeJ, int nbPersNecessaire, String statut) {
+        this.idMission = idMission;
+        this.dateDebut = dateDebut;
+        this.dureeJ = dureeJ;
+        this.nbPersNecessaire = nbPersNecessaire;
+        this.statut = Statut.valueOf(statut);
+        this.modifiable = true;
+    }
+    
+    public int getIdM() {
+        return this.idMission;
+    }
+    
     public String toString(){
-        String chaine;
-        chaine = "ID mission: " + this.idMission + ". debut mission: " + this.dateDebut + ". durée: " + this.dureeJ + " jours. Nombre de personnes nécessaires: " + this.nbPersNecessaire +". Statut: " + this.statut;
-        return chaine;
+        return "Mission " + this.idMission + ", date de debut : " + this.dateDebut + " (" + this.dureeJ + " jours) Nb d'employé nécessaires: " + this.nbPersNecessaire + " - " + this.statut;
     }
     
     public String formatFic() {
-        return this.idMission+ ";" + this.dateDebut + ";" + this.dureeJ + ";" + this.nbPersNecessaire + ";" + this.statut;
+        return this.idMission+ ";" + Outils.sdf.format(this.dateDebut) + ";" + this.dureeJ + ";" + this.nbPersNecessaire + ";" + this.statut;
     }
     
     public void changerStatutPlannifiee(){
@@ -49,6 +60,9 @@ public class Mission {
     }
     
     public void affecterPersonnel(Personnel p) {
-        
+        // il faudrait préciser pour quelle compétence on affecte le personnel à la mission
+        // peut être une map affectation ? Map<idComp, List<Personnel>> 
+        // Vérifier que le personnel p possede la competence c
+        // vérifier que le besoin n'est pas encore rempli dans la competence c
     }
 }
