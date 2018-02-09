@@ -5,7 +5,9 @@
  */
 package Modele;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,12 +18,12 @@ import java.util.Map;
 public class Mission {
     
     private int idMission;
-    private int nbPersNecessaire;
-    private Map<Competence, Integer> nbPersComp;
     private Date dateDebut;
     private int dureeJ;
-    private List<Personnel> personnels;
-    private List<Personnel> personnelsRec;
+    private int nbPersNecessaire;
+    private Map<Competence, Integer> nbPersComp;
+    private Map<Competence, ArrayList<Personnel>> affectations;
+    private ArrayList<Personnel> persAffect;
     private Statut statut;
     private boolean modifiable;
     
@@ -30,6 +32,9 @@ public class Mission {
         this.dateDebut = dateDebut;
         this.dureeJ = dureeJ;
         this.nbPersNecessaire = nbPersNecessaire;
+        this.nbPersComp = new HashMap<>();
+        this.affectations = new HashMap<>();
+        this.persAffect = new ArrayList<>();
         this.statut = Statut.en_preparation;
         this.modifiable = true;
     }
@@ -39,8 +44,48 @@ public class Mission {
         this.dateDebut = dateDebut;
         this.dureeJ = dureeJ;
         this.nbPersNecessaire = nbPersNecessaire;
+        this.nbPersComp = new HashMap<>();
+        this.affectations = new HashMap<>();
+        this.persAffect = new ArrayList<>();
         this.statut = Statut.valueOf(statut);
         this.modifiable = true;
+    }
+    
+    public void besoinParCompetence(Competence c, int nbPers) {
+        int nbAct=0;
+        for(Competence comp : this.nbPersComp.keySet()) {
+            nbAct += this.nbPersComp.get(comp);
+        }
+        if((nbPers+nbAct)<=nbPersNecessaire || nbAct==0) {
+            this.nbPersComp.put(c, nbPers);
+        }
+        else {
+            System.err.println("Le nombre de personnel pour cette compétence dépasse le besoin total");
+        }
+    }
+    
+    public void affecterPersonnel(Personnel p, Competence c) {
+        int nbPersAct = 0;
+        if (this.affectations.get(c) != null) {
+            nbPersAct = this.affectations.get(c).size();
+            int nbPersVoulu = nbPersComp.get(c);
+            if(p.aCompetence(c)) {
+                if (nbPersAct<nbPersVoulu) {
+                    ArrayList<Personnel> persM = this.affectations.get(c);
+                    persM.add(p);
+                    this.affectations.put(c, persM);
+                }
+                else {
+                    System.err.println("Le quota pour cette compétence est atteint");
+                }
+            }
+            else {
+                System.err.println("L'employe " + p.getId() + " ne possède pas cette compétence");
+            }
+        }
+    }
+    
+    public void changerStatutPlannifiee(){
     }
     
     public int getIdM() {
@@ -48,21 +93,26 @@ public class Mission {
     }
     
     public String toString(){
-        return "Mission " + this.idMission + ", date de debut : " + this.dateDebut + " (" + this.dureeJ + " jours) Nb d'employé nécessaires: " + this.nbPersNecessaire + " - " + this.statut;
+        /*String msg = "Mission " + this.idMission + ", date de debut : " + this.dateDebut + " (" + this.dureeJ + " jours) Nb d'employé nécessaires : " + this.nbPersNecessaire + " - " + this.statut;
+        for(Competence comp : this.nbPersComp.keySet()) {
+            msg += "\n\t compétence n°" + comp.getIdComp() + " (" + this.nbPersComp.get(comp) + " employés) - ";
+            if (this.affectations.get(comp) != null) {
+                for (Personnel p : this.affectations.get(comp)) {
+                    msg += ", " + p.getId();
+                }
+            }
+        }
+        return msg;*/
+        String msg="";
+        for (Competence c : this.affectations.keySet()) {
+            for (Personnel p : this.affectations.get(c)) {
+                msg += ", " + p.getId();
+            }
+        }
+        return msg;
     }
     
     public String formatFic() {
         return this.idMission+ ";" + Outils.sdf.format(this.dateDebut) + ";" + this.dureeJ + ";" + this.nbPersNecessaire + ";" + this.statut;
-    }
-    
-    public void changerStatutPlannifiee(){
-    
-    }
-    
-    public void affecterPersonnel(Personnel p) {
-        // il faudrait préciser pour quelle compétence on affecte le personnel à la mission
-        // peut être une map affectation ? Map<idComp, List<Personnel>> 
-        // Vérifier que le personnel p possede la competence c
-        // vérifier que le besoin n'est pas encore rempli dans la competence c
     }
 }

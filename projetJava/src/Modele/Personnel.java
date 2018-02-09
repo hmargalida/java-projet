@@ -62,6 +62,10 @@ public class Personnel {
         return this.idPersonnel;
     }
     
+    public boolean aCompetence(Competence c) {
+        return this.competencesPers.contains(c);
+    }
+    
     public String toString() {
         String msg = this.prenom + " " + this.nom + " (" + this.idPersonnel + "), date d'entree : " + this.dateEntree + "\n";
         for (Competence c : this.competencesPers) {
