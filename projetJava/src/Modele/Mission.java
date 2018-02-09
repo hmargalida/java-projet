@@ -65,23 +65,28 @@ public class Mission {
     }
     
     public void affecterPersonnel(Personnel p, Competence c) {
-        int nbPersAct = 0;
+        int nbPersAct=0;
+        int nbPersVoulu = this.nbPersComp.get(c);
         if (this.affectations.get(c) != null) {
             nbPersAct = this.affectations.get(c).size();
-            int nbPersVoulu = nbPersComp.get(c);
-            if(p.aCompetence(c)) {
-                if (nbPersAct<nbPersVoulu) {
-                    ArrayList<Personnel> persM = this.affectations.get(c);
-                    persM.add(p);
-                    this.affectations.put(c, persM);
+        }
+        System.out.println("act " +nbPersAct);
+        System.out.println("voulu " +nbPersVoulu);
+        if(p.aCompetence(c)) {
+            if (nbPersAct<nbPersVoulu) {
+                ArrayList<Personnel> persM = this.affectations.get(c);
+                if(persM==null) {
+                    persM = new ArrayList<>();
                 }
-                else {
-                    System.err.println("Le quota pour cette compétence est atteint");
-                }
+                persM.add(p);
+                this.affectations.put(c, persM);
             }
             else {
-                System.err.println("L'employe " + p.getId() + " ne possède pas cette compétence");
+                System.err.println("Le quota pour cette compétence est atteint");
             }
+        }
+        else {
+            System.err.println("L'employe " + p.getId() + " ne possède pas cette compétence");
         }
     }
     
@@ -93,20 +98,13 @@ public class Mission {
     }
     
     public String toString(){
-        /*String msg = "Mission " + this.idMission + ", date de debut : " + this.dateDebut + " (" + this.dureeJ + " jours) Nb d'employé nécessaires : " + this.nbPersNecessaire + " - " + this.statut;
+        String msg = "Mission " + this.idMission + ", date de debut : " + this.dateDebut + " (" + this.dureeJ + " jours) Nb d'employé nécessaires : " + this.nbPersNecessaire + " - " + this.statut;
         for(Competence comp : this.nbPersComp.keySet()) {
             msg += "\n\t compétence n°" + comp.getIdComp() + " (" + this.nbPersComp.get(comp) + " employés) - ";
             if (this.affectations.get(comp) != null) {
                 for (Personnel p : this.affectations.get(comp)) {
-                    msg += ", " + p.getId();
+                    msg += p.getId() + ", ";
                 }
-            }
-        }
-        return msg;*/
-        String msg="";
-        for (Competence c : this.affectations.keySet()) {
-            for (Personnel p : this.affectations.get(c)) {
-                msg += ", " + p.getId();
             }
         }
         return msg;

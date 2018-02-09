@@ -44,11 +44,11 @@ public class Test {
         }
         // Création mission
         Mission m1 = new Mission(2, Outils.sdf.parse("10/02/2018"), 5, 5);
+        Entreprise.addMission(m1);
         m1.besoinParCompetence(c1, 2);
         m1.besoinParCompetence(c2, 2);
         m1.besoinParCompetence(c3, 1);
         m1.affecterPersonnel(p1, c1);
-        Entreprise.addMission(m1);
         for (int m : Entreprise.missions.keySet()) {
             System.out.println(Entreprise.missions.get(m));
         }
