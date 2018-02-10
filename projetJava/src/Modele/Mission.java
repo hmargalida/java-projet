@@ -70,8 +70,6 @@ public class Mission {
         if (this.affectations.get(c) != null) {
             nbPersAct = this.affectations.get(c).size();
         }
-        System.out.println("act " +nbPersAct);
-        System.out.println("voulu " +nbPersVoulu);
         if(p.aCompetence(c)) {
             if (nbPersAct<nbPersVoulu) {
                 ArrayList<Personnel> persM = this.affectations.get(c);
