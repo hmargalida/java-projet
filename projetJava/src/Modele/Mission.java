@@ -20,38 +20,43 @@ public class Mission {
     private int idMission;
     private Date dateDebut;
     private int dureeJ;
-    private int nbPersNecessaire;
-    private Map<Competence, Integer> nbPersComp;
+    //private int nbPersNecessaire;
+    //private Map<Competence, Integer> nbPersComp;
+    private Besoin besoins;
     private Map<Competence, ArrayList<Personnel>> affectations;
     private ArrayList<Personnel> persAffect;
     private Statut statut;
     private boolean modifiable;
     
-    public Mission(int idMission, Date dateDebut, int dureeJ, int nbPersNecessaire) {
+    //public Mission(int idMission, Date dateDebut, int dureeJ, int nbPersNecessaire) {
+    public Mission(int idMission, Date dateDebut, int dureeJ, Besoin b) {
         this.idMission = idMission;
         this.dateDebut = dateDebut;
         this.dureeJ = dureeJ;
-        this.nbPersNecessaire = nbPersNecessaire;
-        this.nbPersComp = new HashMap<>();
+        //this.nbPersNecessaire = nbPersNecessaire;
+        //this.nbPersComp = new HashMap<>();
+        this.besoins = b;
         this.affectations = new HashMap<>();
         this.persAffect = new ArrayList<>();
         this.statut = Statut.en_preparation;
         this.modifiable = true;
     }
     
-    public Mission(int idMission, Date dateDebut, int dureeJ, int nbPersNecessaire, String statut) {
+    //public Mission(int idMission, Date dateDebut, int dureeJ, int nbPersNecessaire, String statut) {
+    public Mission(int idMission, Date dateDebut, int dureeJ, String statut, Besoin b) {
         this.idMission = idMission;
         this.dateDebut = dateDebut;
         this.dureeJ = dureeJ;
-        this.nbPersNecessaire = nbPersNecessaire;
-        this.nbPersComp = new HashMap<>();
+        //this.nbPersNecessaire = nbPersNecessaire;
+        //this.nbPersComp = new HashMap<>();
+        this.besoins = b;
         this.affectations = new HashMap<>();
         this.persAffect = new ArrayList<>();
         this.statut = Statut.valueOf(statut);
         this.modifiable = true;
     }
     
-    public void besoinParCompetence(Competence c, int nbPers) {
+    /*public void besoinParCompetence(Competence c, int nbPers) {
         int nbAct=0;
         for(Competence comp : this.nbPersComp.keySet()) {
             nbAct += this.nbPersComp.get(comp);
@@ -62,12 +67,12 @@ public class Mission {
         else {
             System.err.println("Le nombre de personnel pour cette compétence dépasse le besoin total");
         }
-    }
+    }*/
     
     public void affecterPersonnel(Personnel p, Competence c) {
         int nbPersAct=0;
         boolean inscrit = false; // Vérifie si l'employé est déjà inscrit sur cette compétence
-        int nbPersVoulu = this.nbPersComp.get(c);
+        int nbPersVoulu = this.besoins.getNbPersComp().get(c);
         if (this.affectations.get(c) != null) {
             nbPersAct = this.affectations.get(c).size();
             inscrit = this.affectations.get(c).contains(p);
@@ -103,9 +108,9 @@ public class Mission {
     }
     
     public String toString(){
-        String msg = "Mission " + this.idMission + ", date de debut : " + this.dateDebut + " (" + this.dureeJ + " jours) Nb d'employé nécessaires : " + this.nbPersNecessaire + " - " + this.statut;
-        for(Competence comp : this.nbPersComp.keySet()) {
-            msg += "\n\t compétence n°" + comp.getIdComp() + " (" + this.nbPersComp.get(comp) + " employés) - ";
+        String msg = "Mission " + this.idMission + ", date de debut : " + this.dateDebut + " (" + this.dureeJ + " jours) Nb d'employé nécessaires : " + besoins.getNbPersNecessaire() + " - " + this.statut;
+        for(Competence comp : besoins.getNbPersComp().keySet()) {
+            msg += "\n\t compétence n°" + comp.getIdComp() + " (" + besoins.getNbPersComp().get(comp) + " employés) - ";
             if (this.affectations.get(comp) != null) {
                 for (Personnel p : this.affectations.get(comp)) {
                     msg += p.getId() + ", ";
@@ -116,6 +121,6 @@ public class Mission {
     }
     
     public String formatFic() {
-        return this.idMission+ ";" + Outils.sdf.format(this.dateDebut) + ";" + this.dureeJ + ";" + this.nbPersNecessaire + ";" + this.statut;
+        return this.idMission+ ";" + Outils.sdf.format(this.dateDebut) + ";" + this.dureeJ + ";" + besoins.getNbPersNecessaire() + ";" + this.statut;
     }
 }

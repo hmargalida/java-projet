@@ -92,7 +92,9 @@ public class Outils {
                 int duree = Integer.parseInt(tab[2]);
                 int nbPers = Integer.parseInt(tab[3]);
                 String statut = tab[4];
-                Mission m = new Mission(idM, dateDeb, duree, nbPers, statut);
+                Besoin b = new Besoin(nbPers);
+                //Mission m = new Mission(idM, dateDeb, duree, nbPers, statut);
+                Mission m = new Mission(idM, dateDeb, duree, statut, b);
                 Entreprise.missions.put(idM,m);
             }
         }

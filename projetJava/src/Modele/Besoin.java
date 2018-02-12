@@ -24,16 +24,22 @@ public class Besoin {
     
     public void besoinParCompetence(Competence c, int nbPers) {
         int nbAct=0;
-        
         for(Competence comp : this.nbPersComp.keySet()) {
             nbAct += this.nbPersComp.get(comp);
         }
-        System.out.println(nbAct);
-        if(nbPers<nbAct || nbAct==0) {
+        if((nbPers+nbAct)<=nbPersNecessaire || nbAct==0) {
             this.nbPersComp.put(c, nbPers);
         }
         else {
             System.err.println("Le nombre de personnel pour cette compétence dépasse le besoin total");
         }
+    }
+    
+    public Map<Competence, Integer> getNbPersComp() {
+        return this.nbPersComp;
+    }
+    
+    public int getNbPersNecessaire() {
+        return this.nbPersNecessaire;
     }
 }

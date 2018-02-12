@@ -53,12 +53,13 @@ public class Test {
             System.out.println(Entreprise.personnels.get(p));
         }
         // création d'une mission
-        Mission m1 = new Mission(2, Outils.sdf.parse("10/02/2018"), 5, 5);
+        Besoin b = new Besoin(6);
+        Mission m1 = new Mission(2, Outils.sdf.parse("10/02/2018"), 5, b);
         Entreprise.addMission(m1);
         // ajout des besoins en compétence pour la mission 
-        m1.besoinParCompetence(c1, 2);
-        m1.besoinParCompetence(c2, 2);
-        m1.besoinParCompetence(c3, 1);
+        b.besoinParCompetence(c1, 3);
+        b.besoinParCompetence(c2, 2);
+        b.besoinParCompetence(c3, 1);
         // affectation des employés à la mission en fonction de leurs compétences
         m1.affecterPersonnel(p1, c1);
         m1.affecterPersonnel(p2, c3);
