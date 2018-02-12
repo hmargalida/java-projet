@@ -64,6 +64,7 @@ public class Test {
         m1.affecterPersonnel(p1, c1);
         m1.affecterPersonnel(p2, c3);
         m1.affecterPersonnel(p2, c1);
+        //m1.affecterPersonnel(p3, c2); // ERREUR : L'employé n'a pas la compétence
         //m1.affecterPersonnel(p1, c1); // ERREUR : L'employé p1 est déjà assigné à cette compétence 
         //m1.affecterPersonnel(p3, c1); // ERREUR : Le quota pour cette compétence est atteint
         System.out.println("////// Missions");

@@ -67,7 +67,7 @@ public class Personnel {
     }
     
     public String toString() {
-        String msg = this.prenom + " " + this.nom + " (" + this.idPersonnel + "), date d'entree : " + this.dateEntree + "\n";
+        String msg = this.prenom + " " + this.nom + " (" + this.idPersonnel + "), date d'entree : " + Outils.sdf.format(this.dateEntree) + "\n";
         for (Competence c : this.competencesPers) {
             msg += "\t" + c.toString() + "\n";
         }
