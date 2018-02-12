@@ -66,18 +66,25 @@ public class Mission {
     
     public void affecterPersonnel(Personnel p, Competence c) {
         int nbPersAct=0;
+        boolean inscrit = false; // Vérifie si l'employé est déjà inscrit sur cette compétence
         int nbPersVoulu = this.nbPersComp.get(c);
         if (this.affectations.get(c) != null) {
             nbPersAct = this.affectations.get(c).size();
+            inscrit = this.affectations.get(c).contains(p);
         }
         if(p.aCompetence(c)) {
             if (nbPersAct<nbPersVoulu) {
-                ArrayList<Personnel> persM = this.affectations.get(c);
-                if(persM==null) {
-                    persM = new ArrayList<>();
+                if (!inscrit) {
+                    ArrayList<Personnel> persM = this.affectations.get(c);
+                    if(persM==null) {
+                        persM = new ArrayList<>();
+                    }
+                    persM.add(p);
+                    this.affectations.put(c, persM);
                 }
-                persM.add(p);
-                this.affectations.put(c, persM);
+                else {
+                    System.err.println("L'employé est déjà assigné à cette compétence");
+                }
             }
             else {
                 System.err.println("Le quota pour cette compétence est atteint");
