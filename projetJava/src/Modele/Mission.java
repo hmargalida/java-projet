@@ -100,8 +100,100 @@ public class Mission {
         }
     }
     
-    public void changerStatutPlannifiee(){
+    private boolean  bienPreparee(){
+		
+	int nbPersonneActMission = 0;
+	
+	//Vérifier que la mission est modifiable
+	if(this.modifiable == false){
+	System.err.println( "La mission n'est plus modifiable");
+            return false;
+	}
+		
+	for(Competence comp : this.besoins.getNbPersComp().keySet()) {
+            nbPersonneActMission += this.besoins.getNbPersComp().get(comp);// nombre actuel de personne sur la mission
+        }
+	
+        // vérification nb de personnes totales nécessaires sur la mission
+	if(this.besoins.getNbPersNecessaire() > nbPersonneActMission){
+            int manque = this.besoins.getNbPersNecessaire() - nbPersonneActMission;
+            
+            System.err.println("Le nombre de personne affectées à la mission est insufisant. Ajouter " + manque + " personnes");
+            return false;
+	}
+	
+	// Vérifier que chaque compétence à le nb de personnes qu'il faut
+	int besoin;
+        int actuel;
+	for(Competence comp : this.besoins.getNbPersComp().keySet()) { // On regarde le nb de personnes nécessaires pour chaque compétence
+             besoin = this.besoins.getNbPersComp().get(comp);// nb de personne necessaire à une compétence
+             actuel = this.affectations.get(comp).size(); // nb de personne actuelle à la mission
+             
+             if(besoin > actuel){
+                 int manque = besoin- actuel;
+                 System.err.println("Le nombre de personnes affiliées à la compétence" + comp + "est insufisant, Ajouter " + manque + "personnes");
+             }
+             
+	}
+        
+        return true;
+}
+	
+
+private void  MissionPlannifiee(){
+    
+   // Vérifier que la mission est modifiable
+   
+    if(this.modifiable == false){
+        System.err.println("Cette mission n'est plus modifiable");
     }
+    //Vérifier que la mission est en préparation
+    else if(this.statut != Statut.en_preparation){
+        System.err.println("La mission doit être en préparation");
+    }
+    // Vérifier que la maison est bien préparée
+    else if(this.bienPreparee() == false){
+        System.err.println("Veuillez compléter la mission");
+    }
+    else{
+    this.statut =Statut.plannifie;}
+     
+}
+    
+private void  MissionEnCours(){
+    
+    // Vérifier que la mission est planifiée
+    if(this.statut == Statut.en_preparation){
+        System.err.println("La mission n'est pas correctement plannifiée");
+    }
+    else if(this.statut == Statut.terminee){
+        System.err.println("La mission est déjà terminée");
+    }
+    // Vérifier que la mission a bien commencée -> !!! Déclencher la fonction en cours lors d'un changement de date?
+    else if(this.dateDebut.before(Outils.dateAuj) == true ){
+         System.err.println("La mission n'a pas commencée. La date de début est le :" + this.dateDebut);
+    }
+    // Vérifier que la durée plus la date de debut est < a date du jour?
+   /* else if(){
+        this.MissionTermine();
+    }
+    */
+    else{ this.statut =Statut.en_cours;}
+
+}
+
+private void  MissionTermine(){
+	// Vérifier que la mission est en cours
+        if(this.statut == Statut.en_cours){
+        System.err.println("La mission n'est pas en cours? N'a pas commencée?");
+    }
+     // Vérifier que la durée plus la date de debut est < a date du jour?
+   /* else if(){
+        this.MissionTermine();
+    }
+    */
+   else{ this.statut =Statut.terminee;}
+}
     
     public int getIdM() {
         return this.idMission;
