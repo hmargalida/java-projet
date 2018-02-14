@@ -168,4 +168,24 @@ public class Outils {
         }
         fw.close();
     }
+    
+    /*public static void sauvegarderAffectation(String fileName) throws IOException {
+        File f = new File("./data/"+fileName+".csv");
+        FileWriter fw;
+        if (f.exists()) {
+            fw = new FileWriter(f, false);
+        }
+        else {
+            f.createNewFile();
+            fw = new FileWriter(f);
+        }
+        fw.write("idM;idComp;idPers\n");
+        for (int idMission : Entreprise.missions.keySet()) {
+            for (Competence compM : Entreprise.missions.get(idMission).getBesoins().getMapBesoins().keySet()) {
+                System.out.println(compM);
+                fw.write(Entreprise.missions.get(idMission).formatFicAffect(compM)+"\n");
+            }
+        }
+        fw.close();
+    }*/
 }
