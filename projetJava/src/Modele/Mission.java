@@ -6,6 +6,7 @@
 package Modele;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -100,7 +101,106 @@ public class Mission {
         }
     }
     
-    public void changerStatutPlannifiee(){
+    public void afficherStatut(){
+    System.out.println(this.statut);}
+    
+    private boolean bienPreparee(){
+		
+	int nbPersonneActMission = 0;
+        int besoin;
+        int actuel=0;
+	
+	//Vérifier que la mission est modifiable
+	if(this.modifiable == false){
+            System.err.println( "La mission n'est plus modifiable");
+            return false;
+	}
+		
+	for(Competence comp : this.affectations.keySet()) {
+            nbPersonneActMission += this.affectations.get(comp).size();// nombre actuel de personne sur la mission
+        }
+        
+        // vérification nb de personnes totales nécessaires sur la mission
+	if(this.besoins.getNbPersNecessaire() > nbPersonneActMission){
+            int manque = this.besoins.getNbPersNecessaire() - nbPersonneActMission;
+            System.err.println("Le nombre de personne affectées à la mission est insufisant. Ajouter " + manque + " personnes");
+            return false;
+	}
+      
+	// Vérifier que chaque compétence à le nb de personnes qu'il faut
+
+	for(Competence comp : this.besoins.getNbPersComp().keySet()) { // On regarde le nb de personnes nécessaires pour chaque compétence
+            besoin = this.besoins.getNbPersComp().get(comp);// nb de personne necessaire à une compétence
+            
+            if (this.affectations.get(comp) != null) {
+                actuel = this.affectations.get(comp).size(); // nb de personne actuelle à la mission
+            }
+            if(besoin > actuel){
+                int manque = besoin- actuel;
+                System.err.println("Le nombre de personnes affiliées à la compétence" + comp + "est insufisant, Ajouter " + manque + " personnes");
+                return false;
+            }    
+	}
+        return true;
+    }
+
+    public void missionPlannifiee(){
+
+       // Vérifier que la mission est modifiable
+        if(this.modifiable == false){
+            System.err.println("Cette mission n'est plus modifiable");
+        }
+        //Vérifier que la mission est en préparation
+        else if(this.statut != Statut.en_preparation){
+            System.err.println("La mission doit être en préparation");
+        }
+        // Vérifier que la maison est bien préparée
+        else if(this.bienPreparee() == false){
+            System.err.println("Veuillez compléter la mission");
+        }
+        else{ //Changement de statut
+            this.statut =Statut.plannifie;
+            System.out.println("Mission correctement plannifiée!");
+        }
+    }
+    
+    public void  missionEnCours(){
+
+        // Vérifier que la mission est planifiée
+        if(this.statut == Statut.en_preparation){
+            System.err.println("La mission n'est pas correctement plannifiée");
+        }
+        else if(this.statut == Statut.terminee){
+            System.err.println("La mission est déjà terminée");
+        }
+        // Vérifier que la mission a bien commencée 
+        else if(Outils.dateAuj.before(this.dateDebut) == true ){
+            System.err.println("La mission commencera le :" + this.dateDebut);
+        }
+        else{ 
+            this.statut =Statut.en_cours;
+            System.out.println("Mission en cours!");
+        }
+    }
+
+    public void missionTermine(){
+        // Vérifier que la mission est en cours
+        if(this.statut != Statut.en_cours){
+            System.err.println("La mission n'a pas encore commencée");
+        }
+        // Vérifier que la durée est respectée
+        Calendar dateFin = Calendar.getInstance();
+        dateFin.setTime(this.dateDebut);
+
+        dateFin.add(Calendar.DATE, this.dureeJ);
+        
+        if(Outils.dateAuj.before(dateFin.getTime()) == true ){
+            System.err.println("La mission n'est pas terminée");
+        }
+        else{
+            this.statut =Statut.terminee;
+            System.out.println("Mission terminée!");
+        }  
     }
     
     public int getIdM() {
