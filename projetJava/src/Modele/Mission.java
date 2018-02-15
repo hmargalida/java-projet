@@ -19,23 +19,19 @@ import java.util.Map;
 public class Mission {
     
     private int idMission;
+    private static int countMission;
     private Date dateDebut;
     private int dureeJ;
-    //private int nbPersNecessaire;
-    //private Map<Competence, Integer> nbPersComp;
     private Besoin besoins;
     private Map<Competence, ArrayList<Personnel>> affectations;
     private ArrayList<Personnel> persAffect;
     private Statut statut;
     private boolean modifiable;
     
-    //public Mission(int idMission, Date dateDebut, int dureeJ, int nbPersNecessaire) {
-    public Mission(int idMission, Date dateDebut, int dureeJ, Besoin b) {
-        this.idMission = idMission;
+    public Mission(Date dateDebut, int dureeJ, Besoin b) {
+        this.idMission = ++Mission.countMission;
         this.dateDebut = dateDebut;
         this.dureeJ = dureeJ;
-        //this.nbPersNecessaire = nbPersNecessaire;
-        //this.nbPersComp = new HashMap<>();
         this.besoins = b;
         this.affectations = new HashMap<>();
         this.persAffect = new ArrayList<>();
@@ -43,32 +39,17 @@ public class Mission {
         this.modifiable = true;
     }
     
-    //public Mission(int idMission, Date dateDebut, int dureeJ, int nbPersNecessaire, String statut) {
     public Mission(int idMission, Date dateDebut, int dureeJ, String statut, Besoin b) {
         this.idMission = idMission;
+        Mission.countMission++;
         this.dateDebut = dateDebut;
         this.dureeJ = dureeJ;
-        //this.nbPersNecessaire = nbPersNecessaire;
-        //this.nbPersComp = new HashMap<>();
         this.besoins = b;
         this.affectations = new HashMap<>();
         this.persAffect = new ArrayList<>();
         this.statut = Statut.valueOf(statut);
         this.modifiable = true;
     }
-    
-    /*public void besoinParCompetence(Competence c, int nbPers) {
-        int nbAct=0;
-        for(Competence comp : this.nbPersComp.keySet()) {
-            nbAct += this.nbPersComp.get(comp);
-        }
-        if((nbPers+nbAct)<=nbPersNecessaire || nbAct==0) {
-            this.nbPersComp.put(c, nbPers);
-        }
-        else {
-            System.err.println("Le nombre de personnel pour cette compétence dépasse le besoin total");
-        }
-    }*/
     
     public void affecterPersonnel(Personnel p, Competence c) {
         int nbPersAct=0;
@@ -101,11 +82,11 @@ public class Mission {
         }
     }
     
-    public void afficherStatut(){
-    System.out.println(this.statut);}
+    public String afficherStatut() {
+        return this.statut.toString();
+    }
     
     private boolean bienPreparee(){
-		
 	int nbPersonneActMission = 0;
         int besoin;
         int actuel=0;
@@ -117,7 +98,7 @@ public class Mission {
 	}
 		
 	for(Competence comp : this.affectations.keySet()) {
-            nbPersonneActMission += this.affectations.get(comp).size();// nombre actuel de personne sur la mission
+            nbPersonneActMission += this.affectations.get(comp).size(); //nombre actuel de personne sur la mission
         }
         
         // vérification nb de personnes totales nécessaires sur la mission
@@ -128,7 +109,6 @@ public class Mission {
 	}
       
 	// Vérifier que chaque compétence à le nb de personnes qu'il faut
-
 	for(Competence comp : this.besoins.getNbPersComp().keySet()) { // On regarde le nb de personnes nécessaires pour chaque compétence
             besoin = this.besoins.getNbPersComp().get(comp);// nb de personne necessaire à une compétence
             
@@ -145,9 +125,8 @@ public class Mission {
     }
 
     public void missionPlannifiee(){
-
        // Vérifier que la mission est modifiable
-        if(this.modifiable == false){
+        if(!this.modifiable){
             System.err.println("Cette mission n'est plus modifiable");
         }
         //Vérifier que la mission est en préparation
@@ -155,17 +134,16 @@ public class Mission {
             System.err.println("La mission doit être en préparation");
         }
         // Vérifier que la maison est bien préparée
-        else if(this.bienPreparee() == false){
+        else if(!this.bienPreparee()){
             System.err.println("Veuillez compléter la mission");
         }
         else{ //Changement de statut
-            this.statut =Statut.plannifie;
+            this.statut = Statut.plannifie;
             System.out.println("Mission correctement plannifiée!");
         }
     }
     
     public void  missionEnCours(){
-
         // Vérifier que la mission est planifiée
         if(this.statut == Statut.en_preparation){
             System.err.println("La mission n'est pas correctement plannifiée");
@@ -178,7 +156,7 @@ public class Mission {
             System.err.println("La mission commencera le :" + this.dateDebut);
         }
         else{ 
-            this.statut =Statut.en_cours;
+            this.statut = Statut.en_cours;
             System.out.println("Mission en cours!");
         }
     }
@@ -191,7 +169,6 @@ public class Mission {
         // Vérifier que la durée est respectée
         Calendar dateFin = Calendar.getInstance();
         dateFin.setTime(this.dateDebut);
-
         dateFin.add(Calendar.DATE, this.dureeJ);
         
         if(Outils.dateAuj.before(dateFin.getTime()) == true ){
@@ -205,6 +182,14 @@ public class Mission {
     
     public int getIdM() {
         return this.idMission;
+    }
+    
+    public Besoin getBesoins() {
+        return this.besoins;
+    }
+    
+    public Map<Competence, ArrayList<Personnel>> getAffectations() {
+        return this.affectations;
     }
     
     public String toString(){
@@ -222,5 +207,17 @@ public class Mission {
     
     public String formatFic() {
         return this.idMission+ ";" + Outils.sdf.format(this.dateDebut) + ";" + this.dureeJ + ";" + besoins.getNbPersNecessaire() + ";" + this.statut;
+    }
+    
+    public String formatFicAffect(Competence c) {
+        String msg = this.idMission + ";" + c.getIdComp() + ";" + besoins.getNbPersComp().get(c);
+        ArrayList<Personnel> affectationComp = this.affectations.get(c) == null ? new ArrayList<>() : this.affectations.get(c);
+        if (!affectationComp.isEmpty()) {
+            for (Personnel p : affectationComp) {
+                msg += ";" + p.getId();
+            }
+        }
+        //System.out.println(msg);
+        return msg;
     }
 }

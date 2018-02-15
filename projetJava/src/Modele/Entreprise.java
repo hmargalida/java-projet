@@ -58,4 +58,12 @@ public class Entreprise {
     public static Personnel getEmploye(int idEmp) {
         return personnels.get(idEmp);
     }
+    
+    public static Mission getMission(int idM) {
+        return missions.get(idM);
+    }
+    
+    public static Competence getCompetence(String idC) {
+        return competences.get(idC);
+    }
 }

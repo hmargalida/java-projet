@@ -93,9 +93,37 @@ public class Outils {
                 int nbPers = Integer.parseInt(tab[3]);
                 String statut = tab[4];
                 Besoin b = new Besoin(nbPers);
-                //Mission m = new Mission(idM, dateDeb, duree, nbPers, statut);
                 Mission m = new Mission(idM, dateDeb, duree, statut, b);
                 Entreprise.missions.put(idM,m);
+            }
+        }
+        br.close();
+        fr.close();
+    }
+    
+    public static void chargerBesoinMission(String fileName) throws IOException {
+        
+    }
+    
+    public static void chargerAffectation(String fileName) throws IOException {
+        FileReader fr = new FileReader("data/"+fileName);
+        BufferedReader br = new BufferedReader(fr);
+        br.readLine();
+        while(br.ready()) {
+            String line = br.readLine();
+            if(!line.equals("")) { // ignore empty lines
+                String [] extract = line.split(";");
+                int idM = Integer.parseInt(extract[0]);
+                String idComp = extract[1];
+                int nbPersComp = Integer.parseInt(extract[2]);
+                Mission m = Entreprise.getMission(idM); // Message d'erreur si la mission n'existe pas
+                Besoin b = m.getBesoins();
+                b.besoinParCompetence(Entreprise.getCompetence(idComp), nbPersComp);
+                for(int i=3; i<extract.length; i++) {
+                    int idEmp = Integer.parseInt(extract[i]);
+                    //System.out.println(idM + " " + idComp + " " + idEmp);
+                    m.affecterPersonnel(Entreprise.getEmploye(idEmp), Entreprise.getCompetence(idComp)); // message d'erreur si l'employé et la comp n'existe pas
+                }
             }
         }
         br.close();
@@ -169,7 +197,11 @@ public class Outils {
         fw.close();
     }
     
-    /*public static void sauvegarderAffectation(String fileName) throws IOException {
+    public static void sauvegarderBesoinMission(String fileName) throws IOException {
+        // idM,idComp,nbPersComp
+    }
+    
+    public static void sauvegarderAffectation(String fileName) throws IOException {
         File f = new File("./data/"+fileName+".csv");
         FileWriter fw;
         if (f.exists()) {
@@ -179,13 +211,12 @@ public class Outils {
             f.createNewFile();
             fw = new FileWriter(f);
         }
-        fw.write("idM;idComp;idPers\n");
+        fw.write("idM;idComp;nbEmpNecessaire;idPers\n");
         for (int idMission : Entreprise.missions.keySet()) {
             for (Competence compM : Entreprise.missions.get(idMission).getBesoins().getMapBesoins().keySet()) {
-                System.out.println(compM);
                 fw.write(Entreprise.missions.get(idMission).formatFicAffect(compM)+"\n");
             }
         }
         fw.close();
-    }*/
+    }
 }

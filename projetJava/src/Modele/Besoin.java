@@ -42,4 +42,8 @@ public class Besoin {
     public int getNbPersNecessaire() {
         return this.nbPersNecessaire;
     }
+    
+    public Map<Competence, Integer> getMapBesoins() {
+        return this.nbPersComp;
+    }
 }

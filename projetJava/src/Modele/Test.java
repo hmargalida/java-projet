@@ -22,7 +22,8 @@ public class Test {
             Outils.chargerCompetence("liste_competences.csv");
             Outils.chargerPersonnel("liste_personnel.csv");
             Outils.chargerCompetencePers("competences_personnel.csv");
-            Outils.chargerMission("missions.csv");
+            Outils.chargerMission("missionsSauv.csv");
+            Outils.chargerAffectation("missionsAffect.csv");
         }
         catch (FileNotFoundException eF) {
             System.err.println("ERREUR - Le fichier est introuvable");
@@ -60,18 +61,31 @@ public class Test {
             System.out.println(Entreprise.personnels.get(p));
         }
         // création d'une mission
-        Besoin b = new Besoin(3);
-        Mission m1 = new Mission(2, Outils.sdf.parse("16/02/2018"), 5, b);
+        /*Besoin b = new Besoin(3);
+        Besoin b2 = new Besoin(4);
+        b.besoinParCompetence(c1, 1);
+        b.besoinParCompetence(c2, 1);
+        b.besoinParCompetence(c3, 1);
+        b2.besoinParCompetence(c3, 2);
+        b2.besoinParCompetence(c1, 2);
+        Mission m1 = new Mission(Outils.sdf.parse("16/02/2018"), 5, b);
+        Mission m2 = new Mission(Outils.sdf.parse("20/02/2018"), 2, b2);
         Entreprise.addMission(m1);
-        
+        Entreprise.addMission(m2);
+
         // ajout des besoins en compétence pour la mission 
         b.besoinParCompetence(c1, 1);
         b.besoinParCompetence(c2, 1);
         b.besoinParCompetence(c3, 1);
+        b2.besoinParCompetence(c3, 2);
+        b2.besoinParCompetence(c1, 2);
         // affectation des employés à la mission en fonction de leurs compétences
         m1.affecterPersonnel(p1, c1);
         m1.affecterPersonnel(p2, c2);
         m1.affecterPersonnel(p2, c3);
+        m2.affecterPersonnel(p3, c3);
+        m2.affecterPersonnel(p1, c1);
+        m2.affecterPersonnel(p2, c1);*/
         //m1.affecterPersonnel(p3, c2); // ERREUR : L'employé n'a pas la compétence
         //m1.affecterPersonnel(p1, c1); // ERREUR : L'employé p1 est déjà assigné à cette compétence 
         //m1.affecterPersonnel(p3, c1); // ERREUR : Le quota pour cette compétence est atteint
@@ -80,10 +94,9 @@ public class Test {
             System.out.println(Entreprise.missions.get(m));
         }
 
-        System.out.println("/////////// Tests statuts Missions");
-        
-        //m1.afficherStatut(); //en_preparation
-        //m1.missionEnCours(); // ERREUR : La mission n'est pas correctement plannifiée
+        /*System.out.println("/////////// Tests statuts Missions");
+        //System.out.println(m1.afficherStatut()); //en_preparation
+        //m1.missionEnCours(); // ERREUR : La mission n'est pas correctement plannifiée - pas d'erreur
         
         m1.missionPlannifiee(); 
         //m1.afficherStatut(); // plannifie
@@ -91,8 +104,6 @@ public class Test {
          
         Calendar c = Calendar.getInstance();
         c.setTime(Outils.dateAuj);
-        
-
         //c.add(Calendar.DATE, 1); // ERREUR: La mission n'est pas terminée
         c.add(Calendar.DATE, 50);
         
@@ -106,15 +117,13 @@ public class Test {
        // m1.afficherStatut(); // en cours
         
         m1.missionTermine();
-        //m1.afficherStatut(); // terminée
-        
-        
+        //m1.afficherStatut(); // terminée*/
+
         // sauvegarde dans les fichiers
         Outils.sauvegarderPersonnel("persSauv");
         Outils.sauvegarderCompetence("compSauv");
         Outils.sauvegarderCompPersonnel("compPersSauv");
-        Outils.sauvegarderMission("missionsSauv");
-         
-         
+        //Outils.sauvegarderMission("missionsSauv");
+        //Outils.sauvegarderAffectation("missionsAffect");
     }
 }
