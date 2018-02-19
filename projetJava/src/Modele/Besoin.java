@@ -35,8 +35,8 @@ public class Besoin {
         }
     }
     
-    public Map<Competence, Integer> getNbPersComp() {
-        return this.nbPersComp;
+    public int getNbPersComp(Competence c) {
+        return this.nbPersComp.get(c);
     }
     
     public int getNbPersNecessaire() {

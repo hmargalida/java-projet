@@ -53,33 +53,39 @@ public class Mission {
     
     public void affecterPersonnel(Personnel p, Competence c) {
         int nbPersAct=0;
-        boolean inscrit = false; // Vérifie si l'employé est déjà inscrit sur cette compétence
-        int nbPersVoulu = this.besoins.getNbPersComp().get(c);
+        boolean inscrit = false; // vérifie si l'employé est déjà inscrit sur cette compétence
+        int nbPersVoulu = this.besoins.getNbPersComp(c);
         if (this.affectations.get(c) != null) {
             nbPersAct = this.affectations.get(c).size();
             inscrit = this.affectations.get(c).contains(p);
         }
-        if(p.aCompetence(c)) {
-            if (nbPersAct<nbPersVoulu) {
-                if (!inscrit) {
-                    ArrayList<Personnel> persM = this.affectations.get(c);
-                    if(persM==null) {
-                        persM = new ArrayList<>();
+        if (Entreprise.personnels.containsKey(p.getId())) {
+            if(p.aCompetence(c)) {
+                if (nbPersAct<nbPersVoulu) {
+                    if (!inscrit) {
+                        ArrayList<Personnel> persM = this.affectations.get(c);
+                        if(persM==null) {
+                            persM = new ArrayList<>();
+                        }
+                        persM.add(p);
+                        this.affectations.put(c, persM);
                     }
-                    persM.add(p);
-                    this.affectations.put(c, persM);
+                    else {
+                        System.err.println("L'employé est déjà assigné à cette compétence");
+                    }
                 }
                 else {
-                    System.err.println("L'employé est déjà assigné à cette compétence");
+                    System.err.println("Le quota pour cette compétence est atteint");
                 }
             }
             else {
-                System.err.println("Le quota pour cette compétence est atteint");
+                System.err.println("L'employe " + p.getId() + " ne possède pas cette compétence");
             }
         }
         else {
-            System.err.println("L'employe " + p.getId() + " ne possède pas cette compétence");
+            System.err.println("La personne que vous tentez d'insérer ne fait pas partie de l'entreprise");
         }
+        
     }
     
     public String afficherStatut() {
@@ -109,8 +115,8 @@ public class Mission {
 	}
       
 	// Vérifier que chaque compétence à le nb de personnes qu'il faut
-	for(Competence comp : this.besoins.getNbPersComp().keySet()) { // On regarde le nb de personnes nécessaires pour chaque compétence
-            besoin = this.besoins.getNbPersComp().get(comp);// nb de personne necessaire à une compétence
+	for(Competence comp : this.besoins.getMapBesoins().keySet()) { // On regarde le nb de personnes nécessaires pour chaque compétence
+            besoin = this.besoins.getNbPersComp(comp);// nb de personne necessaire à une compétence
             
             if (this.affectations.get(comp) != null) {
                 actuel = this.affectations.get(comp).size(); // nb de personne actuelle à la mission
@@ -194,8 +200,8 @@ public class Mission {
     
     public String toString(){
         String msg = "Mission " + this.idMission + ", date de debut : " + this.dateDebut + " (" + this.dureeJ + " jours) Nb d'employé nécessaires : " + besoins.getNbPersNecessaire() + " - " + this.statut;
-        for(Competence comp : besoins.getNbPersComp().keySet()) {
-            msg += "\n\t compétence n°" + comp.getIdComp() + " (" + besoins.getNbPersComp().get(comp) + " employés) - ";
+        for(Competence comp : besoins.getMapBesoins().keySet()) {
+            msg += "\n\t compétence n°" + comp.getIdComp() + " (" + besoins.getNbPersComp(comp) + " employés) - ";
             if (this.affectations.get(comp) != null) {
                 for (Personnel p : this.affectations.get(comp)) {
                     msg += p.getId() + ", ";
@@ -210,7 +216,7 @@ public class Mission {
     }
     
     public String formatFicAffect(Competence c) {
-        String msg = this.idMission + ";" + c.getIdComp() + ";" + besoins.getNbPersComp().get(c);
+        String msg = this.idMission + ";" + c.getIdComp() + ";" + besoins.getNbPersComp(c);
         ArrayList<Personnel> affectationComp = this.affectations.get(c) == null ? new ArrayList<>() : this.affectations.get(c);
         if (!affectationComp.isEmpty()) {
             for (Personnel p : affectationComp) {
@@ -219,5 +225,9 @@ public class Mission {
         }
         //System.out.println(msg);
         return msg;
+    }
+    
+    public String formatFicBesoin(Competence c) {
+        return this.idMission + ";" + c.getIdComp() + ";" + besoins.getNbPersComp(c);
     }
 }

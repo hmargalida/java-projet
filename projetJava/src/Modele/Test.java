@@ -22,8 +22,8 @@ public class Test {
             Outils.chargerCompetence("liste_competences.csv");
             Outils.chargerPersonnel("liste_personnel.csv");
             Outils.chargerCompetencePers("competences_personnel.csv");
-            Outils.chargerMission("missionsSauv.csv");
-            Outils.chargerAffectation("missionsAffect.csv");
+            Outils.chargerMission("missions.csv");
+            
         }
         catch (FileNotFoundException eF) {
             System.err.println("ERREUR - Le fichier est introuvable");
@@ -57,18 +57,13 @@ public class Test {
         Entreprise.addPersonnel(p2);
         Entreprise.addPersonnel(p3);
         System.out.println("////// Employés");
-        for (int p : Entreprise.personnels.keySet()) {
+        /*for (int p : Entreprise.personnels.keySet()) {
             System.out.println(Entreprise.personnels.get(p));
-        }
+        }*/
         // création d'une mission
         /*Besoin b = new Besoin(3);
         Besoin b2 = new Besoin(4);
-        b.besoinParCompetence(c1, 1);
-        b.besoinParCompetence(c2, 1);
-        b.besoinParCompetence(c3, 1);
-        b2.besoinParCompetence(c3, 2);
-        b2.besoinParCompetence(c1, 2);
-        Mission m1 = new Mission(Outils.sdf.parse("16/02/2018"), 5, b);
+        Mission m1 = new Mission(Outils.sdf.parse("01/02/2018"), 5, b);
         Mission m2 = new Mission(Outils.sdf.parse("20/02/2018"), 2, b2);
         Entreprise.addMission(m1);
         Entreprise.addMission(m2);
@@ -89,6 +84,9 @@ public class Test {
         //m1.affecterPersonnel(p3, c2); // ERREUR : L'employé n'a pas la compétence
         //m1.affecterPersonnel(p1, c1); // ERREUR : L'employé p1 est déjà assigné à cette compétence 
         //m1.affecterPersonnel(p3, c1); // ERREUR : Le quota pour cette compétence est atteint
+        Outils.chargerMission("missionsSauv.csv");
+        Outils.chargerBesoinMission("missionsBesoinsSauv.csv");
+        Outils.chargerAffectation("affectationsSauv.csv");
         System.out.println("////// Missions");
         for (int m : Entreprise.missions.keySet()) {
             System.out.println(Entreprise.missions.get(m));
@@ -123,7 +121,8 @@ public class Test {
         Outils.sauvegarderPersonnel("persSauv");
         Outils.sauvegarderCompetence("compSauv");
         Outils.sauvegarderCompPersonnel("compPersSauv");
-        //Outils.sauvegarderMission("missionsSauv");
-        //Outils.sauvegarderAffectation("missionsAffect");
+        Outils.sauvegarderMission("missionsSauv");
+        Outils.sauvegarderBesoinMission("missionsBesoinsSauv");
+        Outils.sauvegarderAffectation("affectationsSauv");
     }
 }

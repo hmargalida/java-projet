@@ -102,13 +102,9 @@ public class Outils {
     }
     
     public static void chargerBesoinMission(String fileName) throws IOException {
-        
-    }
-    
-    public static void chargerAffectation(String fileName) throws IOException {
         FileReader fr = new FileReader("data/"+fileName);
         BufferedReader br = new BufferedReader(fr);
-        br.readLine();
+        br.readLine(); // vérifier que l'en tete est bon
         while(br.ready()) {
             String line = br.readLine();
             if(!line.equals("")) { // ignore empty lines
@@ -119,10 +115,32 @@ public class Outils {
                 Mission m = Entreprise.getMission(idM); // Message d'erreur si la mission n'existe pas
                 Besoin b = m.getBesoins();
                 b.besoinParCompetence(Entreprise.getCompetence(idComp), nbPersComp);
+            }
+        }
+        br.close();
+        fr.close();
+    }
+    
+    public static void chargerAffectation(String fileName) throws IOException {
+        FileReader fr = new FileReader("data/"+fileName);
+        BufferedReader br = new BufferedReader(fr);
+        br.readLine(); // vérifier que l'en tete est bon
+        while(br.ready()) {
+            String line = br.readLine();
+            if(!line.equals("")) { // ignore empty lines
+                String [] extract = line.split(";");
+                int idM = Integer.parseInt(extract[0]);
+                String idComp = extract[1];
+                int nbPersComp = Integer.parseInt(extract[2]);
+                Mission m = Entreprise.getMission(idM); // Message d'erreur si la mission n'existe pas
+                //Besoin b = m.getBesoins();
+                //b.besoinParCompetence(Entreprise.getCompetence(idComp), nbPersComp);
                 for(int i=3; i<extract.length; i++) {
                     int idEmp = Integer.parseInt(extract[i]);
                     //System.out.println(idM + " " + idComp + " " + idEmp);
-                    m.affecterPersonnel(Entreprise.getEmploye(idEmp), Entreprise.getCompetence(idComp)); // message d'erreur si l'employé et la comp n'existe pas
+                    Personnel p = Entreprise.getEmploye(idEmp);
+                    Competence c = Entreprise.getCompetence(idComp);
+                    m.affecterPersonnel(p, c); // message d'erreur si l'employé et la comp n'existe pas
                 }
             }
         }
@@ -198,7 +216,22 @@ public class Outils {
     }
     
     public static void sauvegarderBesoinMission(String fileName) throws IOException {
-        // idM,idComp,nbPersComp
+        File f = new File("./data/"+fileName+".csv");
+        FileWriter fw;
+        if (f.exists()) {
+            fw = new FileWriter(f, false);
+        }
+        else {
+            f.createNewFile();
+            fw = new FileWriter(f);
+        }
+        fw.write("idM;idComp;nbEmpNecessaire\n");
+        for (int idMission : Entreprise.missions.keySet()) {
+            for (Competence compM : Entreprise.missions.get(idMission).getBesoins().getMapBesoins().keySet()) {
+                fw.write(Entreprise.missions.get(idMission).formatFicBesoin(compM)+"\n");
+            }
+        }
+        fw.close();
     }
     
     public static void sauvegarderAffectation(String fileName) throws IOException {
