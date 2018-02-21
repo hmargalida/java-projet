@@ -62,6 +62,10 @@ public class Personnel {
         return this.idPersonnel;
     }
     
+    public String getNomPrenom() {
+        return this.nom + " " + this.prenom;
+    }
+    
     public boolean aCompetence(Competence c) {
         return this.competencesPers.contains(c);
     }

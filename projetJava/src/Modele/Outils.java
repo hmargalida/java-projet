@@ -159,11 +159,8 @@ public class Outils {
                     String idComp = extract[1];
                     int nbPersComp = Integer.parseInt(extract[2]);
                     Mission m = Entreprise.getMission(idM); // Message d'erreur si la mission n'existe pas
-                    //Besoin b = m.getBesoins();
-                    //b.besoinParCompetence(Entreprise.getCompetence(idComp), nbPersComp);
                     for(int i=3; i<extract.length; i++) {
                         int idEmp = Integer.parseInt(extract[i]);
-                        //System.out.println(idM + " " + idComp + " " + idEmp);
                         Personnel p = Entreprise.getEmploye(idEmp);
                         Competence c = Entreprise.getCompetence(idComp);
                         m.affecterPersonnel(p, c); // message d'erreur si l'employé et la comp n'existe pas

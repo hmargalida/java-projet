@@ -117,12 +117,14 @@ public class Test {
         m1.missionTermine();
         //m1.afficherStatut(); // terminée*/
 
+        Vue.Accueil accueil = new Vue.Accueil(Entreprise.personnels);
+        accueil.setVisible(true);
         // sauvegarde dans les fichiers
-        Outils.sauvegarderPersonnel("persSauv");
+        /*Outils.sauvegarderPersonnel("persSauv");
         Outils.sauvegarderCompetence("compSauv");
         Outils.sauvegarderCompPersonnel("compPersSauv");
         Outils.sauvegarderMission("missionsSauv");
         Outils.sauvegarderBesoinMission("missionsBesoinsSauv");
-        Outils.sauvegarderAffectation("affectationsSauv");
+        Outils.sauvegarderAffectation("affectationsSauv");*/
     }
 }
