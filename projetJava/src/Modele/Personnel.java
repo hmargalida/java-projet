@@ -62,8 +62,20 @@ public class Personnel {
         return this.idPersonnel;
     }
     
-    public String getNomPrenom() {
-        return this.nom + " " + this.prenom;
+    public String getNom() {
+        return this.nom;
+    }
+    
+    public String getPrenom() {
+        return this.prenom;
+    }
+    
+    public Date getDateEntree() {
+        return this.dateEntree;
+    }
+    
+    public Set<Competence> getCompPers() {
+        return this.competencesPers;
     }
     
     public boolean aCompetence(Competence c) {

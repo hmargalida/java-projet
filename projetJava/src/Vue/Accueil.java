@@ -5,6 +5,10 @@
  */
 package Vue;
 
+import Modele.Outils;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.Map;
 
 /**
@@ -16,7 +20,7 @@ public class Accueil extends javax.swing.JFrame {
     /**
      * Creates new form Accueil
      */
-    public Accueil(Map<Integer,Modele.Personnel> personnels) {
+    public Accueil() {
         initComponents();
     }
 
@@ -157,11 +161,11 @@ public class Accueil extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
+        /* Set the Nimbus look and feel 
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+        */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -178,12 +182,30 @@ public class Accueil extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Accueil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-
+        //</editor-fold>*/
+        
+        // chargement des fichiers 
+        try {
+            Outils.chargerCompetence("compSauv.csv");
+            Outils.chargerPersonnel("persSauv.csv");
+            Outils.chargerCompetencePers("compPersSauv.csv");
+            Outils.chargerMission("missionsSauv.csv");
+            Outils.chargerBesoinMission("missionsBesoinsSauv.csv");
+            Outils.chargerAffectation("affectationsSauv.csv");
+            
+        }
+        catch (FileNotFoundException eF) {
+            System.err.println("ERREUR - Le fichier est introuvable");
+        }
+        catch (IOException eIO) {
+            System.err.println("ERREUR I/O");
+        } catch (ParseException ex) {
+            System.err.println("ERREUR - Format de date incorrecte");
+        }
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Accueil(Modele.Entreprise.personnels).setVisible(true);
+                new Accueil().setVisible(true);
             }
         });
     }

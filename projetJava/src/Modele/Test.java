@@ -117,7 +117,7 @@ public class Test {
         m1.missionTermine();
         //m1.afficherStatut(); // terminée*/
 
-        Vue.Accueil accueil = new Vue.Accueil(Entreprise.personnels);
+        Vue.Accueil accueil = new Vue.Accueil();
         accueil.setVisible(true);
         // sauvegarde dans les fichiers
         /*Outils.sauvegarderPersonnel("persSauv");
