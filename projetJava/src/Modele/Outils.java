@@ -29,123 +29,153 @@ public class Outils {
     public static Date dateAuj = new Date();
     
     public static void chargerCompetence(String fileName) throws FileNotFoundException {
-        File fic = new File("data/"+fileName);
-        Scanner scan = new Scanner(fic);
-        while(scan.hasNext()) {
-            String line = scan.nextLine();
-            String[] tab = line.split(";");
-            Competence comp = new Competence(tab[0], tab[1], tab[2]);
-            Entreprise.addCompetence(comp);
+        try {
+            File fic = new File("data/"+fileName);
+            Scanner scan = new Scanner(fic);
+            while(scan.hasNext()) {
+                String line = scan.nextLine();
+                String[] tab = line.split(";");
+                Competence comp = new Competence(tab[0], tab[1], tab[2]);
+                Entreprise.addCompetence(comp);
+            }
+        }
+        catch (Exception e) {
+            System.err.println("Fichier incorrect, impossible de charger les compétences");
         }
     }
     
     public static void chargerPersonnel(String fileName) throws IOException, ParseException {
-        FileReader fr = new FileReader("data/"+fileName);
-        BufferedReader br = new BufferedReader(fr);
-        br.readLine(); // skip first line
-        while(br.ready()) { 
-            String line = br.readLine();
-            if (!line.equals("")) { // ignore empty lines
-                String [] tab = line.split(";");
-                String nom = tab[1];
-                String prenom = tab[0];
-                String dateEntreeS = tab[2];
-                Date dateEntree = sdf.parse(dateEntreeS);
-                int idp = Integer.parseInt(tab[3]);
-                Personnel p = new Personnel(nom, prenom, dateEntree, idp);
-                Entreprise.personnels.put(idp,p);
+        try {
+            FileReader fr = new FileReader("data/"+fileName);
+            BufferedReader br = new BufferedReader(fr);
+            br.readLine(); // skip first line
+            while(br.ready()) { 
+                String line = br.readLine();
+                if (!line.equals("")) { // ignore empty lines
+                    String [] tab = line.split(";");
+                    String nom = tab[1];
+                    String prenom = tab[0];
+                    String dateEntreeS = tab[2];
+                    Date dateEntree = sdf.parse(dateEntreeS);
+                    int idp = Integer.parseInt(tab[3]);
+                    Personnel p = new Personnel(nom, prenom, dateEntree, idp);
+                    Entreprise.personnels.put(idp,p);
+                }
             }
+            br.close();
+            fr.close();
         }
-        br.close();
-        fr.close();
+        catch (Exception e) {
+            System.err.println("Fichier incorrect, impossible de charger les employés");
+        }
     }
     
     public static void chargerCompetencePers(String fileName) throws FileNotFoundException, IOException {
-        FileReader fr = new FileReader("data/"+fileName);
-        BufferedReader br = new BufferedReader(fr);
-        br.readLine(); //skip first line
-        while(br.ready()) {//tant qu'il y a des lignes à lire
-            String line = br.readLine();
-            if(!line.equals("")) { 
-                String [] extract = line.split(";");
-                int idEmp = Integer.parseInt(extract[0]);
-                Personnel p = Entreprise.personnels.get(idEmp);
-                for(int i=1; i<extract.length; i++) {
-                    p.addCompetencePers(Entreprise.competences.get(extract[i])); // affecter compétences
+        try {
+            FileReader fr = new FileReader("data/"+fileName);
+            BufferedReader br = new BufferedReader(fr);
+            br.readLine(); //skip first line
+            while(br.ready()) {//tant qu'il y a des lignes à lire
+                String line = br.readLine();
+                if(!line.equals("")) { 
+                    String [] extract = line.split(";");
+                    int idEmp = Integer.parseInt(extract[0]);
+                    Personnel p = Entreprise.personnels.get(idEmp);
+                    for(int i=1; i<extract.length; i++) {
+                        p.addCompetencePers(Entreprise.competences.get(extract[i])); // affecter compétences
+                    }
                 }
             }
+            br.close();
+            fr.close();
         }
-        br.close();
-        fr.close();
+        catch (Exception e) {
+            System.err.println("Fichier incorrect, impossible de charger les compétences des employés");
+        }
     }
     
     public static void chargerMission(String fileName) throws FileNotFoundException, IOException, ParseException {
-        FileReader fr = new FileReader("data/"+fileName);
-        BufferedReader br = new BufferedReader(fr);
-        br.readLine(); // skip first line
-        while(br.ready()) { 
-            String line = br.readLine();
-            if (!line.equals("")) { // ignore empty lines
-                String [] tab = line.split(";");
-                int idM = Integer.parseInt(tab[0]);
-                Date dateDeb = sdf.parse(tab[1]);
-                int duree = Integer.parseInt(tab[2]);
-                int nbPers = Integer.parseInt(tab[3]);
-                String statut = tab[4];
-                Besoin b = new Besoin(nbPers);
-                Mission m = new Mission(idM, dateDeb, duree, statut, b);
-                Entreprise.missions.put(idM,m);
+        try {
+            FileReader fr = new FileReader("data/"+fileName);
+            BufferedReader br = new BufferedReader(fr);
+            br.readLine(); // skip first line
+            while(br.ready()) { 
+                String line = br.readLine();
+                if (!line.equals("")) { // ignore empty lines
+                    String [] tab = line.split(";");
+                    int idM = Integer.parseInt(tab[0]);
+                    Date dateDeb = sdf.parse(tab[1]);
+                    int duree = Integer.parseInt(tab[2]);
+                    int nbPers = Integer.parseInt(tab[3]);
+                    String statut = tab[4];
+                    Besoin b = new Besoin(nbPers);
+                    Mission m = new Mission(idM, dateDeb, duree, statut, b);
+                    Entreprise.missions.put(idM,m);
+                }
             }
+            br.close();
+            fr.close();
         }
-        br.close();
-        fr.close();
+        catch (Exception e) {
+            System.err.println("Fichier incorrect, impossible de charger les missions");
+        }
     }
     
     public static void chargerBesoinMission(String fileName) throws IOException {
-        FileReader fr = new FileReader("data/"+fileName);
-        BufferedReader br = new BufferedReader(fr);
-        br.readLine(); // vérifier que l'en tete est bon
-        while(br.ready()) {
-            String line = br.readLine();
-            if(!line.equals("")) { // ignore empty lines
-                String [] extract = line.split(";");
-                int idM = Integer.parseInt(extract[0]);
-                String idComp = extract[1];
-                int nbPersComp = Integer.parseInt(extract[2]);
-                Mission m = Entreprise.getMission(idM); // Message d'erreur si la mission n'existe pas
-                Besoin b = m.getBesoins();
-                b.besoinParCompetence(Entreprise.getCompetence(idComp), nbPersComp);
+        try {
+            FileReader fr = new FileReader("data/"+fileName);
+            BufferedReader br = new BufferedReader(fr);
+            br.readLine(); // vérifier que l'en tete est bon
+            while(br.ready()) {
+                String line = br.readLine();
+                if(!line.equals("")) { // ignore empty lines
+                    String [] extract = line.split(";");
+                    int idM = Integer.parseInt(extract[0]);
+                    String idComp = extract[1];
+                    int nbPersComp = Integer.parseInt(extract[2]);
+                    Mission m = Entreprise.getMission(idM); // Message d'erreur si la mission n'existe pas
+                    Besoin b = m.getBesoins();
+                    b.besoinParCompetence(Entreprise.getCompetence(idComp), nbPersComp);
+                }
             }
+            br.close();
+            fr.close();
         }
-        br.close();
-        fr.close();
+        catch (Exception e) {
+            System.err.println("Fichier incorrect, impossible de charger les besoins de la mission");
+        }
     }
     
     public static void chargerAffectation(String fileName) throws IOException {
-        FileReader fr = new FileReader("data/"+fileName);
-        BufferedReader br = new BufferedReader(fr);
-        br.readLine(); // vérifier que l'en tete est bon
-        while(br.ready()) {
-            String line = br.readLine();
-            if(!line.equals("")) { // ignore empty lines
-                String [] extract = line.split(";");
-                int idM = Integer.parseInt(extract[0]);
-                String idComp = extract[1];
-                int nbPersComp = Integer.parseInt(extract[2]);
-                Mission m = Entreprise.getMission(idM); // Message d'erreur si la mission n'existe pas
-                //Besoin b = m.getBesoins();
-                //b.besoinParCompetence(Entreprise.getCompetence(idComp), nbPersComp);
-                for(int i=3; i<extract.length; i++) {
-                    int idEmp = Integer.parseInt(extract[i]);
-                    //System.out.println(idM + " " + idComp + " " + idEmp);
-                    Personnel p = Entreprise.getEmploye(idEmp);
-                    Competence c = Entreprise.getCompetence(idComp);
-                    m.affecterPersonnel(p, c); // message d'erreur si l'employé et la comp n'existe pas
+        try {
+            FileReader fr = new FileReader("data/"+fileName);
+            BufferedReader br = new BufferedReader(fr);
+            br.readLine(); // vérifier que l'en tete est bon
+            while(br.ready()) {
+                String line = br.readLine();
+                if(!line.equals("")) { // ignore empty lines
+                    String [] extract = line.split(";");
+                    int idM = Integer.parseInt(extract[0]);
+                    String idComp = extract[1];
+                    int nbPersComp = Integer.parseInt(extract[2]);
+                    Mission m = Entreprise.getMission(idM); // Message d'erreur si la mission n'existe pas
+                    //Besoin b = m.getBesoins();
+                    //b.besoinParCompetence(Entreprise.getCompetence(idComp), nbPersComp);
+                    for(int i=3; i<extract.length; i++) {
+                        int idEmp = Integer.parseInt(extract[i]);
+                        //System.out.println(idM + " " + idComp + " " + idEmp);
+                        Personnel p = Entreprise.getEmploye(idEmp);
+                        Competence c = Entreprise.getCompetence(idComp);
+                        m.affecterPersonnel(p, c); // message d'erreur si l'employé et la comp n'existe pas
+                    }
                 }
             }
+            br.close();
+            fr.close();
         }
-        br.close();
-        fr.close();
+        catch (Exception e) {
+            System.err.println("Fichier incorrect, impossible de charger les affectations des employés");
+        }
     }
     
     public static void sauvegarderPersonnel(String fileName) throws IOException {

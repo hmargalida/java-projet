@@ -57,9 +57,9 @@ public class Test {
         Entreprise.addPersonnel(p2);
         Entreprise.addPersonnel(p3);
         System.out.println("////// Employés");
-        /*for (int p : Entreprise.personnels.keySet()) {
+        for (int p : Entreprise.personnels.keySet()) {
             System.out.println(Entreprise.personnels.get(p));
-        }*/
+        }
         // création d'une mission
         /*Besoin b = new Besoin(3);
         Besoin b2 = new Besoin(4);
