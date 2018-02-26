@@ -5,6 +5,7 @@
  */
 package Vue;
 
+import Modele.Mission;
 import Modele.Outils;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -17,6 +18,7 @@ import java.util.Map;
  */
 public class Accueil extends javax.swing.JFrame {
     protected Map<Integer,Modele.Personnel> personnels;
+    protected Map<Integer,Mission> missions;
     /**
      * Creates new form Accueil
      */

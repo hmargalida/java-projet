@@ -22,6 +22,7 @@ public class GestionPersonnel extends javax.swing.JFrame {
      */
     public GestionPersonnel(Map<Integer,Modele.Personnel> personnels) {
         initComponents();
+        this.personnels = personnels;
         ArrayList<String> strings = new ArrayList<>();
         for(int pers : personnels.keySet()) {
             strings.add(pers + " - " + String.valueOf(Modele.Entreprise.getEmploye(pers).getNom()) + " " + String.valueOf(Modele.Entreprise.getEmploye(pers).getPrenom()));
