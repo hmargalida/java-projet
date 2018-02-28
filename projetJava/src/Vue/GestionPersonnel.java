@@ -5,6 +5,7 @@
  */
 package Vue;
 
+import Modele.FormatFichierException;
 import Modele.Outils;
 import java.io.File;
 import java.io.FileReader;
@@ -73,7 +74,11 @@ public class GestionPersonnel extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         bExportFic = new javax.swing.JButton();
 
+        exportFic.setApproveButtonText("");
+        exportFic.setApproveButtonToolTipText("");
+        exportFic.setBackground(java.awt.Color.white);
         exportFic.setDialogTitle("Export des fiches employés");
+        exportFic.setToolTipText("");
         exportFic.getAccessibleContext().setAccessibleName("");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -298,13 +303,17 @@ public class GestionPersonnel extends javax.swing.JFrame {
 
     private void bExportFicActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bExportFicActionPerformed
         // TODO add your handling code here:
-        int returnVal = exportFic.showOpenDialog(this);
+        int returnVal = exportFic.showSaveDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = exportFic.getSelectedFile();
             try {
                 Outils.sauvegarderPersonnel(file.toString());
-                JOptionPane.showMessageDialog(rootPane, "Les fiches employés ont bien été sauvegardées dans le fichier " + file.getPath());
-            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(rootPane, "Les fiches employés ont bien été sauvegardées dans le fichier " + file.getPath(), "Exportation réussie", JOptionPane.INFORMATION_MESSAGE);
+            } 
+            catch (FormatFichierException ef) {
+                JOptionPane.showMessageDialog(rootPane, ef.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+            }
+            catch (IOException ex) {
                 Logger.getLogger(GestionPersonnel.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {

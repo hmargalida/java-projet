@@ -4,7 +4,13 @@
   <NonVisualComponents>
     <Component class="javax.swing.JFileChooser" name="exportFic">
       <Properties>
+        <Property name="approveButtonText" type="java.lang.String" value=""/>
+        <Property name="approveButtonToolTipText" type="java.lang.String" value=""/>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="ff" green="ff" id="white" palette="1" red="ff" type="palette"/>
+        </Property>
         <Property name="dialogTitle" type="java.lang.String" value="Export des fiches employ&#xe9;s"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
       <AccessibilityProperties>
         <Property name="AccessibleContext.accessibleName" type="java.lang.String" value=""/>

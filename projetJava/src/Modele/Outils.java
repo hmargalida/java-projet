@@ -175,10 +175,9 @@ public class Outils {
         }
     }
     
-    public static void sauvegarderPersonnel(String fileName) throws IOException {
-        String extension = fileName.split("\\.")[1];
-        if(!extension.equals("csv")) {
-            System.err.println("Le fichier doit être un fichier CSV");
+    public static void sauvegarderPersonnel(String fileName) throws IOException, FormatFichierException {
+        if(!fileName.contains(".csv")) {
+            throw new FormatFichierException();
         }
         else {
             File f = new File(fileName);
@@ -198,10 +197,9 @@ public class Outils {
         }
     }
     
-    public static void sauvegarderCompPersonnel(String fileName) throws IOException {
-        String extension = fileName.split("\\.")[1];
-        if(!extension.equals("csv")) {
-            System.err.println("Le fichier doit être un fichier CSV");
+    public static void sauvegarderCompPersonnel(String fileName) throws IOException, FormatFichierException {
+        if(!fileName.contains(".csv")) {
+            throw new FormatFichierException();
         }
         else {
             File f = new File(fileName);
@@ -221,10 +219,9 @@ public class Outils {
         }
     }
     
-    public static void sauvegarderCompetence(String fileName) throws IOException {
-        String extension = fileName.split("\\.")[1];
-        if(!extension.equals("csv")) {
-            System.err.println("Le fichier doit être un fichier CSV");
+    public static void sauvegarderCompetence(String fileName) throws IOException, FormatFichierException {
+        if(!fileName.contains(".csv")) {
+            throw new FormatFichierException();
         }
         else {
             File f = new File(fileName);
@@ -243,10 +240,9 @@ public class Outils {
         }
     }
     
-    public static void sauvegarderMission(String fileName) throws IOException {
-        String extension = fileName.split("\\.")[1];
-        if(!extension.equals("csv")) {
-            System.err.println("Le fichier doit être un fichier CSV");
+    public static void sauvegarderMission(String fileName) throws IOException, FormatFichierException {
+        if(!fileName.contains(".csv")) {
+            throw new FormatFichierException();
         }
         else {
             File f = new File(fileName);
@@ -266,10 +262,9 @@ public class Outils {
         }
     }
     
-    public static void sauvegarderBesoinMission(String fileName) throws IOException {
-        String extension = fileName.split("\\.")[1];
-        if(!extension.equals("csv")) {
-            System.err.println("Le fichier doit être un fichier CSV");
+    public static void sauvegarderBesoinMission(String fileName) throws IOException, FormatFichierException {
+        if(!fileName.contains(".csv")) {
+            throw new FormatFichierException();
         }
         else {
             File f = new File(fileName);
@@ -291,10 +286,9 @@ public class Outils {
         }
     }
     
-    public static void sauvegarderAffectation(String fileName) throws IOException {
-        String extension = fileName.split("\\.")[1];
-        if(!extension.equals("csv")) {
-            System.err.println("Le fichier doit être un fichier CSV");
+    public static void sauvegarderAffectation(String fileName) throws IOException, FormatFichierException {
+        if(!fileName.contains(".csv")) {
+            throw new FormatFichierException();
         }
         else {
            File f = new File(fileName);
