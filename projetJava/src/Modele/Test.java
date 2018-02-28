@@ -120,7 +120,7 @@ public class Test {
         Vue.Accueil accueil = new Vue.Accueil();
         accueil.setVisible(true);
         // sauvegarde dans les fichiers
-        /*Outils.sauvegarderPersonnel("persSauv");
+        /*Outils.sauvegarderPersonnel("persTest.csv");
         Outils.sauvegarderCompetence("compSauv");
         Outils.sauvegarderCompPersonnel("compPersSauv");
         Outils.sauvegarderMission("missionsSauv");

@@ -176,107 +176,143 @@ public class Outils {
     }
     
     public static void sauvegarderPersonnel(String fileName) throws IOException {
-        File f = new File("./data/"+fileName+".csv");
-        FileWriter fw;
-        if (f.exists()) {
-            fw = new FileWriter(f, false);
+        String extension = fileName.split("\\.")[1];
+        if(!extension.equals("csv")) {
+            System.err.println("Le fichier doit être un fichier CSV");
         }
         else {
-            f.createNewFile();
-            fw = new FileWriter(f);
+            File f = new File(fileName);
+            FileWriter fw;
+            if (f.exists()) {
+                fw = new FileWriter(f, false);
+            }
+            else {
+                f.createNewFile();
+                fw = new FileWriter(f);
+            }
+            fw.write("prenom;nom;dateEntreeEntreprise;identifiant\n");
+            for (int idp : Entreprise.personnels.keySet()) {
+                fw.write(Entreprise.personnels.get(idp).formatFic()+"\n");
+            }
+            fw.close();
         }
-        fw.write("prenom;nom;dateEntreeEntreprise;identifiant\n");
-        for (int idp : Entreprise.personnels.keySet()) {
-            fw.write(Entreprise.personnels.get(idp).formatFic()+"\n");
-        }
-        fw.close();
     }
     
     public static void sauvegarderCompPersonnel(String fileName) throws IOException {
-        File f = new File("./data/"+fileName+".csv");
-        FileWriter fw;
-        if (f.exists()) {
-            fw = new FileWriter(f, false);
+        String extension = fileName.split("\\.")[1];
+        if(!extension.equals("csv")) {
+            System.err.println("Le fichier doit être un fichier CSV");
         }
         else {
-            f.createNewFile();
-            fw = new FileWriter(f);
+            File f = new File(fileName);
+            FileWriter fw;
+            if (f.exists()) {
+                fw = new FileWriter(f, false);
+            }
+            else {
+                f.createNewFile();
+                fw = new FileWriter(f);
+            }
+            fw.write("Employe;Liste competence\n");
+            for (int idp : Entreprise.personnels.keySet()) {
+                fw.write(Entreprise.personnels.get(idp).formatFicComp()+"\n");
+            }
+            fw.close();
         }
-        fw.write("Employe;Liste competence\n");
-        for (int idp : Entreprise.personnels.keySet()) {
-            fw.write(Entreprise.personnels.get(idp).formatFicComp()+"\n");
-        }
-        fw.close();
     }
     
     public static void sauvegarderCompetence(String fileName) throws IOException {
-        File f = new File("./data/"+fileName+".csv");
-        FileWriter fw;
-        if (f.exists()) {
-            fw = new FileWriter(f, false);
+        String extension = fileName.split("\\.")[1];
+        if(!extension.equals("csv")) {
+            System.err.println("Le fichier doit être un fichier CSV");
         }
         else {
-            f.createNewFile();
-            fw = new FileWriter(f);
+            File f = new File(fileName);
+            FileWriter fw;
+            if (f.exists()) {
+                fw = new FileWriter(f, false);
+            }
+            else {
+                f.createNewFile();
+                fw = new FileWriter(f);
+            }
+            for (String idcomp : Entreprise.competences.keySet()) {
+                fw.write(Entreprise.competences.get(idcomp).formatFic()+"\n");
+            }
+            fw.close();
         }
-        for (String idcomp : Entreprise.competences.keySet()) {
-            fw.write(Entreprise.competences.get(idcomp).formatFic()+"\n");
-        }
-        fw.close();
     }
     
     public static void sauvegarderMission(String fileName) throws IOException {
-        File f = new File("./data/"+fileName+".csv");
-        FileWriter fw;
-        if (f.exists()) {
-            fw = new FileWriter(f, false);
+        String extension = fileName.split("\\.")[1];
+        if(!extension.equals("csv")) {
+            System.err.println("Le fichier doit être un fichier CSV");
         }
         else {
-            f.createNewFile();
-            fw = new FileWriter(f);
+            File f = new File(fileName);
+            FileWriter fw;
+            if (f.exists()) {
+                fw = new FileWriter(f, false);
+            }
+            else {
+                f.createNewFile();
+                fw = new FileWriter(f);
+            }
+            fw.write("idM;dateDeb;duree;nombreEmpNecessaire;statut\n");
+            for (int idMission : Entreprise.missions.keySet()) {
+                fw.write(Entreprise.missions.get(idMission).formatFic()+"\n");
+            }
+            fw.close();
         }
-        fw.write("idM;dateDeb;duree;nombreEmpNecessaire;statut\n");
-        for (int idMission : Entreprise.missions.keySet()) {
-            fw.write(Entreprise.missions.get(idMission).formatFic()+"\n");
-        }
-        fw.close();
     }
     
     public static void sauvegarderBesoinMission(String fileName) throws IOException {
-        File f = new File("./data/"+fileName+".csv");
-        FileWriter fw;
-        if (f.exists()) {
-            fw = new FileWriter(f, false);
+        String extension = fileName.split("\\.")[1];
+        if(!extension.equals("csv")) {
+            System.err.println("Le fichier doit être un fichier CSV");
         }
         else {
-            f.createNewFile();
-            fw = new FileWriter(f);
-        }
-        fw.write("idM;idComp;nbEmpNecessaire\n");
-        for (int idMission : Entreprise.missions.keySet()) {
-            for (Competence compM : Entreprise.missions.get(idMission).getBesoins().getMapBesoins().keySet()) {
-                fw.write(Entreprise.missions.get(idMission).formatFicBesoin(compM)+"\n");
+            File f = new File(fileName);
+            FileWriter fw;
+            if (f.exists()) {
+                fw = new FileWriter(f, false);
             }
+            else {
+                f.createNewFile();
+                fw = new FileWriter(f);
+            }
+            fw.write("idM;idComp;nbEmpNecessaire\n");
+            for (int idMission : Entreprise.missions.keySet()) {
+                for (Competence compM : Entreprise.missions.get(idMission).getBesoins().getMapBesoins().keySet()) {
+                    fw.write(Entreprise.missions.get(idMission).formatFicBesoin(compM)+"\n");
+                }
+            }
+            fw.close();
         }
-        fw.close();
     }
     
     public static void sauvegarderAffectation(String fileName) throws IOException {
-        File f = new File("./data/"+fileName+".csv");
-        FileWriter fw;
-        if (f.exists()) {
-            fw = new FileWriter(f, false);
+        String extension = fileName.split("\\.")[1];
+        if(!extension.equals("csv")) {
+            System.err.println("Le fichier doit être un fichier CSV");
         }
         else {
-            f.createNewFile();
-            fw = new FileWriter(f);
-        }
-        fw.write("idM;idComp;nbEmpNecessaire;idPers\n");
-        for (int idMission : Entreprise.missions.keySet()) {
-            for (Competence compM : Entreprise.missions.get(idMission).getBesoins().getMapBesoins().keySet()) {
-                fw.write(Entreprise.missions.get(idMission).formatFicAffect(compM)+"\n");
+           File f = new File(fileName);
+            FileWriter fw;
+            if (f.exists()) {
+                fw = new FileWriter(f, false);
             }
+            else {
+                f.createNewFile();
+                fw = new FileWriter(f);
+            }
+            fw.write("idM;idComp;nbEmpNecessaire;idPers\n");
+            for (int idMission : Entreprise.missions.keySet()) {
+                for (Competence compM : Entreprise.missions.get(idMission).getBesoins().getMapBesoins().keySet()) {
+                    fw.write(Entreprise.missions.get(idMission).formatFicAffect(compM)+"\n");
+                }
+            }
+            fw.close(); 
         }
-        fw.close();
     }
 }
