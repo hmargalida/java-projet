@@ -194,6 +194,7 @@ public class GestionPersonnel extends javax.swing.JFrame {
         jLabel8.setText("Ajouter un employé");
 
         bAjoutPers.setText("+");
+        bAjoutPers.setEnabled(false);
         bAjoutPers.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bAjoutPersActionPerformed(evt);
