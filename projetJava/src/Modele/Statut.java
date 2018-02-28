@@ -13,5 +13,5 @@ public enum Statut {
     en_preparation,
     plannifie,
     en_cours,
-    terminee
+    terminee;
 }

@@ -198,8 +198,20 @@ public class Mission {
         return this.affectations;
     }
     
+    public Date getDateDebut() {
+        return this.dateDebut;
+    }
+    
+    public int getDuree() {
+        return this.dureeJ;
+    }
+    
+    public String getStatut() {
+        return this.statut.toString().replaceAll("_", " ");
+    }
+    
     public String toString(){
-        String msg = "Mission " + this.idMission + ", date de debut : " + this.dateDebut + " (" + this.dureeJ + " jours) Nb d'employé nécessaires : " + besoins.getNbPersNecessaire() + " - " + this.statut;
+        String msg = "Mission " + this.idMission + ", date de debut : " + this.dateDebut + " (" + this.dureeJ + " jours) Nb d'employé nécessaires : " + besoins.getNbPersNecessaire() + " - " + this.getStatut();
         for(Competence comp : besoins.getMapBesoins().keySet()) {
             msg += "\n\t compétence n°" + comp.getIdComp() + " (" + besoins.getNbPersComp(comp) + " employés) - ";
             if (this.affectations.get(comp) != null) {
