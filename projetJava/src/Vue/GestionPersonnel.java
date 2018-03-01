@@ -53,25 +53,27 @@ public class GestionPersonnel extends javax.swing.JFrame {
     private void initComponents() {
 
         exportFic = new javax.swing.JFileChooser();
-        jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        pBandeau = new javax.swing.JPanel();
+        l_titre = new javax.swing.JLabel();
         bRetour = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        pListe = new javax.swing.JScrollPane();
         listePers = new javax.swing.JList<>();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        pInfosOnglets = new javax.swing.JTabbedPane();
         ongletInfo = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        l_nom = new javax.swing.JLabel();
+        l_prenom = new javax.swing.JLabel();
+        l_dateEntree = new javax.swing.JLabel();
+        l_valueNom = new javax.swing.JLabel();
+        l_valuePrenom = new javax.swing.JLabel();
+        l_valueDateEntree = new javax.swing.JLabel();
+        bModifier = new javax.swing.JButton();
+        bSupprimer = new javax.swing.JButton();
         ongletComp = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList<>();
-        jLabel8 = new javax.swing.JLabel();
+        pComp = new javax.swing.JScrollPane();
+        listeComp = new javax.swing.JList<>();
+        l_ajout = new javax.swing.JLabel();
         bAjoutPers = new javax.swing.JButton();
-        jLabel9 = new javax.swing.JLabel();
+        l_export = new javax.swing.JLabel();
         bExportFic = new javax.swing.JButton();
 
         exportFic.setApproveButtonText("");
@@ -83,10 +85,10 @@ public class GestionPersonnel extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(0, 153, 204));
+        pBandeau.setBackground(new java.awt.Color(0, 153, 204));
 
-        jLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
-        jLabel1.setText("Gestion du personnel");
+        l_titre.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        l_titre.setText("Gestion du personnel");
 
         bRetour.setText("<");
         bRetour.addActionListener(new java.awt.event.ActionListener() {
@@ -95,24 +97,24 @@ public class GestionPersonnel extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout pBandeauLayout = new javax.swing.GroupLayout(pBandeau);
+        pBandeau.setLayout(pBandeauLayout);
+        pBandeauLayout.setHorizontalGroup(
+            pBandeauLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pBandeauLayout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addComponent(bRetour, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel1)
+                .addComponent(l_titre)
                 .addContainerGap(496, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        pBandeauLayout.setVerticalGroup(
+            pBandeauLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pBandeauLayout.createSequentialGroup()
                 .addGap(10, 10, 10)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(pBandeauLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(bRetour)
-                    .addComponent(jLabel1))
+                    .addComponent(l_titre))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
 
@@ -121,60 +123,84 @@ public class GestionPersonnel extends javax.swing.JFrame {
                 listePersMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(listePers);
+        pListe.setViewportView(listePers);
 
         ongletInfo.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel2.setText("Nom : ");
+        l_nom.setText("Nom : ");
 
-        jLabel3.setText("Prénom : ");
+        l_prenom.setText("Prénom : ");
 
-        jLabel4.setText("Date d'entrée dans l'entreprise : ");
+        l_dateEntree.setText("Date d'entrée dans l'entreprise : ");
+
+        bModifier.setText("Modifier");
+        bModifier.setEnabled(false);
+        bModifier.setVisible(false);
+        bModifier.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bModifierActionPerformed(evt);
+            }
+        });
+
+        bSupprimer.setEnabled(false);
+        bSupprimer.setVisible(false);
+        bSupprimer.setText("Supprimer");
 
         javax.swing.GroupLayout ongletInfoLayout = new javax.swing.GroupLayout(ongletInfo);
         ongletInfo.setLayout(ongletInfoLayout);
         ongletInfoLayout.setHorizontalGroup(
             ongletInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ongletInfoLayout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(ongletInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(ongletInfoLayout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel5))
+                        .addContainerGap()
+                        .addGroup(ongletInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(ongletInfoLayout.createSequentialGroup()
+                                .addComponent(l_nom)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(l_valueNom))
+                            .addGroup(ongletInfoLayout.createSequentialGroup()
+                                .addComponent(l_prenom)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(l_valuePrenom))
+                            .addGroup(ongletInfoLayout.createSequentialGroup()
+                                .addComponent(l_dateEntree)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(l_valueDateEntree))))
                     .addGroup(ongletInfoLayout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel6))
-                    .addGroup(ongletInfoLayout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel7)))
-                .addContainerGap(120, Short.MAX_VALUE))
+                        .addGap(55, 55, 55)
+                        .addComponent(bModifier)
+                        .addGap(28, 28, 28)
+                        .addComponent(bSupprimer)))
+                .addContainerGap(48, Short.MAX_VALUE))
         );
         ongletInfoLayout.setVerticalGroup(
             ongletInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ongletInfoLayout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addGroup(ongletInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel5))
+                    .addComponent(l_nom)
+                    .addComponent(l_valueNom))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(ongletInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel6))
+                    .addComponent(l_prenom)
+                    .addComponent(l_valuePrenom))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(ongletInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel7))
-                .addContainerGap(145, Short.MAX_VALUE))
+                    .addComponent(l_dateEntree)
+                    .addComponent(l_valueDateEntree))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
+                .addGroup(ongletInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(bModifier)
+                    .addComponent(bSupprimer))
+                .addGap(57, 57, 57))
         );
 
-        jTabbedPane1.addTab("Informations", ongletInfo);
+        pInfosOnglets.addTab("Informations", ongletInfo);
 
         ongletComp.setBackground(new java.awt.Color(255, 255, 255));
 
-        jScrollPane2.setViewportView(jList2);
+        pComp.setViewportView(listeComp);
 
         javax.swing.GroupLayout ongletCompLayout = new javax.swing.GroupLayout(ongletComp);
         ongletComp.setLayout(ongletCompLayout);
@@ -182,21 +208,21 @@ public class GestionPersonnel extends javax.swing.JFrame {
             ongletCompLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ongletCompLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE)
+                .addComponent(pComp, javax.swing.GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE)
                 .addContainerGap())
         );
         ongletCompLayout.setVerticalGroup(
             ongletCompLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ongletCompLayout.createSequentialGroup()
                 .addContainerGap(27, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pComp, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(22, 22, 22))
         );
 
-        jTabbedPane1.addTab("Compétences", ongletComp);
+        pInfosOnglets.addTab("Compétences", ongletComp);
         ongletComp.getAccessibleContext().setAccessibleName("competences");
 
-        jLabel8.setText("Ajouter un employé");
+        l_ajout.setText("Ajouter un employé");
 
         bAjoutPers.setText("+");
         bAjoutPers.setEnabled(false);
@@ -206,7 +232,7 @@ public class GestionPersonnel extends javax.swing.JFrame {
             }
         });
 
-        jLabel9.setText("Exporter les fiches des employés dans un fichier CSV");
+        l_export.setText("Exporter les fiches des employés dans un fichier CSV");
 
         bExportFic.setIcon(new javax.swing.ImageIcon("/Users/heloise/Documents/01- Travail/MIAGE/L3/S6/01- Java/java-projet/projetJava/src/Vue/img/sauvegarder.jpeg")); // NOI18N
         bExportFic.setToolTipText("");
@@ -220,49 +246,49 @@ public class GestionPersonnel extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pBandeau, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel9)
+                        .addComponent(l_export)
                         .addGap(18, 18, 18)
                         .addComponent(bExportFic)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel8)
+                        .addComponent(l_ajout)
                         .addGap(18, 18, 18)
                         .addComponent(bAjoutPers, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(pListe, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(pInfosOnglets, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(63, 63, 63))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pBandeau, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
+                    .addComponent(l_ajout)
                     .addComponent(bAjoutPers))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(pListe, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pInfosOnglets, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel9))
+                        .addComponent(l_export))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addComponent(bExportFic)))
                 .addContainerGap(81, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.getAccessibleContext().setAccessibleName("informations");
+        pInfosOnglets.getAccessibleContext().setAccessibleName("informations");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -274,23 +300,24 @@ public class GestionPersonnel extends javax.swing.JFrame {
     }//GEN-LAST:event_bRetourActionPerformed
 
     private void listePersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listePersMouseClicked
-        // TODO add your handling code here:
-        // onglet information
+        // onglet informations
         String pers = listePers.getSelectedValue();
         int idPers = Integer.valueOf(pers.split("-")[0].trim());
         Modele.Personnel p = Modele.Entreprise.getEmploye(idPers);
         String nomPers = p.getNom();
         String prenomPers = p.getPrenom();
         Date dateE = p.getDateEntree();
-        jLabel5.setText(nomPers);
-        jLabel6.setText(prenomPers);
-        jLabel7.setText(Modele.Outils.sdf.format(dateE));
+        l_valueNom.setText(nomPers);
+        l_valuePrenom.setText(prenomPers);
+        l_valueDateEntree.setText(Modele.Outils.sdf.format(dateE));
+        bModifier.setVisible(true);
+        bSupprimer.setVisible(true);
         // onglet competences
         ArrayList<String> compPers = new ArrayList<>();
         for(Modele.Competence comp : p.getCompPers()) {
             compPers.add(comp.toString());
         }
-        jList2.setModel(new javax.swing.AbstractListModel<String>() {
+        listeComp.setModel(new javax.swing.AbstractListModel<String>() {
             String[] elements = compPers.toArray(new String[compPers.size()]);
             public int getSize() { return elements.length; }
             public String getElementAt(int i) { return elements[i]; }
@@ -320,6 +347,10 @@ public class GestionPersonnel extends javax.swing.JFrame {
             System.out.println("File access cancelled by user.");
         }
     }//GEN-LAST:event_bExportFicActionPerformed
+
+    private void bModifierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bModifierActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_bModifierActionPerformed
 
     
     /**
@@ -360,24 +391,26 @@ public class GestionPersonnel extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bAjoutPers;
     private javax.swing.JButton bExportFic;
+    private javax.swing.JButton bModifier;
     private javax.swing.JButton bRetour;
+    private javax.swing.JButton bSupprimer;
     private javax.swing.JFileChooser exportFic;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
-    private javax.swing.JList<String> jList2;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JLabel l_ajout;
+    private javax.swing.JLabel l_dateEntree;
+    private javax.swing.JLabel l_export;
+    private javax.swing.JLabel l_nom;
+    private javax.swing.JLabel l_prenom;
+    private javax.swing.JLabel l_titre;
+    private javax.swing.JLabel l_valueDateEntree;
+    private javax.swing.JLabel l_valueNom;
+    private javax.swing.JLabel l_valuePrenom;
+    private javax.swing.JList<String> listeComp;
     private javax.swing.JList<String> listePers;
     private javax.swing.JPanel ongletComp;
     private javax.swing.JPanel ongletInfo;
+    private javax.swing.JPanel pBandeau;
+    private javax.swing.JScrollPane pComp;
+    private javax.swing.JTabbedPane pInfosOnglets;
+    private javax.swing.JScrollPane pListe;
     // End of variables declaration//GEN-END:variables
 }

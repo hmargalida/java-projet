@@ -25,7 +25,7 @@ public class GestionMission extends javax.swing.JFrame {
         for(int mission : missions.keySet()) {
             strings.add("Mission n°" + mission);
         }
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+        listeMission.setModel(new javax.swing.AbstractListModel<String>() {
             String[] elements = strings.toArray(new String[strings.size()]);
             public int getSize() { return elements.length; }
             public String getElementAt(int i) { return elements[i]; }
@@ -41,144 +41,170 @@ public class GestionMission extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanel2 = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
-        jPanel4 = new javax.swing.JPanel();
+        pBandeau = new javax.swing.JPanel();
+        l_titre = new javax.swing.JLabel();
+        bRetour = new javax.swing.JButton();
+        pListe = new javax.swing.JScrollPane();
+        listeMission = new javax.swing.JList<>();
+        pInfosOnglets = new javax.swing.JTabbedPane();
+        ongletInfo = new javax.swing.JPanel();
+        ongletComp = new javax.swing.JPanel();
+        ongletEmp = new javax.swing.JPanel();
+        l_ajout = new javax.swing.JLabel();
+        bAjoutMission = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(700, 530));
 
-        jPanel1.setBackground(new java.awt.Color(0, 153, 204));
+        pBandeau.setBackground(new java.awt.Color(0, 153, 204));
 
-        jLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
-        jLabel1.setText("Gestion des missions");
+        l_titre.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        l_titre.setText("Gestion des missions");
 
-        jButton1.setText("<");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        bRetour.setText("<");
+        bRetour.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                bRetourActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout pBandeauLayout = new javax.swing.GroupLayout(pBandeau);
+        pBandeau.setLayout(pBandeauLayout);
+        pBandeauLayout.setHorizontalGroup(
+            pBandeauLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pBandeauLayout.createSequentialGroup()
                 .addGap(22, 22, 22)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(bRetour, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel1)
+                .addComponent(l_titre)
                 .addContainerGap(421, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        pBandeauLayout.setVerticalGroup(
+            pBandeauLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pBandeauLayout.createSequentialGroup()
                 .addGap(10, 10, 10)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton1)
-                    .addComponent(jLabel1))
+                .addGroup(pBandeauLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(bRetour)
+                    .addComponent(l_titre))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
 
-        jList1.addMouseListener(new java.awt.event.MouseAdapter() {
+        listeMission.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jList1MouseClicked(evt);
+                listeMissionMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(jList1);
+        pListe.setViewportView(listeMission);
 
-        jTabbedPane1.setBackground(new java.awt.Color(255, 255, 255));
+        pInfosOnglets.setBackground(new java.awt.Color(255, 255, 255));
 
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        ongletInfo.setBackground(new java.awt.Color(255, 255, 255));
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout ongletInfoLayout = new javax.swing.GroupLayout(ongletInfo);
+        ongletInfo.setLayout(ongletInfoLayout);
+        ongletInfoLayout.setHorizontalGroup(
+            ongletInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 365, Short.MAX_VALUE)
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        ongletInfoLayout.setVerticalGroup(
+            ongletInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 226, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("Informations", jPanel2);
+        pInfosOnglets.addTab("Informations", ongletInfo);
 
-        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+        ongletComp.setBackground(new java.awt.Color(255, 255, 255));
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout ongletCompLayout = new javax.swing.GroupLayout(ongletComp);
+        ongletComp.setLayout(ongletCompLayout);
+        ongletCompLayout.setHorizontalGroup(
+            ongletCompLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 365, Short.MAX_VALUE)
         );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        ongletCompLayout.setVerticalGroup(
+            ongletCompLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 226, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("Compétences", jPanel3);
+        pInfosOnglets.addTab("Compétences", ongletComp);
 
-        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
+        ongletEmp.setBackground(new java.awt.Color(255, 255, 255));
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout ongletEmpLayout = new javax.swing.GroupLayout(ongletEmp);
+        ongletEmp.setLayout(ongletEmpLayout);
+        ongletEmpLayout.setHorizontalGroup(
+            ongletEmpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 365, Short.MAX_VALUE)
         );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        ongletEmpLayout.setVerticalGroup(
+            ongletEmpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 226, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("Employés", jPanel4);
+        pInfosOnglets.addTab("Employés", ongletEmp);
+
+        l_ajout.setText("Ajouter une mission");
+
+        bAjoutMission.setText("+");
+        bAjoutMission.setEnabled(false);
+        bAjoutMission.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bAjoutMissionActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pBandeau, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addGap(32, 32, 32)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(59, 59, 59)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 386, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(l_ajout)
+                        .addGap(18, 18, 18)
+                        .addComponent(bAjoutMission, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(pListe, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(59, 59, 59)
+                        .addComponent(pInfosOnglets, javax.swing.GroupLayout.PREFERRED_SIZE, 386, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(68, 68, 68)
+                .addComponent(pBandeau, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(l_ajout)
+                    .addComponent(bAjoutMission))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(pListe, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pInfosOnglets, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 76, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.getAccessibleContext().setAccessibleName("infos");
+        pInfosOnglets.getAccessibleContext().setAccessibleName("infos");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void bRetourActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bRetourActionPerformed
         new Accueil().setVisible(true);
         this.dispose();
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_bRetourActionPerformed
 
-    private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
+    private void listeMissionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listeMissionMouseClicked
         // TODO add your handling code here:
 
-    }//GEN-LAST:event_jList1MouseClicked
+    }//GEN-LAST:event_listeMissionMouseClicked
+
+    private void bAjoutMissionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAjoutMissionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_bAjoutMissionActionPerformed
 
     /**
      * @param args the command line arguments
@@ -216,14 +242,16 @@ public class GestionMission extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JList<String> jList1;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JButton bAjoutMission;
+    private javax.swing.JButton bRetour;
+    private javax.swing.JLabel l_ajout;
+    private javax.swing.JLabel l_titre;
+    private javax.swing.JList<String> listeMission;
+    private javax.swing.JPanel ongletComp;
+    private javax.swing.JPanel ongletEmp;
+    private javax.swing.JPanel ongletInfo;
+    private javax.swing.JPanel pBandeau;
+    private javax.swing.JTabbedPane pInfosOnglets;
+    private javax.swing.JScrollPane pListe;
     // End of variables declaration//GEN-END:variables
 }
