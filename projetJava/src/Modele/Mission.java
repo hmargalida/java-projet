@@ -5,12 +5,15 @@
  */
 package Modele;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -186,6 +189,10 @@ public class Mission {
         }  
     }
     
+    //public List<String> recommanderEmp(){
+    
+    //}
+    
     public int getIdM() {
         return this.idMission;
     }
@@ -207,8 +214,31 @@ public class Mission {
     }
     
     public String getStatut() {
-        return this.statut.toString().replaceAll("_", " ");
+        return this.statut.toString();
     }
+    
+    public Color getColorStatut() {
+        return this.statut.getCouleur();
+    }
+    
+    /*public ArrayList<String> getCompPers() {
+        ArrayList<String> mapComp = new ArrayList<>();
+        for(Competence comp : this.affectations.keySet()) {
+            for(Personnel pers : this.affectations.get(comp)){
+                for(String personne : mapComp) {
+                    Matcher m = Pattern.compile("("+pers.getNom() + "-.*)").matcher(personne);
+                    System.out.println(personne);
+                    if(m.matches()) {
+                        String msg = m.group(1);
+                        String msg2 = msg + "_"+comp.getCompFR();
+                        mapComp.set(mapComp.indexOf(msg), msg2);
+                    }
+                }
+                mapComp.add(pers.getNom()+"-"+comp.getCompFR());
+            }
+        }
+        return mapComp;
+    }*/
     
     public String toString(){
         String msg = "Mission " + this.idMission + ", date de debut : " + this.dateDebut + " (" + this.dureeJ + " jours) Nb d'employé nécessaires : " + besoins.getNbPersNecessaire() + " - " + this.getStatut();
