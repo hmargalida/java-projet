@@ -28,6 +28,14 @@ public class Competence {
         return this.idComp;
     }
     
+    public String getCompFR() {
+        return this.libelleFR;
+    }
+    
+    public String getCompEN() {
+        return this.libelleEN;
+    }
+    
     public String toString() {
         return this.idComp + " - " + this.libelleFR + " (" + this.libelleEN + ")";
     }
