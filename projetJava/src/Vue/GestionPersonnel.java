@@ -213,9 +213,9 @@ public class GestionPersonnel extends javax.swing.JFrame {
         );
         ongletCompLayout.setVerticalGroup(
             ongletCompLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ongletCompLayout.createSequentialGroup()
-                .addContainerGap(27, Short.MAX_VALUE)
-                .addComponent(pComp, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(ongletCompLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(pComp, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
                 .addGap(22, 22, 22))
         );
 

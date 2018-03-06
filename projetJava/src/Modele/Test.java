@@ -62,8 +62,8 @@ public class Test {
         }
         // création d'une mission
         /*Besoin b = new Besoin(3);
-        Besoin b2 = new Besoin(4);
-        Mission m1 = new Mission(Outils.sdf.parse("01/02/2018"), 5, b);
+        //Besoin b2 = new Besoin(4);
+        Mission m5 = new Mission(Outils.sdf.parse("01/02/2018"), 5, b);
         Mission m2 = new Mission(Outils.sdf.parse("20/02/2018"), 2, b2);
         Entreprise.addMission(m1);
         Entreprise.addMission(m2);
@@ -92,11 +92,11 @@ public class Test {
             System.out.println(Entreprise.missions.get(m));
         }
 
-        /*System.out.println("/////////// Tests statuts Missions");
-        //System.out.println(m1.afficherStatut()); //en_preparation
+        //System.out.println("/////////// Tests statuts Missions");
+        //System.out.println(m5.afficherStatut()); //en_preparation
         //m1.missionEnCours(); // ERREUR : La mission n'est pas correctement plannifiée - pas d'erreur
         
-        m1.missionPlannifiee(); 
+        /*m1.missionPlannifiee(); 
         //m1.afficherStatut(); // plannifie
         //m1.missionPlannifiee(); //ERREUR :La mission doit être en préparation
          
@@ -116,7 +116,7 @@ public class Test {
         
         m1.missionTermine();
         //m1.afficherStatut(); // terminée*/
-
+        
         Vue.Accueil accueil = new Vue.Accueil();
         accueil.setVisible(true);
         // sauvegarde dans les fichiers

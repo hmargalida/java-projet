@@ -5,9 +5,23 @@
  */
 package Vue;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import Modele.FormatFichierException;
+import Modele.Outils;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -41,6 +55,7 @@ public class GestionMission extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        exportFic = new javax.swing.JFileChooser();
         pBandeau = new javax.swing.JPanel();
         l_titre = new javax.swing.JLabel();
         bRetour = new javax.swing.JButton();
@@ -56,6 +71,7 @@ public class GestionMission extends javax.swing.JFrame {
         l_valueStatut = new javax.swing.JLabel();
         l_valueDateDeb = new javax.swing.JLabel();
         l_valueDuree = new javax.swing.JLabel();
+        pStatut = new JPanel();
         ongletComp = new javax.swing.JPanel();
         pComp = new javax.swing.JScrollPane();
         listeComp = new javax.swing.JList<>();
@@ -64,6 +80,8 @@ public class GestionMission extends javax.swing.JFrame {
         listeEmp = new javax.swing.JList<>();
         l_ajout = new javax.swing.JLabel();
         bAjoutMission = new javax.swing.JButton();
+        l_export = new javax.swing.JLabel();
+        bExportFic = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -111,27 +129,39 @@ public class GestionMission extends javax.swing.JFrame {
 
         ongletInfo.setBackground(new java.awt.Color(255, 255, 255));
 
-        l_idM.setText("Identifiant de la mission:");
+        l_idM.setText("Identifiant de la mission :");
 
-        l_dateDeb.setText("Date de lancement:");
+        l_dateDeb.setText("Date de lancement :");
 
-        l_duree.setText("Durée:");
+        l_duree.setText("Durée :");
 
-        l_statut.setText("Statut:");
+        l_statut.setText("Statut :");
 
         l_valueID.setToolTipText("");
+
+        l_valueStatut.setToolTipText("");
+
+        pStatut.setBackground(new java.awt.Color(255, 255, 255));
+        pStatut.setPreferredSize(new java.awt.Dimension(25, 25));
+
+        javax.swing.GroupLayout pStatutLayout = new javax.swing.GroupLayout(pStatut);
+        pStatut.setLayout(pStatutLayout);
+        pStatutLayout.setHorizontalGroup(
+            pStatutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 25, Short.MAX_VALUE)
+        );
+        pStatutLayout.setVerticalGroup(
+            pStatutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 25, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout ongletInfoLayout = new javax.swing.GroupLayout(ongletInfo);
         ongletInfo.setLayout(ongletInfoLayout);
         ongletInfoLayout.setHorizontalGroup(
             ongletInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(ongletInfoLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ongletInfoLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(ongletInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(ongletInfoLayout.createSequentialGroup()
-                        .addComponent(l_idM)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(l_valueID))
                     .addGroup(ongletInfoLayout.createSequentialGroup()
                         .addComponent(l_dateDeb)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -141,10 +171,16 @@ public class GestionMission extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(l_valueDuree))
                     .addGroup(ongletInfoLayout.createSequentialGroup()
+                        .addComponent(l_idM)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(l_valueID))
+                    .addGroup(ongletInfoLayout.createSequentialGroup()
                         .addComponent(l_statut)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(l_valueStatut)))
-                .addContainerGap(248, Short.MAX_VALUE))
+                        .addComponent(l_valueStatut, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(pStatut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(176, Short.MAX_VALUE))
         );
         ongletInfoLayout.setVerticalGroup(
             ongletInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -153,19 +189,21 @@ public class GestionMission extends javax.swing.JFrame {
                 .addGroup(ongletInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(l_idM)
                     .addComponent(l_valueID))
-                .addGap(18, 18, 18)
-                .addGroup(ongletInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(l_dateDeb)
-                    .addComponent(l_valueDateDeb))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(ongletInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(l_valueDateDeb)
+                    .addComponent(l_dateDeb))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(ongletInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(l_duree)
                     .addComponent(l_valueDuree))
-                .addGap(18, 18, 18)
-                .addGroup(ongletInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(l_statut)
-                    .addComponent(l_valueStatut))
-                .addContainerGap(115, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(ongletInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(ongletInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(pStatut, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(l_valueStatut, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(l_statut, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(116, Short.MAX_VALUE))
         );
 
         pInfosOnglets.addTab("Informations", ongletInfo);
@@ -180,14 +218,14 @@ public class GestionMission extends javax.swing.JFrame {
             ongletCompLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ongletCompLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(pComp, javax.swing.GroupLayout.DEFAULT_SIZE, 361, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(pComp, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         ongletCompLayout.setVerticalGroup(
             ongletCompLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ongletCompLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(pComp, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
+                .addComponent(pComp, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -226,6 +264,16 @@ public class GestionMission extends javax.swing.JFrame {
             }
         });
 
+        l_export.setText("Exporter les fiches des employés dans un fichier CSV");
+
+        bExportFic.setIcon(new javax.swing.ImageIcon("/Users/heloise/Documents/01- Travail/MIAGE/L3/S6/01- Java/java-projet/projetJava/src/Vue/img/sauvegarder.jpeg")); // NOI18N
+        bExportFic.setToolTipText("");
+        bExportFic.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bExportFicActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -234,6 +282,10 @@ public class GestionMission extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(l_export)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(bExportFic))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(l_ajout)
                         .addGap(18, 18, 18)
@@ -252,11 +304,18 @@ public class GestionMission extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(l_ajout)
                     .addComponent(bAjoutMission))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(pListe, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(pInfosOnglets, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 143, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(l_export))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(9, 9, 9)
+                        .addComponent(bExportFic)))
+                .addGap(0, 30, Short.MAX_VALUE))
         );
 
         pInfosOnglets.getAccessibleContext().setAccessibleName("infos");
@@ -271,50 +330,46 @@ public class GestionMission extends javax.swing.JFrame {
     }//GEN-LAST:event_bRetourActionPerformed
 
     private void listeMissionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listeMissionMouseClicked
-           
         // onglet informations
-        // A afficher: idM, dateDeb, duree (en jours), nombreEmp et statut
         String mission = listeMission.getSelectedValue();
         int idMission = Integer.valueOf(mission.split("°")[1].trim());
         
         Modele.Mission m = Modele.Entreprise.getMission(idMission);
-        
         String idM = Integer.toString(idMission);
         Date dateDeb = m.getDateDebut();
         String duree = Integer.toString(m.getDuree());
         String statut = m.getStatut();
-        
         l_valueID.setText(idM);
         l_valueDuree.setText(duree + " jour(s)");
         l_valueDateDeb.setText(Modele.Outils.sdf.format(dateDeb));
         l_valueStatut.setText(statut);
-
+        Color color = m.getColorStatut();
+        pStatut.setBackground(color);
         // onglet competences
         ArrayList<String> compPersMission = new ArrayList<>();
-        
-        for(Modele.Competence comp : m.getBesoins().getMapBesoins().keySet()) { // On regarde le nb de personnes nécessaires pour chaque compétence
+        for(Modele.Competence comp : m.getBesoins().getMapBesoins().keySet()) {
             compPersMission.add(comp.toString());
-        }    
-	
+        }
         listeComp.setModel(new javax.swing.AbstractListModel<String>() {
             String[] elements = compPersMission.toArray(new String[compPersMission.size()]);
             public int getSize() { return elements.length; }
             public String getElementAt(int i) { return elements[i]; }
         });
-        
         // onglet Employés 
-        ArrayList<String> persSurMission = new ArrayList<>();
-        
+        Set<String> persSurMission = new TreeSet<>();
+        /*for(String pers : m.getCompPers()) {
+            String[] extract = pers.split("-");
+            String personne = extract[0];
+            String comp = extract[1].replace("_", ", ");
+            persSurMission.add(personne + " (" + comp + ")");
+        }*/
         for(Modele.Competence comp : m.getAffectations().keySet()) {
-            
             for(int i=0; i<m.getAffectations().get(comp).size(); i++ ){
-                
                 if(persSurMission.contains(m.getAffectations().get(comp).get(i).toString())==false){
                     persSurMission.add(m.getAffectations().get(comp).get(i).toString());
                 }
             }
         }
-
         listeEmp.setModel(new javax.swing.AbstractListModel<String>() {
             String[] elements = persSurMission.toArray(new String[persSurMission.size()]);
             public int getSize() { return elements.length; }
@@ -327,6 +382,26 @@ public class GestionMission extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_bAjoutMissionActionPerformed
 
+    private void bExportFicActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bExportFicActionPerformed
+        // TODO add your handling code here:
+        int returnVal = exportFic.showSaveDialog(this);
+        if(returnVal == JFileChooser.APPROVE_OPTION) {
+            File f = exportFic.getSelectedFile();
+            try {
+                Outils.sauvegarderMission(f.toString());
+            }
+            catch (FormatFichierException ef) {
+                JOptionPane.showMessageDialog(rootPane, ef.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+            }
+            catch(IOException ioe) {
+                Logger.getLogger(GestionPersonnel.class.getName()).log(Level.SEVERE, null, ioe);
+            }
+        }
+        else {
+            System.out.println("File access cancel by user");
+        }
+    }//GEN-LAST:event_bExportFicActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -336,7 +411,7 @@ public class GestionMission extends javax.swing.JFrame {
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-        try {
+        /*try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
@@ -351,7 +426,7 @@ public class GestionMission extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(GestionMission.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(GestionMission.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
+        }*/
         //</editor-fold>
 
         /* Create and display the form */
@@ -361,13 +436,15 @@ public class GestionMission extends javax.swing.JFrame {
             }
         });
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bAjoutMission;
+    private javax.swing.JButton bExportFic;
     private javax.swing.JButton bRetour;
+    private javax.swing.JFileChooser exportFic;
     private javax.swing.JLabel l_ajout;
     private javax.swing.JLabel l_dateDeb;
     private javax.swing.JLabel l_duree;
+    private javax.swing.JLabel l_export;
     private javax.swing.JLabel l_idM;
     private javax.swing.JLabel l_statut;
     private javax.swing.JLabel l_titre;
@@ -386,5 +463,6 @@ public class GestionMission extends javax.swing.JFrame {
     private javax.swing.JScrollPane pComp1;
     private javax.swing.JTabbedPane pInfosOnglets;
     private javax.swing.JScrollPane pListe;
+    private javax.swing.JPanel pStatut;
     // End of variables declaration//GEN-END:variables
 }
