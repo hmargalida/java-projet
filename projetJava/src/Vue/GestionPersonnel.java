@@ -56,6 +56,7 @@ public class GestionPersonnel extends javax.swing.JFrame {
         pBandeau = new javax.swing.JPanel();
         l_titre = new javax.swing.JLabel();
         bRetour = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
         pListe = new javax.swing.JScrollPane();
         listePers = new javax.swing.JList<>();
         pInfosOnglets = new javax.swing.JTabbedPane();
@@ -75,6 +76,14 @@ public class GestionPersonnel extends javax.swing.JFrame {
         bAjoutPers = new javax.swing.JButton();
         l_export = new javax.swing.JLabel();
         bExportFic = new javax.swing.JButton();
+        menu = new javax.swing.JMenuBar();
+        menuAccueil = new javax.swing.JMenu();
+        menuEmploye = new javax.swing.JMenu();
+        itemAllEmp = new javax.swing.JMenuItem();
+        itemNewEmp = new javax.swing.JMenuItem();
+        menuMission = new javax.swing.JMenu();
+        itemAllMission = new javax.swing.JMenuItem();
+        itemNewMission = new javax.swing.JMenuItem();
 
         exportFic.setApproveButtonText("");
         exportFic.setApproveButtonToolTipText("");
@@ -84,10 +93,13 @@ public class GestionPersonnel extends javax.swing.JFrame {
         exportFic.getAccessibleContext().setAccessibleName("");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(102, 102, 102));
+        setForeground(new java.awt.Color(102, 102, 102));
 
-        pBandeau.setBackground(new java.awt.Color(0, 153, 204));
+        pBandeau.setBackground(new java.awt.Color(60, 132, 208));
+        pBandeau.setBorder(javax.swing.BorderFactory.createCompoundBorder(null, javax.swing.BorderFactory.createCompoundBorder()));
 
-        l_titre.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        l_titre.setFont(new java.awt.Font("American Typewriter", 0, 24)); // NOI18N
         l_titre.setText("Gestion du personnel");
 
         bRetour.setText("<");
@@ -101,22 +113,24 @@ public class GestionPersonnel extends javax.swing.JFrame {
         pBandeau.setLayout(pBandeauLayout);
         pBandeauLayout.setHorizontalGroup(
             pBandeauLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pBandeauLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pBandeauLayout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addComponent(bRetour, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(195, 195, 195)
                 .addComponent(l_titre)
-                .addContainerGap(496, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pBandeauLayout.setVerticalGroup(
             pBandeauLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pBandeauLayout.createSequentialGroup()
-                .addGap(10, 10, 10)
+                .addGap(20, 20, 20)
                 .addGroup(pBandeauLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(bRetour)
                     .addComponent(l_titre))
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         listePers.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -215,8 +229,8 @@ public class GestionPersonnel extends javax.swing.JFrame {
             ongletCompLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ongletCompLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(pComp, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
-                .addGap(22, 22, 22))
+                .addComponent(pComp, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pInfosOnglets.addTab("Compétences", ongletComp);
@@ -242,53 +256,108 @@ public class GestionPersonnel extends javax.swing.JFrame {
             }
         });
 
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(37, 37, 37)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(l_export)
+                        .addGap(18, 18, 18)
+                        .addComponent(bExportFic))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(l_ajout)
+                                .addGap(18, 18, 18)
+                                .addComponent(bAjoutPers, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(pListe, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(68, 68, 68)
+                        .addComponent(pInfosOnglets, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(73, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(l_ajout)
+                    .addComponent(bAjoutPers))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(pListe, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pInfosOnglets, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(l_export)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(bExportFic)
+                        .addGap(64, 64, 64))))
+        );
+
+        pInfosOnglets.getAccessibleContext().setAccessibleName("informations");
+
+        menuAccueil.setText("Accueil");
+        menuAccueil.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menuAccueilMouseClicked(evt);
+            }
+        });
+        menu.add(menuAccueil);
+
+        menuEmploye.setText("Employés");
+
+        itemAllEmp.setText("Liste des employés");
+        itemAllEmp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemAllEmpActionPerformed(evt);
+            }
+        });
+        menuEmploye.add(itemAllEmp);
+
+        itemNewEmp.setEnabled(false);
+        itemNewEmp.setText("Nouvel employé");
+        menuEmploye.add(itemNewEmp);
+
+        menu.add(menuEmploye);
+
+        menuMission.setText("Missions");
+
+        itemAllMission.setText("Liste des missions");
+        itemAllMission.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemAllMissionActionPerformed(evt);
+            }
+        });
+        menuMission.add(itemAllMission);
+
+        itemNewMission.setEnabled(false);
+        itemNewMission.setText("Nouvelle mission");
+        menuMission.add(itemNewMission);
+
+        menu.add(menuMission);
+
+        setJMenuBar(menu);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pBandeau, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(l_export)
-                        .addGap(18, 18, 18)
-                        .addComponent(bExportFic)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(l_ajout)
-                        .addGap(18, 18, 18)
-                        .addComponent(bAjoutPers, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(pListe, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(pInfosOnglets, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(63, 63, 63))))
+            .addComponent(pBandeau, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(pBandeau, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(l_ajout)
-                    .addComponent(bAjoutPers))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pListe, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pInfosOnglets, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(l_export))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(bExportFic)))
-                .addContainerGap(81, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
-
-        pInfosOnglets.getAccessibleContext().setAccessibleName("informations");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -298,6 +367,34 @@ public class GestionPersonnel extends javax.swing.JFrame {
         this.dispose();
 // TODO add your handling code here:
     }//GEN-LAST:event_bRetourActionPerformed
+
+    private void bExportFicActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bExportFicActionPerformed
+        // TODO add your handling code here:
+        int returnVal = exportFic.showSaveDialog(this);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            File file = exportFic.getSelectedFile();
+            try {
+                Outils.sauvegarderPersonnel(file.toString());
+                JOptionPane.showMessageDialog(rootPane, "Les fiches employés ont bien été sauvegardées dans le fichier " + file.getPath(), "Exportation réussie", JOptionPane.INFORMATION_MESSAGE);
+            }
+            catch (FormatFichierException ef) {
+                JOptionPane.showMessageDialog(rootPane, ef.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+            }
+            catch (IOException ex) {
+                Logger.getLogger(GestionPersonnel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            System.out.println("File access cancelled by user.");
+        }
+    }//GEN-LAST:event_bExportFicActionPerformed
+
+    private void bAjoutPersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAjoutPersActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_bAjoutPersActionPerformed
+
+    private void bModifierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bModifierActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_bModifierActionPerformed
 
     private void listePersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listePersMouseClicked
         // onglet informations
@@ -324,33 +421,20 @@ public class GestionPersonnel extends javax.swing.JFrame {
         });
     }//GEN-LAST:event_listePersMouseClicked
 
-    private void bAjoutPersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAjoutPersActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_bAjoutPersActionPerformed
+    private void menuAccueilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuAccueilMouseClicked
+        new Accueil().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_menuAccueilMouseClicked
 
-    private void bExportFicActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bExportFicActionPerformed
+    private void itemAllEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemAllEmpActionPerformed
         // TODO add your handling code here:
-        int returnVal = exportFic.showSaveDialog(this);
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-            File file = exportFic.getSelectedFile();
-            try {
-                Outils.sauvegarderPersonnel(file.toString());
-                JOptionPane.showMessageDialog(rootPane, "Les fiches employés ont bien été sauvegardées dans le fichier " + file.getPath(), "Exportation réussie", JOptionPane.INFORMATION_MESSAGE);
-            } 
-            catch (FormatFichierException ef) {
-                JOptionPane.showMessageDialog(rootPane, ef.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
-            }
-            catch (IOException ex) {
-                Logger.getLogger(GestionPersonnel.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } else {
-            System.out.println("File access cancelled by user.");
-        }
-    }//GEN-LAST:event_bExportFicActionPerformed
+        new GestionPersonnel(Modele.Entreprise.personnels).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_itemAllEmpActionPerformed
 
-    private void bModifierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bModifierActionPerformed
+    private void itemAllMissionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemAllMissionActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_bModifierActionPerformed
+    }//GEN-LAST:event_itemAllMissionActionPerformed
 
     
     /**
@@ -395,6 +479,11 @@ public class GestionPersonnel extends javax.swing.JFrame {
     private javax.swing.JButton bRetour;
     private javax.swing.JButton bSupprimer;
     private javax.swing.JFileChooser exportFic;
+    private javax.swing.JMenuItem itemAllEmp;
+    private javax.swing.JMenuItem itemAllMission;
+    private javax.swing.JMenuItem itemNewEmp;
+    private javax.swing.JMenuItem itemNewMission;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel l_ajout;
     private javax.swing.JLabel l_dateEntree;
     private javax.swing.JLabel l_export;
@@ -406,6 +495,10 @@ public class GestionPersonnel extends javax.swing.JFrame {
     private javax.swing.JLabel l_valuePrenom;
     private javax.swing.JList<String> listeComp;
     private javax.swing.JList<String> listePers;
+    private javax.swing.JMenuBar menu;
+    private javax.swing.JMenu menuAccueil;
+    private javax.swing.JMenu menuEmploye;
+    private javax.swing.JMenu menuMission;
     private javax.swing.JPanel ongletComp;
     private javax.swing.JPanel ongletInfo;
     private javax.swing.JPanel pBandeau;

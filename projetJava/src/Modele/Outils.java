@@ -22,12 +22,13 @@ import java.util.Scanner;
  */
 public class Outils {
     
-    /**
-     *
-     */
     public static final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     public static Date dateAuj = new Date();
     
+    /**
+     * méthode de chargement du fichier CSV de compétence de l'entreprise
+     * @param fileName Le nom du fichier à charger
+     */
     public static void chargerCompetence(String fileName) throws FileNotFoundException {
         try {
             File fic = new File("data/"+fileName);
@@ -44,6 +45,10 @@ public class Outils {
         }
     }
     
+    /**
+     * méthode de chargement du fichier CSV des employés de l'entreprise
+     * @param fileName Le nom du fichier à charger
+     */
     public static void chargerPersonnel(String fileName) throws IOException, ParseException {
         try {
             FileReader fr = new FileReader("data/"+fileName);
@@ -70,6 +75,10 @@ public class Outils {
         }
     }
     
+    /**
+     * méthode de chargement du fichier CSV des compétences des employés de l'entreprise
+     * @param fileName Le nom du fichier à charger
+     */
     public static void chargerCompetencePers(String fileName) throws FileNotFoundException, IOException {
         try {
             FileReader fr = new FileReader("data/"+fileName);
@@ -94,6 +103,10 @@ public class Outils {
         }
     }
     
+    /**
+     * méthode de chargement du fichier CSV des missions de l'entreprise
+     * @param fileName Le nom du fichier à charger
+     */
     public static void chargerMission(String fileName) throws FileNotFoundException, IOException, ParseException {
         try {
             FileReader fr = new FileReader("data/"+fileName);
@@ -121,6 +134,11 @@ public class Outils {
         }
     }
     
+    /**
+     * méthode de chargement du fichier CSV des besoins pour chaque mission 
+     * de l'entreprise
+     * @param fileName Le nom du fichier à charger
+     */
     public static void chargerBesoinMission(String fileName) throws IOException {
         try {
             FileReader fr = new FileReader("data/"+fileName);
@@ -146,6 +164,11 @@ public class Outils {
         }
     }
     
+    /**
+     * méthode de chargement du fichier CSV d'affectation des employés 
+     * aux missions de l'entreprise
+     * @param fileName Le nom du fichier à charger
+     */
     public static void chargerAffectation(String fileName) throws IOException {
         try {
             FileReader fr = new FileReader("data/"+fileName);
@@ -175,6 +198,10 @@ public class Outils {
         }
     }
     
+    /**
+     * méthode de sauvegarde des fiches employés dans un fichier CSV
+     * @param fileName Le nom du fichier à charger
+     */
     public static void sauvegarderPersonnel(String fileName) throws IOException, FormatFichierException {
         if(!fileName.contains(".csv")) {
             throw new FormatFichierException();
@@ -197,6 +224,10 @@ public class Outils {
         }
     }
     
+    /**
+     * méthode de sauvegarde des compétences des employés dans un fichier CSV
+     * @param fileName Le nom du fichier à charger
+     */
     public static void sauvegarderCompPersonnel(String fileName) throws IOException, FormatFichierException {
         if(!fileName.contains(".csv")) {
             throw new FormatFichierException();
@@ -219,6 +250,10 @@ public class Outils {
         }
     }
     
+    /**
+     * méthode de sauvegarde des compétences de 'entreprise dans un fichier CSV
+     * @param fileName Le nom du fichier à charger
+     */
     public static void sauvegarderCompetence(String fileName) throws IOException, FormatFichierException {
         if(!fileName.contains(".csv")) {
             throw new FormatFichierException();
@@ -240,6 +275,10 @@ public class Outils {
         }
     }
     
+    /**
+     * méthode de sauvegarde des missions dans un fichier CSV
+     * @param fileName Le nom du fichier à charger
+     */
     public static void sauvegarderMission(String fileName) throws IOException, FormatFichierException {
         if(!fileName.contains(".csv")) {
             throw new FormatFichierException();
@@ -262,6 +301,10 @@ public class Outils {
         }
     }
     
+    /**
+     * méthode de sauvegarde du besoin pour chaque mission dans un fichier CSV
+     * @param fileName Le nom du fichier à charger
+     */
     public static void sauvegarderBesoinMission(String fileName) throws IOException, FormatFichierException {
         if(!fileName.contains(".csv")) {
             throw new FormatFichierException();
@@ -286,6 +329,11 @@ public class Outils {
         }
     }
     
+    /**
+     * méthode de sauvegarde des affectations des employés
+     * aux missions de l'entreprise dans un fichier CSV
+     * @param fileName Le nom du fichier à charger
+     */
     public static void sauvegarderAffectation(String fileName) throws IOException, FormatFichierException {
         if(!fileName.contains(".csv")) {
             throw new FormatFichierException();

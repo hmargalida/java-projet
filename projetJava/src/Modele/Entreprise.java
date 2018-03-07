@@ -19,6 +19,10 @@ public class Entreprise {
     public static Map<Integer,Mission> missions = new HashMap<Integer,Mission>();
     public static Map<String,Competence> competences = new HashMap<String,Competence>();
     
+    /**
+     * méthode ajoutant un employé à la "bd" de l'entreprise 
+     * @param p le personnel ajouté
+     */
     public static void addPersonnel(Personnel p) {
         if (!personnels.containsKey(p.getId())) {
             Entreprise.personnels.put(p.getId(),p);
@@ -28,6 +32,10 @@ public class Entreprise {
         }
     }
     
+    /**
+     * méthode ajoutant une compétence à la "bd" de l'entreprise
+     * @param c la compétence ajoutée
+     */
     public static void addCompetence(Competence c) {
         if(!competences.containsValue(c)) {
             competences.put(c.getIdComp(),c);
@@ -37,6 +45,10 @@ public class Entreprise {
         }
     }
     
+    /**
+     * méthode ajoutant une mission à la "bd" de l'entreprise
+     * @param m la mission ajoutée
+     */
     public static void addMission(Mission m) {
         if(!missions.containsKey(m.getIdM())) {
             missions.put(m.getIdM(), m);
@@ -46,6 +58,10 @@ public class Entreprise {
         }
     }
     
+    /**
+     * méthode enlevant un employé de la "bd" de l'entreprise
+     * @param p le personnel supprimé
+     */
     public static void removePersonnel(Personnel p) {
         if (personnels.containsValue(p)) {
             Entreprise.personnels.remove(p.getId());
@@ -55,14 +71,29 @@ public class Entreprise {
         }
     }
     
+    /**
+     * méthode retournant un employé de l'entreprise
+     * @param idEmp l'identifiant de l'employé recherché
+     * @return Personnel 
+     */
     public static Personnel getEmploye(int idEmp) {
         return personnels.get(idEmp);
     }
     
+    /**
+     * méthode retournant une mission de l'entreprise
+     * @param idM l'identifiant de la mission recherchée
+     * @return Mission
+     */
     public static Mission getMission(int idM) {
         return missions.get(idM);
     }
     
+    /**
+     * méthode retournant une compétence de l'entreprise
+     * @param idC l'identifiant de la compétence
+     * @return Competence
+     */
     public static Competence getCompetence(String idC) {
         return competences.get(idC);
     }
