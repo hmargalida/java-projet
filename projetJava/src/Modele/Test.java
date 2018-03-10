@@ -33,6 +33,11 @@ public class Test {
         } catch (ParseException ex) {
             System.err.println("ERREUR - Format de date incorrecte");
         }
+        // Liste des employés AVANT ajout 
+        System.out.println("////// Employés AVANT ajout");
+        for (int p : Entreprise.personnels.keySet()) {
+            System.out.println(Entreprise.personnels.get(p));
+        }
         // creation d'employés
         Personnel p1 = new Personnel("MacFly", "Marty", Outils.sdf.parse("25/01/2018"));
         Personnel p2 = new Personnel("Marga", "Helo", Outils.sdf.parse("25/01/2018"));
@@ -56,69 +61,76 @@ public class Test {
         Entreprise.addPersonnel(p1);
         Entreprise.addPersonnel(p2);
         Entreprise.addPersonnel(p3);
-        System.out.println("////// Employés");
+        
+        // Liste des employés après ajout
+        System.out.println("////// Employés APRES ajout");
         for (int p : Entreprise.personnels.keySet()) {
             System.out.println(Entreprise.personnels.get(p));
         }
-        // création d'une mission
-        /*Besoin b = new Besoin(3);
-        //Besoin b2 = new Besoin(4);
-        Mission m5 = new Mission(Outils.sdf.parse("01/02/2018"), 5, b);
-        Mission m2 = new Mission(Outils.sdf.parse("20/02/2018"), 2, b2);
-        Entreprise.addMission(m1);
-        Entreprise.addMission(m2);
-
-        // ajout des besoins en compétence pour la mission 
-        b.besoinParCompetence(c1, 1);
-        b.besoinParCompetence(c2, 1);
-        b.besoinParCompetence(c3, 1);
-        b2.besoinParCompetence(c3, 2);
-        b2.besoinParCompetence(c1, 2);
-        // affectation des employés à la mission en fonction de leurs compétences
-        m1.affecterPersonnel(p1, c1);
-        m1.affecterPersonnel(p2, c2);
-        m1.affecterPersonnel(p2, c3);
-        m2.affecterPersonnel(p3, c3);
-        m2.affecterPersonnel(p1, c1);
-        m2.affecterPersonnel(p2, c1);*/
-        //m1.affecterPersonnel(p3, c2); // ERREUR : L'employé n'a pas la compétence
-        //m1.affecterPersonnel(p1, c1); // ERREUR : L'employé p1 est déjà assigné à cette compétence 
-        //m1.affecterPersonnel(p3, c1); // ERREUR : Le quota pour cette compétence est atteint
-        Outils.chargerMission("missionsSauv.csv");
-        Outils.chargerBesoinMission("missionsBesoinsSauv.csv");
-        Outils.chargerAffectation("affectationsSauv.csv");
-        System.out.println("////// Missions");
+        
+        // Liste des missions avant ajout
+        System.out.println("////// Missions AVANT ajout");
         for (int m : Entreprise.missions.keySet()) {
             System.out.println(Entreprise.missions.get(m));
         }
 
-        //System.out.println("/////////// Tests statuts Missions");
-        //System.out.println(m5.afficherStatut()); //en_preparation
-        //m1.missionEnCours(); // ERREUR : La mission n'est pas correctement plannifiée - pas d'erreur
+        //création d'une mission
+        Besoin b = new Besoin(4);
+        Mission m5 = new Mission(Outils.sdf.parse("01/02/2018"), 5, b);
+        Entreprise.addMission(m5);
+
+        // ajout des besoins en compétence pour la mission 
+        b.besoinParCompetence(c1, 1);
+        b.besoinParCompetence(c2, 1);
+        b.besoinParCompetence(c3, 2);
+        // affectation des employés à la mission en fonction de leurs compétences
+        m5.affecterPersonnel(p1, c1);
+        m5.affecterPersonnel(p2, c2);
+        m5.affecterPersonnel(p2, c3);
+        m5.affecterPersonnel(p3, c3);
+        m5.affecterPersonnel(p3, c2); // ERREUR : L'employé n'a pas la compétence
+        m5.affecterPersonnel(p1, c1); // ERREUR : L'employé p1 est déjà assigné à cette compétence 
+        m5.affecterPersonnel(p3, c1); // ERREUR : Le quota pour cette compétence est atteint
         
-        /*m1.missionPlannifiee(); 
-        //m1.afficherStatut(); // plannifie
+        // sauvegarde des missions dans des fichiers 
+        Outils.chargerMission("missionsSauv.csv");
+        Outils.chargerBesoinMission("missionsBesoinsSauv.csv");
+        Outils.chargerAffectation("affectationsSauv.csv");
+        
+        System.out.println("////// Missions APRES ajout");
+        for (int m : Entreprise.missions.keySet()) {
+            System.out.println(Entreprise.missions.get(m));
+        }
+
+        System.out.println("////// Tests statuts Missions");
+        System.out.println(m5.getStatut()); //en_preparation
+        //m5.missionEnCours(); // ERREUR : La mission n'est pas correctement plannifiée - pas d'erreur
+        
+        m5.missionPlannifiee(); 
+        System.out.println(m5.getStatut()); // plannifie
         //m1.missionPlannifiee(); //ERREUR :La mission doit être en préparation
          
         Calendar c = Calendar.getInstance();
         c.setTime(Outils.dateAuj);
+        System.out.println("DateAuj: " + Outils.dateAuj);
         //c.add(Calendar.DATE, 1); // ERREUR: La mission n'est pas terminée
-        c.add(Calendar.DATE, 50);
+        c.add(Calendar.DATE, 20);
         
         Outils.dateAuj = c.getTime();
-        //System.out.println("DateAuj: " + Outils.dateAuj);
+        System.out.println("Avancé de 20 jours : dateAuj: " + Outils.dateAuj);
         //m1.missionEnCours(); //ERREUR : La mission commencera le :Sun Feb 25 00:00:00 CET 2018
         //m1.afficherStatut(); // plannifie
          
-       // Outils.dateAuj = Outils.sdf.parse("18/02/2018");
-        m1.missionEnCours(); 
-       // m1.afficherStatut(); // en cours
+        Outils.dateAuj = Outils.sdf.parse("18/02/2018");
+        m5.missionEnCours(); 
+        System.out.println(m5.getStatut()); // en cours
         
-        m1.missionTermine();
-        //m1.afficherStatut(); // terminée*/
+        m5.missionTermine();
+        System.out.println(m5.getStatut()); // terminée*/
         
         Vue.Accueil accueil = new Vue.Accueil();
         accueil.setVisible(true);
+        
         // sauvegarde dans les fichiers
         /*Outils.sauvegarderPersonnel("persTest.csv");
         Outils.sauvegarderCompetence("compSauv");

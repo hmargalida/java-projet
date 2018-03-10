@@ -194,7 +194,7 @@ public class GestionMission extends javax.swing.JFrame {
                     .addComponent(l_valueDateDeb)
                     .addComponent(l_dateDeb))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(ongletInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(ongletInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(l_duree)
                     .addComponent(l_valueDuree))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)

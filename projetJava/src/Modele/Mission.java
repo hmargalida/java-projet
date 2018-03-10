@@ -148,7 +148,7 @@ public class Mission {
         }
         else{ //Changement de statut
             this.statut = Statut.plannifie;
-            System.out.println("Mission correctement plannifiée!");
+            //System.out.println("Mission correctement plannifiée!");
         }
     }
     
@@ -166,7 +166,7 @@ public class Mission {
         }
         else{ 
             this.statut = Statut.en_cours;
-            System.out.println("Mission en cours!");
+            //System.out.println("Mission en cours!");
         }
     }
 
@@ -185,7 +185,7 @@ public class Mission {
         }
         else{
             this.statut =Statut.terminee;
-            System.out.println("Mission terminée!");
+            //System.out.println("Mission terminée!");
         }  
     }
     

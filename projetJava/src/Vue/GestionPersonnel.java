@@ -56,9 +56,11 @@ public class GestionPersonnel extends javax.swing.JFrame {
         pBandeau = new javax.swing.JPanel();
         l_titre = new javax.swing.JLabel();
         bRetour = new javax.swing.JButton();
+        pPage = new javax.swing.JPanel();
+        bAjoutPers = new javax.swing.JButton();
+        bExportFic = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
-        pListe = new javax.swing.JScrollPane();
-        listePers = new javax.swing.JList<>();
+        lTitreListe = new javax.swing.JLabel();
         pInfosOnglets = new javax.swing.JTabbedPane();
         ongletInfo = new javax.swing.JPanel();
         l_nom = new javax.swing.JLabel();
@@ -72,10 +74,8 @@ public class GestionPersonnel extends javax.swing.JFrame {
         ongletComp = new javax.swing.JPanel();
         pComp = new javax.swing.JScrollPane();
         listeComp = new javax.swing.JList<>();
-        l_ajout = new javax.swing.JLabel();
-        bAjoutPers = new javax.swing.JButton();
-        l_export = new javax.swing.JLabel();
-        bExportFic = new javax.swing.JButton();
+        pListe = new javax.swing.JScrollPane();
+        listePers = new javax.swing.JList<>();
         menu = new javax.swing.JMenuBar();
         menuAccueil = new javax.swing.JMenu();
         menuEmploye = new javax.swing.JMenu();
@@ -99,7 +99,7 @@ public class GestionPersonnel extends javax.swing.JFrame {
         pBandeau.setBackground(new java.awt.Color(60, 132, 208));
         pBandeau.setBorder(javax.swing.BorderFactory.createCompoundBorder(null, javax.swing.BorderFactory.createCompoundBorder()));
 
-        l_titre.setFont(new java.awt.Font("American Typewriter", 0, 24)); // NOI18N
+        l_titre.setFont(new java.awt.Font("Lucida Grande", 0, 22)); // NOI18N
         l_titre.setText("Gestion du personnel");
 
         bRetour.setText("<");
@@ -116,7 +116,7 @@ public class GestionPersonnel extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pBandeauLayout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addComponent(bRetour, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(195, 195, 195)
+                .addGap(31, 31, 31)
                 .addComponent(l_titre)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -130,14 +130,31 @@ public class GestionPersonnel extends javax.swing.JFrame {
                 .addContainerGap(36, Short.MAX_VALUE))
         );
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        pPage.setBackground(new java.awt.Color(255, 255, 255));
 
-        listePers.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                listePersMouseClicked(evt);
+        bAjoutPers.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
+        bAjoutPers.setText("Ajouter un employé");
+        bAjoutPers.setEnabled(false);
+        bAjoutPers.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bAjoutPersActionPerformed(evt);
             }
         });
-        pListe.setViewportView(listePers);
+
+        bExportFic.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
+        bExportFic.setIcon(new javax.swing.ImageIcon("/Users/heloise/Documents/01- Travail/MIAGE/L3/S6/01- Java/java-projet/projetJava/src/Vue/img/sauvegarder.jpeg")); // NOI18N
+        bExportFic.setText("Exporter les fiches");
+        bExportFic.setToolTipText("");
+        bExportFic.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bExportFicActionPerformed(evt);
+            }
+        });
+
+        jPanel1.setBackground(new java.awt.Color(242, 240, 240));
+
+        lTitreListe.setFont(new java.awt.Font("American Typewriter", 0, 14)); // NOI18N
+        lTitreListe.setText("Liste des employés");
 
         ongletInfo.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -222,8 +239,8 @@ public class GestionPersonnel extends javax.swing.JFrame {
             ongletCompLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ongletCompLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(pComp, javax.swing.GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(pComp, javax.swing.GroupLayout.DEFAULT_SIZE, 307, Short.MAX_VALUE)
+                .addGap(22, 22, 22))
         );
         ongletCompLayout.setVerticalGroup(
             ongletCompLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -236,70 +253,65 @@ public class GestionPersonnel extends javax.swing.JFrame {
         pInfosOnglets.addTab("Compétences", ongletComp);
         ongletComp.getAccessibleContext().setAccessibleName("competences");
 
-        l_ajout.setText("Ajouter un employé");
-
-        bAjoutPers.setText("+");
-        bAjoutPers.setEnabled(false);
-        bAjoutPers.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bAjoutPersActionPerformed(evt);
+        listePers.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                listePersMouseClicked(evt);
             }
         });
-
-        l_export.setText("Exporter les fiches des employés dans un fichier CSV");
-
-        bExportFic.setIcon(new javax.swing.ImageIcon("/Users/heloise/Documents/01- Travail/MIAGE/L3/S6/01- Java/java-projet/projetJava/src/Vue/img/sauvegarder.jpeg")); // NOI18N
-        bExportFic.setToolTipText("");
-        bExportFic.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bExportFicActionPerformed(evt);
-            }
-        });
+        pListe.setViewportView(listePers);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(37, 37, 37)
+                .addGap(43, 43, 43)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(l_export)
-                        .addGap(18, 18, 18)
-                        .addComponent(bExportFic))
+                        .addComponent(lTitreListe, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(l_ajout)
-                                .addGap(18, 18, 18)
-                                .addComponent(bAjoutPers, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(pListe, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(68, 68, 68)
-                        .addComponent(pInfosOnglets, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(73, Short.MAX_VALUE))
+                        .addComponent(pListe, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
+                        .addComponent(pInfosOnglets, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(73, 73, 73))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(l_ajout)
-                    .addComponent(bAjoutPers))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(pListe, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pInfosOnglets, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lTitreListe, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(l_export)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(bExportFic)
-                        .addGap(64, 64, 64))))
+                    .addComponent(pListe, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pInfosOnglets, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         pInfosOnglets.getAccessibleContext().setAccessibleName("informations");
+
+        javax.swing.GroupLayout pPageLayout = new javax.swing.GroupLayout(pPage);
+        pPage.setLayout(pPageLayout);
+        pPageLayout.setHorizontalGroup(
+            pPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pPageLayout.createSequentialGroup()
+                .addGap(37, 37, 37)
+                .addComponent(bAjoutPers)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(bExportFic, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        pPageLayout.setVerticalGroup(
+            pPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pPageLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(pPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(bAjoutPers, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bExportFic, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
 
         menuAccueil.setText("Accueil");
         menuAccueil.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -348,15 +360,15 @@ public class GestionPersonnel extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(pBandeau, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pPage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(pBandeau, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(pPage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         pack();
@@ -484,9 +496,8 @@ public class GestionPersonnel extends javax.swing.JFrame {
     private javax.swing.JMenuItem itemNewEmp;
     private javax.swing.JMenuItem itemNewMission;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JLabel l_ajout;
+    private javax.swing.JLabel lTitreListe;
     private javax.swing.JLabel l_dateEntree;
-    private javax.swing.JLabel l_export;
     private javax.swing.JLabel l_nom;
     private javax.swing.JLabel l_prenom;
     private javax.swing.JLabel l_titre;
@@ -505,5 +516,6 @@ public class GestionPersonnel extends javax.swing.JFrame {
     private javax.swing.JScrollPane pComp;
     private javax.swing.JTabbedPane pInfosOnglets;
     private javax.swing.JScrollPane pListe;
+    private javax.swing.JPanel pPage;
     // End of variables declaration//GEN-END:variables
 }
