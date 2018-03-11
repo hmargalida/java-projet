@@ -59,7 +59,7 @@ public class Accueil extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(60, 132, 208));
         jPanel1.setBorder(javax.swing.BorderFactory.createCompoundBorder(null, javax.swing.BorderFactory.createCompoundBorder()));
 
-        jLabel1.setFont(new java.awt.Font("American Typewriter", 0, 24)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 22)); // NOI18N
         jLabel1.setText("Accueil");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -67,7 +67,7 @@ public class Accueil extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(272, 272, 272)
+                .addGap(279, 279, 279)
                 .addComponent(jLabel1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );

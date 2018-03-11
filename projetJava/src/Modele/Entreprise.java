@@ -60,14 +60,27 @@ public class Entreprise {
     
     /**
      * méthode enlevant un employé de la "bd" de l'entreprise
-     * @param p le personnel supprimé
+     * @param idp le personnel à supprimer
      */
-    public static void removePersonnel(Personnel p) {
-        if (personnels.containsValue(p)) {
-            Entreprise.personnels.remove(p.getId());
+    public static void removePersonnel(int idp) {
+        if (personnels.containsKey(idp)) {
+            Entreprise.personnels.remove(idp);
         }
         else {
-            System.err.println("Cet employé ne fait pas partie de l'entreprise");
+            System.err.println("Cet employé n'existe pas");
+        }
+    }
+    
+    /**
+     * méthode enlevant une mission de la "bd" de l'entreprise
+     * @param idm la mission à supprimer
+     */
+    public static void removeMission(int idm) {
+        if (missions.containsKey(idm)) {
+            Entreprise.personnels.remove(idm);
+        }
+        else {
+            System.err.println("Cette mission n'existe pas");
         }
     }
     

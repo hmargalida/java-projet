@@ -61,9 +61,10 @@ public class Test {
         Entreprise.addPersonnel(p1);
         Entreprise.addPersonnel(p2);
         Entreprise.addPersonnel(p3);
+        Entreprise.removePersonnel(50);
         
         // Liste des employés après ajout
-        System.out.println("////// Employés APRES ajout");
+        System.out.println("////// Employés APRES ajout et suppression d'un employé");
         for (int p : Entreprise.personnels.keySet()) {
             System.out.println(Entreprise.personnels.get(p));
         }
@@ -73,7 +74,12 @@ public class Test {
         for (int m : Entreprise.missions.keySet()) {
             System.out.println(Entreprise.missions.get(m));
         }
-
+        
+        // sauvegarde des missions dans des fichiers 
+        Outils.chargerMission("missionsSauv.csv");
+        Outils.chargerBesoinMission("missionsBesoinsSauv.csv");
+        Outils.chargerAffectation("affectationsSauv.csv");
+        
         //création d'une mission
         Besoin b = new Besoin(4);
         Mission m5 = new Mission(Outils.sdf.parse("01/02/2018"), 5, b);
@@ -92,17 +98,13 @@ public class Test {
         m5.affecterPersonnel(p1, c1); // ERREUR : L'employé p1 est déjà assigné à cette compétence 
         m5.affecterPersonnel(p3, c1); // ERREUR : Le quota pour cette compétence est atteint
         
-        // sauvegarde des missions dans des fichiers 
-        Outils.chargerMission("missionsSauv.csv");
-        Outils.chargerBesoinMission("missionsBesoinsSauv.csv");
-        Outils.chargerAffectation("affectationsSauv.csv");
-        
         System.out.println("////// Missions APRES ajout");
         for (int m : Entreprise.missions.keySet()) {
             System.out.println(Entreprise.missions.get(m));
         }
 
         System.out.println("////// Tests statuts Missions");
+        System.out.println(Entreprise.missions.get(m5.getIdM()));
         System.out.println(m5.getStatut()); //en_preparation
         //m5.missionEnCours(); // ERREUR : La mission n'est pas correctement plannifiée - pas d'erreur
         
@@ -120,8 +122,7 @@ public class Test {
         System.out.println("Avancé de 20 jours : dateAuj: " + Outils.dateAuj);
         //m1.missionEnCours(); //ERREUR : La mission commencera le :Sun Feb 25 00:00:00 CET 2018
         //m1.afficherStatut(); // plannifie
-         
-        Outils.dateAuj = Outils.sdf.parse("18/02/2018");
+        
         m5.missionEnCours(); 
         System.out.println(m5.getStatut()); // en cours
         

@@ -59,6 +59,10 @@ public class GestionMission extends javax.swing.JFrame {
         pBandeau = new javax.swing.JPanel();
         l_titre = new javax.swing.JLabel();
         bRetour = new javax.swing.JButton();
+        pPage = new javax.swing.JPanel();
+        bAjoutMission = new javax.swing.JButton();
+        bExportFic = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
         pListe = new javax.swing.JScrollPane();
         listeMission = new javax.swing.JList<>();
         pInfosOnglets = new javax.swing.JTabbedPane();
@@ -78,16 +82,22 @@ public class GestionMission extends javax.swing.JFrame {
         ongletEmp = new javax.swing.JPanel();
         pComp1 = new javax.swing.JScrollPane();
         listeEmp = new javax.swing.JList<>();
-        l_ajout = new javax.swing.JLabel();
-        bAjoutMission = new javax.swing.JButton();
-        l_export = new javax.swing.JLabel();
-        bExportFic = new javax.swing.JButton();
+        lTitreListe = new javax.swing.JLabel();
+        menu = new javax.swing.JMenuBar();
+        menuAccueil = new javax.swing.JMenu();
+        menuEmploye = new javax.swing.JMenu();
+        itemAllEmp = new javax.swing.JMenuItem();
+        itemNewEmp = new javax.swing.JMenuItem();
+        menuMission = new javax.swing.JMenu();
+        itemAllMission = new javax.swing.JMenuItem();
+        itemNewMission = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        pBandeau.setBackground(new java.awt.Color(0, 153, 204));
+        pBandeau.setBackground(new java.awt.Color(60, 132, 208));
+        pBandeau.setPreferredSize(new java.awt.Dimension(317, 73));
 
-        l_titre.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        l_titre.setFont(new java.awt.Font("Lucida Grande", 0, 22)); // NOI18N
         l_titre.setText("Gestion des missions");
 
         bRetour.setText("<");
@@ -104,19 +114,39 @@ public class GestionMission extends javax.swing.JFrame {
             .addGroup(pBandeauLayout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addComponent(bRetour, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(27, 27, 27)
                 .addComponent(l_titre)
-                .addContainerGap(461, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pBandeauLayout.setVerticalGroup(
             pBandeauLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pBandeauLayout.createSequentialGroup()
-                .addGap(10, 10, 10)
+                .addGap(18, 18, 18)
                 .addGroup(pBandeauLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(bRetour)
                     .addComponent(l_titre))
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
+
+        pPage.setBackground(new java.awt.Color(255, 255, 255));
+
+        bAjoutMission.setText("Ajouter une mission");
+        bAjoutMission.setEnabled(false);
+        bAjoutMission.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bAjoutMissionActionPerformed(evt);
+            }
+        });
+
+        bExportFic.setFont(new java.awt.Font("Lucida Grande", 0, 13)); // NOI18N
+        bExportFic.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Vue/img/sauvegarder.jpeg"))); // NOI18N
+        bExportFic.setText("Exporter les fiches");
+        bExportFic.setToolTipText("");
+        bExportFic.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bExportFicActionPerformed(evt);
+            }
+        });
 
         listeMission.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -254,71 +284,123 @@ public class GestionMission extends javax.swing.JFrame {
 
         pInfosOnglets.addTab("Employés", ongletEmp);
 
-        l_ajout.setText("Ajouter une mission");
+        lTitreListe.setFont(new java.awt.Font("American Typewriter", 0, 14)); // NOI18N
+        lTitreListe.setText("Liste des missions");
 
-        bAjoutMission.setText("+");
-        bAjoutMission.setEnabled(false);
-        bAjoutMission.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bAjoutMissionActionPerformed(evt);
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(39, 39, 39)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(pListe, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lTitreListe, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(51, 51, 51)
+                .addComponent(pInfosOnglets, javax.swing.GroupLayout.PREFERRED_SIZE, 386, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(41, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(pInfosOnglets, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(lTitreListe, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(pListe, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(50, Short.MAX_VALUE))
+        );
+
+        pInfosOnglets.getAccessibleContext().setAccessibleName("infos");
+
+        javax.swing.GroupLayout pPageLayout = new javax.swing.GroupLayout(pPage);
+        pPage.setLayout(pPageLayout);
+        pPageLayout.setHorizontalGroup(
+            pPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pPageLayout.createSequentialGroup()
+                .addGap(35, 35, 35)
+                .addComponent(bAjoutMission)
+                .addGap(18, 18, 18)
+                .addComponent(bExportFic, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(342, Short.MAX_VALUE))
+            .addGroup(pPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pPageLayout.createSequentialGroup()
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+        pPageLayout.setVerticalGroup(
+            pPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pPageLayout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addGroup(pPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(bAjoutMission, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bExportFic, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(382, Short.MAX_VALUE))
+            .addGroup(pPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pPageLayout.createSequentialGroup()
+                    .addGap(0, 70, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
+
+        menuAccueil.setText("Accueil");
+        menuAccueil.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menuAccueilMouseClicked(evt);
             }
         });
+        menu.add(menuAccueil);
 
-        l_export.setText("Exporter les fiches des employés dans un fichier CSV");
+        menuEmploye.setText("Employés");
 
-        bExportFic.setIcon(new javax.swing.ImageIcon("/Users/heloise/Documents/01- Travail/MIAGE/L3/S6/01- Java/java-projet/projetJava/src/Vue/img/sauvegarder.jpeg")); // NOI18N
-        bExportFic.setToolTipText("");
-        bExportFic.addActionListener(new java.awt.event.ActionListener() {
+        itemAllEmp.setText("Liste des employés");
+        itemAllEmp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bExportFicActionPerformed(evt);
+                itemAllEmpActionPerformed(evt);
             }
         });
+        menuEmploye.add(itemAllEmp);
+
+        itemNewEmp.setEnabled(false);
+        itemNewEmp.setText("Nouvel employé");
+        menuEmploye.add(itemNewEmp);
+
+        menu.add(menuEmploye);
+
+        menuMission.setText("Missions");
+
+        itemAllMission.setText("Liste des missions");
+        itemAllMission.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemAllMissionActionPerformed(evt);
+            }
+        });
+        menuMission.add(itemAllMission);
+
+        itemNewMission.setEnabled(false);
+        itemNewMission.setText("Nouvelle mission");
+        menuMission.add(itemNewMission);
+
+        menu.add(menuMission);
+
+        setJMenuBar(menu);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pBandeau, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(l_export)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(bExportFic))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(l_ajout)
-                        .addGap(18, 18, 18)
-                        .addComponent(bAjoutMission, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(pListe, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(59, 59, 59)
-                        .addComponent(pInfosOnglets, javax.swing.GroupLayout.PREFERRED_SIZE, 386, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(pBandeau, javax.swing.GroupLayout.DEFAULT_SIZE, 739, Short.MAX_VALUE)
+            .addComponent(pPage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(pBandeau, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(l_ajout)
-                    .addComponent(bAjoutMission))
-                .addGap(24, 24, 24)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pListe, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pInfosOnglets, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(l_export))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(9, 9, 9)
-                        .addComponent(bExportFic)))
-                .addGap(0, 30, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pPage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
-
-        pInfosOnglets.getAccessibleContext().setAccessibleName("infos");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -366,7 +448,7 @@ public class GestionMission extends javax.swing.JFrame {
         for(Modele.Competence comp : m.getAffectations().keySet()) {
             for(int i=0; i<m.getAffectations().get(comp).size(); i++ ){
                 if(persSurMission.contains(m.getAffectations().get(comp).get(i).toString())==false){
-                    persSurMission.add(m.getAffectations().get(comp).get(i).toString());
+                    persSurMission.add(m.getAffectations().get(comp).get(i).getNom() + " " + m.getAffectations().get(comp).get(i).getPrenom());
                 }
             }
         }
@@ -401,6 +483,23 @@ public class GestionMission extends javax.swing.JFrame {
             System.out.println("File access cancel by user");
         }
     }//GEN-LAST:event_bExportFicActionPerformed
+
+    private void menuAccueilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuAccueilMouseClicked
+        new Accueil().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_menuAccueilMouseClicked
+
+    private void itemAllEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemAllEmpActionPerformed
+        // TODO add your handling code here:
+        new GestionPersonnel(Modele.Entreprise.personnels).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_itemAllEmpActionPerformed
+
+    private void itemAllMissionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemAllMissionActionPerformed
+        // TODO add your handling code here:
+        new GestionMission(Modele.Entreprise.missions).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_itemAllMissionActionPerformed
 
     /**
      * @param args the command line arguments
@@ -441,10 +540,14 @@ public class GestionMission extends javax.swing.JFrame {
     private javax.swing.JButton bExportFic;
     private javax.swing.JButton bRetour;
     private javax.swing.JFileChooser exportFic;
-    private javax.swing.JLabel l_ajout;
+    private javax.swing.JMenuItem itemAllEmp;
+    private javax.swing.JMenuItem itemAllMission;
+    private javax.swing.JMenuItem itemNewEmp;
+    private javax.swing.JMenuItem itemNewMission;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lTitreListe;
     private javax.swing.JLabel l_dateDeb;
     private javax.swing.JLabel l_duree;
-    private javax.swing.JLabel l_export;
     private javax.swing.JLabel l_idM;
     private javax.swing.JLabel l_statut;
     private javax.swing.JLabel l_titre;
@@ -455,6 +558,10 @@ public class GestionMission extends javax.swing.JFrame {
     private javax.swing.JList<String> listeComp;
     private javax.swing.JList<String> listeEmp;
     private javax.swing.JList<String> listeMission;
+    private javax.swing.JMenuBar menu;
+    private javax.swing.JMenu menuAccueil;
+    private javax.swing.JMenu menuEmploye;
+    private javax.swing.JMenu menuMission;
     private javax.swing.JPanel ongletComp;
     private javax.swing.JPanel ongletEmp;
     private javax.swing.JPanel ongletInfo;
@@ -463,6 +570,7 @@ public class GestionMission extends javax.swing.JFrame {
     private javax.swing.JScrollPane pComp1;
     private javax.swing.JTabbedPane pInfosOnglets;
     private javax.swing.JScrollPane pListe;
+    private javax.swing.JPanel pPage;
     private javax.swing.JPanel pStatut;
     // End of variables declaration//GEN-END:variables
 }
