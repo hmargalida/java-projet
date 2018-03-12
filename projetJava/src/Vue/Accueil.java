@@ -223,6 +223,8 @@ public class Accueil extends javax.swing.JFrame {
 
     private void itemAllMissionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemAllMissionActionPerformed
         // TODO add your handling code here:
+        new GestionMission(Modele.Entreprise.missions).setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_itemAllMissionActionPerformed
 
     /**
