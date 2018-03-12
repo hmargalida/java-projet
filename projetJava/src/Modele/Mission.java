@@ -31,6 +31,12 @@ public class Mission {
     private Statut statut;
     private boolean modifiable;
     
+    /**
+     * Constructeur d'un objet Mission 
+     * @param dateDebut La date de début de la mission
+     * @param dureeJ La durée de la mission (en jour)
+     * @param b Le besoin (nb de personne totale)
+     */
     public Mission(Date dateDebut, int dureeJ, Besoin b) {
         this.idMission = ++Mission.countMission;
         this.dateDebut = dateDebut;
@@ -42,6 +48,14 @@ public class Mission {
         this.modifiable = true;
     }
     
+    /**
+     * Constructeur d'un objet Mission lorsque l'identifiant est précisé (import fichier)
+     * @param idMission Identifiant de la mission 
+     * @param dateDebut La date de lancement de la mission
+     * @param dureeJ La durée de la mission (en jour)
+     * @param statut Le statut de la mission 
+     * @param b Le besoin de la mission (nb de personne totale)
+     */
     public Mission(int idMission, Date dateDebut, int dureeJ, String statut, Besoin b) {
         this.idMission = idMission;
         Mission.countMission++;
@@ -54,6 +68,11 @@ public class Mission {
         this.modifiable = true;
     }
     
+    /**
+     * Méthode permettant d'affecter un employé sur la mission
+     * @param p L'employé à affecter
+     * @param c La compétence sur laquelle est affecté l'employé
+     */
     public void affecterPersonnel(Personnel p, Competence c) {
         int nbPersAct=0;
         boolean inscrit = false; // vérifie si l'employé est déjà inscrit sur cette compétence
@@ -91,6 +110,10 @@ public class Mission {
         
     }
     
+    /**
+     * Affichage du statut de la mission (en préparation, plannifiée, en cours, terminée)
+     * @return String - Le statut de la mission
+     */
     public String afficherStatut() {
         return this.statut.toString();
     }
@@ -193,30 +216,58 @@ public class Mission {
     
     //}
     
+    /**
+     * Accesseur identifiant de la mission
+     * @return int - l'identifiant de la mission
+     */
     public int getIdM() {
         return this.idMission;
     }
     
+    /**
+     * Accesseur besoin de la mission
+     * @return Besoin 
+     */
     public Besoin getBesoins() {
         return this.besoins;
     }
     
+    /**
+     * Accesseur des affectations de la mission
+     * @return Map - Map des affectations
+     */
     public Map<Competence, ArrayList<Personnel>> getAffectations() {
         return this.affectations;
     }
     
+    /**
+     * Accesseur date de lancement de la mission
+     * @return Date
+     */
     public Date getDateDebut() {
         return this.dateDebut;
     }
     
+    /**
+     * Accesseur durée de la mission (en jour)
+     * @return int - nb de jour
+     */
     public int getDuree() {
         return this.dureeJ;
     }
     
+    /**
+     * Accesseur du statut de la mission
+     * @return String
+     */
     public String getStatut() {
         return this.statut.toString();
     }
     
+    /**
+     * Accesseur de la couleur associée au statut de la mission
+     * @return Color
+     */
     public Color getColorStatut() {
         return this.statut.getCouleur();
     }
@@ -240,6 +291,10 @@ public class Mission {
         return mapComp;
     }*/
     
+    /**
+     * Affichage d'une chaine de caractère comportant les infos de la mission
+     * @return String
+     */
     public String toString(){
         String msg = "Mission " + this.idMission + ", date de debut : " + this.dateDebut + " (" + this.dureeJ + " jours) Nb d'employé nécessaires : " + besoins.getNbPersNecessaire() + " - " + this.getStatut();
         for(Competence comp : besoins.getMapBesoins().keySet()) {
@@ -253,10 +308,19 @@ public class Mission {
         return msg;
     }
     
+    /**
+     * Chaine de caractère formatée pour l'export dans un fichier CSV
+     * @return String
+     */
     public String formatFic() {
         return this.idMission+ ";" + Outils.sdf.format(this.dateDebut) + ";" + this.dureeJ + ";" + besoins.getNbPersNecessaire() + ";" + this.statut;
     }
     
+    /**
+     * Chaine de caractère formatée pour l'export dans un fichier CSV des affectations (Affectations)
+     * @param c la compétence
+     * @return String
+     */
     public String formatFicAffect(Competence c) {
         String msg = this.idMission + ";" + c.getIdComp() + ";" + besoins.getNbPersComp(c);
         ArrayList<Personnel> affectationComp = this.affectations.get(c) == null ? new ArrayList<>() : this.affectations.get(c);
@@ -269,6 +333,11 @@ public class Mission {
         return msg;
     }
     
+    /**
+     * Chaine de caractère formatée pour l'export dans un fichier CSV (Besoin)
+     * @param c Competence
+     * @return String
+     */
     public String formatFicBesoin(Competence c) {
         return this.idMission + ";" + c.getIdComp() + ";" + besoins.getNbPersComp(c);
     }
