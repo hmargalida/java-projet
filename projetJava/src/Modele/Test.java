@@ -4,6 +4,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -61,7 +63,11 @@ public class Test {
         Entreprise.addPersonnel(p1);
         Entreprise.addPersonnel(p2);
         Entreprise.addPersonnel(p3);
-        Entreprise.removePersonnel(50);
+        try {
+            Entreprise.removePersonnel(50);
+        } catch (EmpInexistantException ex) {
+            Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         // Liste des employés après ajout
         System.out.println("////// Employés APRES ajout et suppression d'un employé");

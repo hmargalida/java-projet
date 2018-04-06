@@ -61,13 +61,14 @@ public class Entreprise {
     /**
      * méthode enlevant un employé de la "bd" de l'entreprise
      * @param idp le personnel à supprimer
+     * @throws Modele.EmpInexistantException
      */
-    public static void removePersonnel(int idp) {
+    public static void removePersonnel(int idp) throws EmpInexistantException {
         if (personnels.containsKey(idp)) {
             Entreprise.personnels.remove(idp);
         }
         else {
-            System.err.println("Cet employé n'existe pas");
+            throw new EmpInexistantException();
         }
     }
     

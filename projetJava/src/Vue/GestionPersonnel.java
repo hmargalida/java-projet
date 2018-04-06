@@ -5,20 +5,30 @@
  */
 package Vue;
 
+import Modele.Competence;
+import Modele.EmpInexistantException;
+import Modele.Entreprise;
 import Modele.FormatFichierException;
 import Modele.Outils;
+import Modele.Personnel;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -26,21 +36,21 @@ import javax.swing.JOptionPane;
  */
 public class GestionPersonnel extends javax.swing.JFrame {
     protected Map<Integer,Modele.Personnel> personnels;
+    protected int idEmpSelect;
     /**
      * Creates new form GestionPersonnel
      */
     public GestionPersonnel(Map<Integer,Modele.Personnel> personnels) {
         initComponents();
+        this.setLocationRelativeTo(null);
+        bModifComp.setEnabled(false);
+        bSuppr.setEnabled(false);
         this.personnels = personnels;
-        ArrayList<String> strings = new ArrayList<>();
-        for(int pers : personnels.keySet()) {
-            strings.add(pers + " - " + String.valueOf(Modele.Entreprise.getEmploye(pers).getNom()) + " " + String.valueOf(Modele.Entreprise.getEmploye(pers).getPrenom()));
+        DefaultTableModel model = (DefaultTableModel) tableEmp.getModel();
+        for (int pers : personnels.keySet()) {
+            Modele.Personnel p = Entreprise.getEmploye(pers);
+            model.addRow(new Object[]{p.getId(), p.getNom(), p.getPrenom(), Modele.Outils.sdf.format(p.getDateEntree())});
         }
-        listePers.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] elements = strings.toArray(new String[strings.size()]);
-            public int getSize() { return elements.length; }
-            public String getElementAt(int i) { return elements[i]; }
-        });
     }
 
     /**
@@ -53,29 +63,26 @@ public class GestionPersonnel extends javax.swing.JFrame {
     private void initComponents() {
 
         exportFic = new javax.swing.JFileChooser();
+        bg_recherche = new javax.swing.ButtonGroup();
         pBandeau = new javax.swing.JPanel();
         l_titre = new javax.swing.JLabel();
         bRetour = new javax.swing.JButton();
         pPage = new javax.swing.JPanel();
         bAjoutPers = new javax.swing.JButton();
         bExportFic = new javax.swing.JButton();
+        bSuppr = new javax.swing.JButton();
+        bModifComp = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
+        p_recherche = new javax.swing.JPanel();
+        tf_recherche = new javax.swing.JTextField();
+        rb_nomEmp = new javax.swing.JRadioButton();
+        rb_comp = new javax.swing.JRadioButton();
         lTitreListe = new javax.swing.JLabel();
-        pInfosOnglets = new javax.swing.JTabbedPane();
-        ongletInfo = new javax.swing.JPanel();
-        l_nom = new javax.swing.JLabel();
-        l_prenom = new javax.swing.JLabel();
-        l_dateEntree = new javax.swing.JLabel();
-        l_valueNom = new javax.swing.JLabel();
-        l_valuePrenom = new javax.swing.JLabel();
-        l_valueDateEntree = new javax.swing.JLabel();
-        bModifier = new javax.swing.JButton();
-        bSupprimer = new javax.swing.JButton();
-        ongletComp = new javax.swing.JPanel();
-        pComp = new javax.swing.JScrollPane();
-        listeComp = new javax.swing.JList<>();
-        pListe = new javax.swing.JScrollPane();
-        listePers = new javax.swing.JList<>();
+        l_titreComp = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tableEmp = new javax.swing.JTable();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tableCompEmp = new javax.swing.JTable();
         menu = new javax.swing.JMenuBar();
         menuAccueil = new javax.swing.JMenu();
         menuEmploye = new javax.swing.JMenu();
@@ -96,11 +103,11 @@ public class GestionPersonnel extends javax.swing.JFrame {
         setBackground(new java.awt.Color(102, 102, 102));
         setForeground(new java.awt.Color(102, 102, 102));
 
-        pBandeau.setBackground(new java.awt.Color(60, 132, 208));
+        pBandeau.setBackground(new java.awt.Color(102, 153, 255));
         pBandeau.setBorder(javax.swing.BorderFactory.createCompoundBorder(null, javax.swing.BorderFactory.createCompoundBorder()));
 
         l_titre.setFont(new java.awt.Font("Lucida Grande", 0, 22)); // NOI18N
-        l_titre.setText("Gestion du personnel");
+        l_titre.setText("Gestion des employés");
 
         bRetour.setText("<");
         bRetour.addActionListener(new java.awt.event.ActionListener() {
@@ -133,14 +140,12 @@ public class GestionPersonnel extends javax.swing.JFrame {
         pPage.setBackground(new java.awt.Color(255, 255, 255));
 
         bAjoutPers.setText("Ajouter un employé");
-        bAjoutPers.setEnabled(false);
         bAjoutPers.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bAjoutPersActionPerformed(evt);
             }
         });
 
-        bExportFic.setFont(new java.awt.Font("Lucida Grande", 0, 13)); // NOI18N
         bExportFic.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Vue/img/sauvegarder.jpeg"))); // NOI18N
         bExportFic.setText("Exporter les fiches");
         bExportFic.setToolTipText("");
@@ -150,115 +155,116 @@ public class GestionPersonnel extends javax.swing.JFrame {
             }
         });
 
-        jPanel1.setBackground(new java.awt.Color(242, 240, 240));
+        bSuppr.setText("Supprimer");
+        bSuppr.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bSupprActionPerformed(evt);
+            }
+        });
+
+        bModifComp.setText("Modifier les compétences");
+        bModifComp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bModifCompActionPerformed(evt);
+            }
+        });
+
+        p_recherche.setBorder(javax.swing.BorderFactory.createTitledBorder("Options de recherche"));
+
+        tf_recherche.setForeground(new java.awt.Color(153, 153, 153));
+        tf_recherche.setText("Entrez votre recherche");
+        tf_recherche.setToolTipText("");
+        tf_recherche.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tf_rechercheKeyPressed(evt);
+            }
+        });
+
+        bg_recherche.add(rb_nomEmp);
+        rb_nomEmp.setText("Nom de l'employé");
+        rb_nomEmp.setSelected(true);
+
+        bg_recherche.add(rb_comp);
+        rb_comp.setText("Compétence");
+
+        javax.swing.GroupLayout p_rechercheLayout = new javax.swing.GroupLayout(p_recherche);
+        p_recherche.setLayout(p_rechercheLayout);
+        p_rechercheLayout.setHorizontalGroup(
+            p_rechercheLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(p_rechercheLayout.createSequentialGroup()
+                .addGap(53, 53, 53)
+                .addComponent(tf_recherche, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(48, 48, 48)
+                .addComponent(rb_nomEmp)
+                .addGap(18, 18, 18)
+                .addComponent(rb_comp)
+                .addContainerGap(129, Short.MAX_VALUE))
+        );
+        p_rechercheLayout.setVerticalGroup(
+            p_rechercheLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(p_rechercheLayout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addGroup(p_rechercheLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(tf_recherche, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(rb_nomEmp)
+                    .addComponent(rb_comp))
+                .addContainerGap(16, Short.MAX_VALUE))
+        );
 
         lTitreListe.setFont(new java.awt.Font("American Typewriter", 0, 14)); // NOI18N
         lTitreListe.setText("Liste des employés");
 
-        ongletInfo.setBackground(new java.awt.Color(255, 255, 255));
+        l_titreComp.setFont(new java.awt.Font("American Typewriter", 0, 14)); // NOI18N
+        l_titreComp.setText("Compétence de l'employé");
 
-        l_nom.setText("Nom : ");
+        tableEmp.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
 
-        l_prenom.setText("Prénom : ");
+            },
+            new String [] {
+                "Identifiant", "Nom", "Prénom", "Date d'entrée"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
 
-        l_dateEntree.setText("Date d'entrée dans l'entreprise : ");
-
-        bModifier.setText("Modifier");
-        bModifier.setEnabled(false);
-        bModifier.setVisible(false);
-        bModifier.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bModifierActionPerformed(evt);
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
-
-        bSupprimer.setEnabled(false);
-        bSupprimer.setVisible(false);
-        bSupprimer.setBackground(new java.awt.Color(255, 255, 255));
-        bSupprimer.setText("Supprimer");
-
-        javax.swing.GroupLayout ongletInfoLayout = new javax.swing.GroupLayout(ongletInfo);
-        ongletInfo.setLayout(ongletInfoLayout);
-        ongletInfoLayout.setHorizontalGroup(
-            ongletInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(ongletInfoLayout.createSequentialGroup()
-                .addGroup(ongletInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(ongletInfoLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(ongletInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(ongletInfoLayout.createSequentialGroup()
-                                .addComponent(l_nom)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(l_valueNom))
-                            .addGroup(ongletInfoLayout.createSequentialGroup()
-                                .addComponent(l_prenom)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(l_valuePrenom))
-                            .addGroup(ongletInfoLayout.createSequentialGroup()
-                                .addComponent(l_dateEntree)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(l_valueDateEntree))))
-                    .addGroup(ongletInfoLayout.createSequentialGroup()
-                        .addGap(55, 55, 55)
-                        .addComponent(bModifier)
-                        .addGap(48, 48, 48)
-                        .addComponent(bSupprimer)))
-                .addContainerGap(53, Short.MAX_VALUE))
-        );
-        ongletInfoLayout.setVerticalGroup(
-            ongletInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(ongletInfoLayout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addGroup(ongletInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(l_nom)
-                    .addComponent(l_valueNom))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(ongletInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(l_prenom)
-                    .addComponent(l_valuePrenom))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(ongletInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(l_dateEntree)
-                    .addComponent(l_valueDateEntree))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
-                .addGroup(ongletInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(bModifier, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bSupprimer, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(57, 57, 57))
-        );
-
-        pInfosOnglets.addTab("Informations", ongletInfo);
-
-        ongletComp.setBackground(new java.awt.Color(255, 255, 255));
-
-        pComp.setViewportView(listeComp);
-
-        javax.swing.GroupLayout ongletCompLayout = new javax.swing.GroupLayout(ongletComp);
-        ongletComp.setLayout(ongletCompLayout);
-        ongletCompLayout.setHorizontalGroup(
-            ongletCompLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(ongletCompLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(pComp, javax.swing.GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE)
-                .addGap(22, 22, 22))
-        );
-        ongletCompLayout.setVerticalGroup(
-            ongletCompLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(ongletCompLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(pComp, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        pInfosOnglets.addTab("Compétences", ongletComp);
-        ongletComp.getAccessibleContext().setAccessibleName("competences");
-
-        listePers.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                listePersMouseClicked(evt);
+        tableEmp.getTableHeader().setReorderingAllowed(false);
+        tableEmp.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                tableEmpMousePressed(evt);
             }
         });
-        pListe.setViewportView(listePers);
+        jScrollPane1.setViewportView(tableEmp);
+
+        tableCompEmp.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Identifiant", "Libellé de la compétence"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane3.setViewportView(tableCompEmp);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -267,48 +273,64 @@ public class GestionPersonnel extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(43, 43, 43)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lTitreListe, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pListe, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(61, 61, 61)
-                .addComponent(pInfosOnglets, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(43, Short.MAX_VALUE))
+                    .addComponent(p_recherche, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 707, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 707, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(l_titreComp)
+                    .addComponent(lTitreListe))
+                .addGap(81, 81, 81))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(18, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(pInfosOnglets, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(lTitreListe, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(pListe, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(15, 15, 15))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(p_recherche, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lTitreListe)
+                .addGap(9, 9, 9)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(l_titreComp, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(79, Short.MAX_VALUE))
         );
-
-        pInfosOnglets.getAccessibleContext().setAccessibleName("informations");
 
         javax.swing.GroupLayout pPageLayout = new javax.swing.GroupLayout(pPage);
         pPage.setLayout(pPageLayout);
         pPageLayout.setHorizontalGroup(
             pPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(pPageLayout.createSequentialGroup()
-                .addGap(40, 40, 40)
+                .addGap(32, 32, 32)
                 .addComponent(bAjoutPers)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
+                .addComponent(bModifComp, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(bExportFic, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(bSuppr, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(83, Short.MAX_VALUE))
+            .addGroup(pPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pPageLayout.createSequentialGroup()
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
         pPageLayout.setVerticalGroup(
             pPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pPageLayout.createSequentialGroup()
-                .addContainerGap(12, Short.MAX_VALUE)
-                .addGroup(pPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(bAjoutPers, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bExportFic, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap()
+                .addGroup(pPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(pPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(bAjoutPers, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(bModifComp, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(bExportFic, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bSuppr, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(631, Short.MAX_VALUE))
+            .addGroup(pPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pPageLayout.createSequentialGroup()
+                    .addContainerGap(57, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(17, 17, 17)))
         );
 
         menuAccueil.setText("Accueil");
@@ -358,15 +380,14 @@ public class GestionPersonnel extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(pBandeau, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(pPage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pPage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(pBandeau, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pPage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addComponent(pPage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -375,8 +396,70 @@ public class GestionPersonnel extends javax.swing.JFrame {
     private void bRetourActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bRetourActionPerformed
         new Accueil().setVisible(true);
         this.dispose();
-// TODO add your handling code here:
     }//GEN-LAST:event_bRetourActionPerformed
+
+    private void menuAccueilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuAccueilMouseClicked
+        new Accueil().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_menuAccueilMouseClicked
+
+    private void itemAllEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemAllEmpActionPerformed
+        // TODO add your handling code here:
+        new GestionPersonnel(Modele.Entreprise.personnels).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_itemAllEmpActionPerformed
+
+    private void itemAllMissionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemAllMissionActionPerformed
+        // TODO add your handling code here:
+        new GestionMission(Modele.Entreprise.missions).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_itemAllMissionActionPerformed
+
+    private void tableEmpMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableEmpMousePressed
+        // TODO add your handling code here:
+        bModifComp.setEnabled(true);
+        bSuppr.setEnabled(true);
+        int row = tableEmp.getSelectedRow();
+        idEmpSelect = (int) tableEmp.getValueAt(row, 0);
+
+        Personnel p = Entreprise.getEmploye(idEmpSelect);
+        Iterator<Competence> it = p.getCompPers().iterator();
+        DefaultTableModel model = (DefaultTableModel) tableCompEmp.getModel();
+        model.setRowCount(0);
+        while(it.hasNext()){
+            Competence c = it.next();
+            model.addRow(new Object[]{c.getIdComp(), c.getCompFR()});
+        }
+    }//GEN-LAST:event_tableEmpMousePressed
+
+    private void bModifCompActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bModifCompActionPerformed
+        // TODO add your handling code here:
+        int row = tableEmp.getSelectedRow();
+        int idp = (int) tableEmp.getValueAt(row, 0);
+        String nom = (String) tableEmp.getValueAt(row, 1);
+        String prenom = (String) tableEmp.getValueAt(row, 2);
+        new AjoutComp(idp, nom, prenom).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_bModifCompActionPerformed
+
+    private void bSupprActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSupprActionPerformed
+        try {
+            Entreprise.removePersonnel(idEmpSelect);
+            // Pour mettre a jour la JTable après la suppression
+            DefaultTableModel model = (DefaultTableModel) tableEmp.getModel();
+            // remise à zéro de la jtable
+            model.setRowCount(0);
+            // re remplissage
+            for (int pers : personnels.keySet()) {
+                Modele.Personnel p = Entreprise.getEmploye(pers);
+                model.addRow(new Object[]{p.getId(), p.getNom(), p.getPrenom(), Modele.Outils.sdf.format(p.getDateEntree())});
+            }
+            DefaultTableModel modelComp = (DefaultTableModel) tableCompEmp.getModel();
+            modelComp.setRowCount(0);
+        } catch (EmpInexistantException ex) {
+            JOptionPane.showMessageDialog(rootPane, ex.getMessage() + " " + idEmpSelect, "Erreur", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_bSupprActionPerformed
 
     private void bExportFicActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bExportFicActionPerformed
         // TODO add your handling code here:
@@ -400,53 +483,57 @@ public class GestionPersonnel extends javax.swing.JFrame {
 
     private void bAjoutPersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAjoutPersActionPerformed
         // TODO add your handling code here:
+        new AjoutPersonnel().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_bAjoutPersActionPerformed
 
-    private void bModifierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bModifierActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_bModifierActionPerformed
+    private void tf_rechercheKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tf_rechercheKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            String nomRech = tf_recherche.getText();
+            List<Personnel> persRech = new ArrayList<>();
+            
+            if (!nomRech.isEmpty()) {
+                if (rb_nomEmp.isSelected()) {
+                    for(int idp : this.personnels.keySet()) {
+                        Personnel p = Entreprise.getEmploye(idp);
+                        if (p.getNom().toLowerCase().equals(nomRech.toLowerCase())) {
+                            persRech.add(p);
+                        }
+                    }
+                }
+                else if (rb_comp.isSelected()) {
+                    for(int idp : this.personnels.keySet()) {
+                        Personnel p = Entreprise.getEmploye(idp);
+                        for (Competence c : p.getCompPers()) {
+                            if (c.getCompFR().toLowerCase().contains(nomRech.toLowerCase())) {
+                                if (!persRech.contains(p)){
+                                    persRech.add(p);
+                                }
+                            }
+                        }
+                    }
 
-    private void listePersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listePersMouseClicked
-        // onglet informations
-        String pers = listePers.getSelectedValue();
-        int idPers = Integer.valueOf(pers.split("-")[0].trim());
-        Modele.Personnel p = Modele.Entreprise.getEmploye(idPers);
-        String nomPers = p.getNom();
-        String prenomPers = p.getPrenom();
-        Date dateE = p.getDateEntree();
-        l_valueNom.setText(nomPers);
-        l_valuePrenom.setText(prenomPers);
-        l_valueDateEntree.setText(Modele.Outils.sdf.format(dateE));
-        bModifier.setVisible(true);
-        bSupprimer.setVisible(true);
-        // onglet competences
-        ArrayList<String> compPers = new ArrayList<>();
-        for(Modele.Competence comp : p.getCompPers()) {
-            compPers.add(comp.toString());
+                }
+                DefaultTableModel modelComp = (DefaultTableModel) tableCompEmp.getModel();
+                modelComp.setRowCount(0);
+                DefaultTableModel model = (DefaultTableModel) tableEmp.getModel();
+                model.setRowCount(0);
+                for (Personnel p: persRech) {
+                    model.addRow(new Object[]{p.getId(), p.getNom(), p.getPrenom(), Modele.Outils.sdf.format(p.getDateEntree())});
+                }
+                persRech.clear();
+            }
+            else {
+                DefaultTableModel modelComp = (DefaultTableModel) tableCompEmp.getModel();
+                modelComp.setRowCount(0);
+                DefaultTableModel model = (DefaultTableModel) tableEmp.getModel();
+                for (int pers : personnels.keySet()) {
+                    Modele.Personnel p = Entreprise.getEmploye(pers);
+                    model.addRow(new Object[]{p.getId(), p.getNom(), p.getPrenom(), Modele.Outils.sdf.format(p.getDateEntree())});
+                }
+            }
         }
-        listeComp.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] elements = compPers.toArray(new String[compPers.size()]);
-            public int getSize() { return elements.length; }
-            public String getElementAt(int i) { return elements[i]; }
-        });
-    }//GEN-LAST:event_listePersMouseClicked
-
-    private void menuAccueilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuAccueilMouseClicked
-        new Accueil().setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_menuAccueilMouseClicked
-
-    private void itemAllEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemAllEmpActionPerformed
-        // TODO add your handling code here:
-        new GestionPersonnel(Modele.Entreprise.personnels).setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_itemAllEmpActionPerformed
-
-    private void itemAllMissionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemAllMissionActionPerformed
-        // TODO add your handling code here:
-        new GestionMission(Modele.Entreprise.missions).setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_itemAllMissionActionPerformed
+    }//GEN-LAST:event_tf_rechercheKeyPressed
 
     
     /**
@@ -487,35 +574,32 @@ public class GestionPersonnel extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bAjoutPers;
     private javax.swing.JButton bExportFic;
-    private javax.swing.JButton bModifier;
+    private javax.swing.JButton bModifComp;
     private javax.swing.JButton bRetour;
-    private javax.swing.JButton bSupprimer;
+    private javax.swing.JButton bSuppr;
+    private javax.swing.ButtonGroup bg_recherche;
     private javax.swing.JFileChooser exportFic;
     private javax.swing.JMenuItem itemAllEmp;
     private javax.swing.JMenuItem itemAllMission;
     private javax.swing.JMenuItem itemNewEmp;
     private javax.swing.JMenuItem itemNewMission;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel lTitreListe;
-    private javax.swing.JLabel l_dateEntree;
-    private javax.swing.JLabel l_nom;
-    private javax.swing.JLabel l_prenom;
     private javax.swing.JLabel l_titre;
-    private javax.swing.JLabel l_valueDateEntree;
-    private javax.swing.JLabel l_valueNom;
-    private javax.swing.JLabel l_valuePrenom;
-    private javax.swing.JList<String> listeComp;
-    private javax.swing.JList<String> listePers;
+    private javax.swing.JLabel l_titreComp;
     private javax.swing.JMenuBar menu;
     private javax.swing.JMenu menuAccueil;
     private javax.swing.JMenu menuEmploye;
     private javax.swing.JMenu menuMission;
-    private javax.swing.JPanel ongletComp;
-    private javax.swing.JPanel ongletInfo;
     private javax.swing.JPanel pBandeau;
-    private javax.swing.JScrollPane pComp;
-    private javax.swing.JTabbedPane pInfosOnglets;
-    private javax.swing.JScrollPane pListe;
     private javax.swing.JPanel pPage;
+    private javax.swing.JPanel p_recherche;
+    private javax.swing.JRadioButton rb_comp;
+    private javax.swing.JRadioButton rb_nomEmp;
+    private javax.swing.JTable tableCompEmp;
+    private javax.swing.JTable tableEmp;
+    private javax.swing.JTextField tf_recherche;
     // End of variables declaration//GEN-END:variables
 }
