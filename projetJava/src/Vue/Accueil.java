@@ -85,7 +85,7 @@ public class Accueil extends javax.swing.JFrame {
         jButton3.setEnabled(false);
         jButton3.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Vue/img/folder.png"))); // NOI18N
-        jButton3.setText("Import de fichiers");
+        jButton3.setText("Gestion des compétences");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -136,6 +136,7 @@ public class Accueil extends javax.swing.JFrame {
         );
 
         menuAccueil.setText("Accueil");
+        menuAccueil.setEnabled(false);
         menuAccueil.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 menuAccueilMouseClicked(evt);
@@ -153,8 +154,12 @@ public class Accueil extends javax.swing.JFrame {
         });
         menuEmploye.add(itemAllEmp);
 
-        itemNewEmp.setEnabled(false);
         itemNewEmp.setText("Nouvel employé");
+        itemNewEmp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemNewEmpActionPerformed(evt);
+            }
+        });
         menuEmploye.add(itemNewEmp);
 
         menu.add(menuEmploye);
@@ -227,6 +232,11 @@ public class Accueil extends javax.swing.JFrame {
         new GestionMission(Modele.Entreprise.missions).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_itemAllMissionActionPerformed
+
+    private void itemNewEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemNewEmpActionPerformed
+        new AjoutPersonnel().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_itemNewEmpActionPerformed
 
     /**
      * @param args the command line arguments

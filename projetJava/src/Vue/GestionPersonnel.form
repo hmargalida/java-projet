@@ -40,14 +40,14 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemAllEmpActionPerformed"/>
               </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="itemAllEmp.setEnabled(false);"/>
+              </AuxValues>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="itemNewEmp">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Nouvel employ&#xe9;"/>
               </Properties>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="itemNewEmp.setEnabled(false);"/>
-              </AuxValues>
             </MenuItem>
           </SubComponents>
         </Menu>
@@ -441,6 +441,7 @@
                     </Property>
                   </Properties>
                   <Events>
+                    <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="tableEmpFocusLost"/>
                     <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tableEmpMousePressed"/>
                   </Events>
                 </Component>

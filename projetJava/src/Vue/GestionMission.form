@@ -31,9 +31,6 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Nouvel employ&#xe9;"/>
               </Properties>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="itemNewEmp.setEnabled(false);"/>
-              </AuxValues>
             </MenuItem>
           </SubComponents>
         </Menu>
@@ -49,6 +46,9 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemAllMissionActionPerformed"/>
               </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="itemAllMission.setEnabled(false);"/>
+              </AuxValues>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="itemNewMission">
               <Properties>

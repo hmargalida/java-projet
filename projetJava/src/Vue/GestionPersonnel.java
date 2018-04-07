@@ -234,6 +234,11 @@ public class GestionPersonnel extends javax.swing.JFrame {
             }
         });
         tableEmp.getTableHeader().setReorderingAllowed(false);
+        tableEmp.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tableEmpFocusLost(evt);
+            }
+        });
         tableEmp.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 tableEmpMousePressed(evt);
@@ -344,6 +349,7 @@ public class GestionPersonnel extends javax.swing.JFrame {
         menuEmploye.setText("Employés");
 
         itemAllEmp.setText("Liste des employés");
+        itemAllEmp.setEnabled(false);
         itemAllEmp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 itemAllEmpActionPerformed(evt);
@@ -351,7 +357,6 @@ public class GestionPersonnel extends javax.swing.JFrame {
         });
         menuEmploye.add(itemAllEmp);
 
-        itemNewEmp.setEnabled(false);
         itemNewEmp.setText("Nouvel employé");
         menuEmploye.add(itemNewEmp);
 
@@ -409,6 +414,11 @@ public class GestionPersonnel extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_itemAllEmpActionPerformed
 
+    private void itemNewEmpActionPerformed(java.awt.event.ActionEvent evt) {                                           
+        new AjoutPersonnel().setVisible(true);
+        this.dispose();
+    } 
+    
     private void itemAllMissionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemAllMissionActionPerformed
         // TODO add your handling code here:
         new GestionMission(Modele.Entreprise.missions).setVisible(true);
@@ -527,13 +537,21 @@ public class GestionPersonnel extends javax.swing.JFrame {
                 DefaultTableModel modelComp = (DefaultTableModel) tableCompEmp.getModel();
                 modelComp.setRowCount(0);
                 DefaultTableModel model = (DefaultTableModel) tableEmp.getModel();
+                model.setRowCount(0);
                 for (int pers : personnels.keySet()) {
                     Modele.Personnel p = Entreprise.getEmploye(pers);
                     model.addRow(new Object[]{p.getId(), p.getNom(), p.getPrenom(), Modele.Outils.sdf.format(p.getDateEntree())});
                 }
+                persRech.clear();
             }
         }
     }//GEN-LAST:event_tf_rechercheKeyPressed
+
+    private void tableEmpFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tableEmpFocusLost
+        // TODO add your handling code here:
+        bModifComp.setEnabled(false);
+        bSuppr.setEnabled(false);
+    }//GEN-LAST:event_tableEmpFocusLost
 
     
     /**

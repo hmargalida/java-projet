@@ -20,6 +20,9 @@
           <Events>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="menuAccueilMouseClicked"/>
           </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="menuAccueil.setEnabled(false);"/>
+          </AuxValues>
         </Menu>
         <Menu class="javax.swing.JMenu" name="menuEmploye">
           <Properties>
@@ -38,9 +41,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Nouvel employ&#xe9;"/>
               </Properties>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="itemNewEmp.setEnabled(false);"/>
-              </AuxValues>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemNewEmpActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>
@@ -203,7 +206,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/Vue/img/folder.png"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Import de fichiers"/>
+            <Property name="text" type="java.lang.String" value="Gestion des comp&#xe9;tences"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton3ActionPerformed"/>

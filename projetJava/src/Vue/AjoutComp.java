@@ -178,6 +178,11 @@ public class AjoutComp extends javax.swing.JFrame {
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
+        list_compEmp.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                list_compEmpMousePressed(evt);
+            }
+        });
         jScrollPane2.setViewportView(list_compEmp);
 
         b_ajoutComp.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
@@ -190,6 +195,11 @@ public class AjoutComp extends javax.swing.JFrame {
 
         b_removeComp.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
         b_removeComp.setText("<");
+        b_removeComp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                b_removeCompActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pPageLayout = new javax.swing.GroupLayout(pPage);
         pPage.setLayout(pPageLayout);
@@ -198,23 +208,25 @@ public class AjoutComp extends javax.swing.JFrame {
             .addGroup(pPageLayout.createSequentialGroup()
                 .addGroup(pPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pPageLayout.createSequentialGroup()
-                        .addContainerGap(76, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(46, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(50, 50, 50)
                         .addGroup(pPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(b_ajoutComp)
                             .addComponent(b_removeComp))
                         .addGap(47, 47, 47))
                     .addGroup(pPageLayout.createSequentialGroup()
-                        .addGap(109, 109, 109)
+                        .addGap(93, 93, 93)
                         .addComponent(lTitreListe)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(pPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pPageLayout.createSequentialGroup()
+                    .addGroup(pPageLayout.createSequentialGroup()
+                        .addGap(53, 53, 53)
                         .addComponent(lTitreListe1)
-                        .addGap(42, 42, 42)))
-                .addGap(47, 47, 47))
+                        .addGap(62, 62, 62))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pPageLayout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(14, 14, 14))))
         );
         pPageLayout.setVerticalGroup(
             pPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -257,7 +269,6 @@ public class AjoutComp extends javax.swing.JFrame {
         });
         menuEmploye.add(itemAllEmp);
 
-        itemNewEmp.setEnabled(false);
         itemNewEmp.setText("Nouvel employé");
         menuEmploye.add(itemNewEmp);
 
@@ -311,8 +322,12 @@ public class AjoutComp extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_itemAllEmpActionPerformed
 
+    private void itemNewEmpActionPerformed(java.awt.event.ActionEvent evt) {                                           
+        new AjoutPersonnel().setVisible(true);
+        this.dispose();
+    } 
+    
     private void itemAllMissionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemAllMissionActionPerformed
-        // TODO add your handling code here:
         new GestionMission(Modele.Entreprise.missions).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_itemAllMissionActionPerformed
@@ -320,20 +335,33 @@ public class AjoutComp extends javax.swing.JFrame {
     private void bRetourActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bRetourActionPerformed
         new GestionPersonnel(Entreprise.personnels).setVisible(true);
         this.dispose();
-        // TODO add your handling code here:
     }//GEN-LAST:event_bRetourActionPerformed
 
     private void b_ajoutCompActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_ajoutCompActionPerformed
         String value = list_compEntr.getSelectedValue();
         String id = value.split("-")[0].trim();
         this.p.addCompetencePers(Entreprise.getCompetence(id));
-        //this.compEntreprise.remove(value);
         initList();
+        b_ajoutComp.setEnabled(false);
     }//GEN-LAST:event_b_ajoutCompActionPerformed
 
     private void list_compEntrMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_list_compEntrMousePressed
         b_ajoutComp.setEnabled(true);
+        b_removeComp.setEnabled(false);
     }//GEN-LAST:event_list_compEntrMousePressed
+
+    private void list_compEmpMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_list_compEmpMousePressed
+        b_removeComp.setEnabled(true);
+        b_ajoutComp.setEnabled(false);
+    }//GEN-LAST:event_list_compEmpMousePressed
+
+    private void b_removeCompActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_removeCompActionPerformed
+        String value = list_compEmp.getSelectedValue();
+        String id = value.split("-")[0].trim();
+        this.p.removeCompetencePers(Entreprise.getCompetence(id));
+        initList();
+        b_removeComp.setEnabled(false);
+    }//GEN-LAST:event_b_removeCompActionPerformed
 
     /**
      * @param args the command line arguments

@@ -285,7 +285,6 @@ public class GestionMission extends javax.swing.JFrame {
         });
         menuEmploye.add(itemAllEmp);
 
-        itemNewEmp.setEnabled(false);
         itemNewEmp.setText("Nouvel employé");
         menuEmploye.add(itemNewEmp);
 
@@ -294,6 +293,7 @@ public class GestionMission extends javax.swing.JFrame {
         menuMission.setText("Missions");
 
         itemAllMission.setText("Liste des missions");
+        itemAllMission.setEnabled(false);
         itemAllMission.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 itemAllMissionActionPerformed(evt);
@@ -344,6 +344,11 @@ public class GestionMission extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_itemAllEmpActionPerformed
 
+    private void itemNewEmpActionPerformed(java.awt.event.ActionEvent evt) {                                           
+        new AjoutPersonnel().setVisible(true);
+        this.dispose();
+    } 
+    
     private void itemAllMissionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemAllMissionActionPerformed
         // TODO add your handling code here:
         new GestionMission(Modele.Entreprise.missions).setVisible(true);
