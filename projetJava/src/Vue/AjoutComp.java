@@ -9,7 +9,9 @@ import Modele.Competence;
 import Modele.Entreprise;
 import Modele.Personnel;
 import java.util.ArrayList;
+import javax.swing.DefaultListModel;
 import javax.swing.JCheckBox;
+import javax.swing.JList;
 
 /**
  *
@@ -20,6 +22,8 @@ public class AjoutComp extends javax.swing.JFrame {
     private String nomEmp;
     private String prenomEmp;
     private Personnel p;
+    private ArrayList<String> compEmp ;
+    private ArrayList<String> compEntreprise;
 
     /**
      * Creates new form AjoutComp
@@ -34,10 +38,28 @@ public class AjoutComp extends javax.swing.JFrame {
         this.prenomEmp = prenom;
         this.p = Entreprise.getEmploye(idp);
         l_nom_prenom.setText(this.prenomEmp + " " + this.nomEmp);
+        initList();
+    }
+
+    public void initList() {
+        compEmp = new ArrayList<>();
+        compEntreprise = new ArrayList<>();
+        // mise a zéro des listes de compétences 
+        list_compEmp.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = {};
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        list_compEntr.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = {};
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
         
-        ArrayList<String> compEmp = new ArrayList<>();
+        // remplissage des listes
+        // compétences de l'employé
         for(Competence c : p.getCompPers()) {
-            compEmp.add(c.getCompFR());
+            compEmp.add(c.getIdComp() + " - " + c.getCompFR());
         }
         list_compEmp.setModel(new javax.swing.AbstractListModel<String>() {
             String[] elements = compEmp.toArray(new String[compEmp.size()]);
@@ -45,11 +67,12 @@ public class AjoutComp extends javax.swing.JFrame {
             public String getElementAt(int i) { return elements[i]; }
         });
         
-        ArrayList<String> compEntreprise = new ArrayList<>();
+        // compétences de l'entreprise
         for(String idc : Entreprise.competences.keySet()) {
             String compI = Entreprise.getCompetence(idc).getCompFR();
-            if (!compEmp.contains(compI)) {
-                compEntreprise.add(compI);
+            String id = Entreprise.getCompetence(idc).getIdComp();
+            if (!compEmp.contains(id + " - " + compI)) {
+                compEntreprise.add(idc + " - " +compI);
             }
         }
         list_compEntr.setModel(new javax.swing.AbstractListModel<String>() {
@@ -58,7 +81,7 @@ public class AjoutComp extends javax.swing.JFrame {
             public String getElementAt(int i) { return elements[i]; }
         });
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -301,7 +324,11 @@ public class AjoutComp extends javax.swing.JFrame {
     }//GEN-LAST:event_bRetourActionPerformed
 
     private void b_ajoutCompActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_ajoutCompActionPerformed
-        // TODO add your handling code here:
+        String value = list_compEntr.getSelectedValue();
+        String id = value.split("-")[0].trim();
+        this.p.addCompetencePers(Entreprise.getCompetence(id));
+        //this.compEntreprise.remove(value);
+        initList();
     }//GEN-LAST:event_b_ajoutCompActionPerformed
 
     private void list_compEntrMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_list_compEntrMousePressed
