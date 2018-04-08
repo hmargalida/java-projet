@@ -37,6 +37,9 @@ public class GestionMission extends javax.swing.JFrame {
     public GestionMission(Map<Integer,Modele.Mission> missions) {
         initComponents();
         this.setLocationRelativeTo(null);
+        bModif.setEnabled(false);
+        bSuppr.setEnabled(false);
+        bAffectEmp.setEnabled(false);
         this.missions = missions;
     }
 
@@ -55,13 +58,17 @@ public class GestionMission extends javax.swing.JFrame {
         bRetour = new javax.swing.JButton();
         pPage = new javax.swing.JPanel();
         bAjoutMission = new javax.swing.JButton();
+        bModif = new javax.swing.JButton();
+        bSuppr = new javax.swing.JButton();
         bExportFic = new javax.swing.JButton();
+        bAffectEmp = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         p_recherche2 = new javax.swing.JPanel();
         tf_recherche = new javax.swing.JTextField();
         rb_idMission = new javax.swing.JRadioButton();
         rb_compM = new javax.swing.JRadioButton();
         rb_emp = new javax.swing.JRadioButton();
+        jComboBox1 = new javax.swing.JComboBox<>();
         l_titreTabMission = new javax.swing.JLabel();
         l_titreTabEmpM = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -116,12 +123,20 @@ public class GestionMission extends javax.swing.JFrame {
         pPage.setBackground(new java.awt.Color(255, 255, 255));
 
         bAjoutMission.setText("Ajouter une mission");
-        bAjoutMission.setEnabled(false);
         bAjoutMission.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bAjoutMissionActionPerformed(evt);
             }
         });
+
+        bModif.setText("Modifier");
+        bModif.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bModifActionPerformed(evt);
+            }
+        });
+
+        bSuppr.setText("Supprimer");
 
         bExportFic.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Vue/img/sauvegarder.jpeg"))); // NOI18N
         bExportFic.setText("Exporter les fiches");
@@ -131,6 +146,8 @@ public class GestionMission extends javax.swing.JFrame {
                 bExportFicActionPerformed(evt);
             }
         });
+
+        bAffectEmp.setText("Affecter un employé");
 
         p_recherche2.setBorder(javax.swing.BorderFactory.createTitledBorder("Options de recherche"));
 
@@ -145,20 +162,26 @@ public class GestionMission extends javax.swing.JFrame {
 
         rb_emp.setText("Employé");
 
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "En préparation", "Plannifiée", "En cours", "Terminée"}));
+        jComboBox1.setSelectedItem(jComboBox1);
+        jComboBox1.setToolTipText("");
+
         javax.swing.GroupLayout p_recherche2Layout = new javax.swing.GroupLayout(p_recherche2);
         p_recherche2.setLayout(p_recherche2Layout);
         p_recherche2Layout.setHorizontalGroup(
             p_recherche2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(p_recherche2Layout.createSequentialGroup()
-                .addContainerGap(67, Short.MAX_VALUE)
+                .addGap(16, 16, 16)
+                .addComponent(jComboBox1, 0, 123, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tf_recherche, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
-                .addComponent(rb_idMission)
                 .addGap(18, 18, 18)
+                .addComponent(rb_idMission)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(rb_compM)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(rb_emp)
-                .addGap(44, 44, 44))
+                .addGap(23, 23, 23))
         );
         p_recherche2Layout.setVerticalGroup(
             p_recherche2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -168,7 +191,8 @@ public class GestionMission extends javax.swing.JFrame {
                     .addComponent(tf_recherche, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(rb_idMission)
                     .addComponent(rb_compM)
-                    .addComponent(rb_emp))
+                    .addComponent(rb_emp)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
@@ -219,13 +243,19 @@ public class GestionMission extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(70, 70, 70)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(l_titreTabMission, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(l_titreTabEmpM, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(p_recherche2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2)
-                    .addComponent(jScrollPane1))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(70, 70, 70)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(l_titreTabMission, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(l_titreTabEmpM, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(61, 61, 61)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 701, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jScrollPane2)
+                                .addComponent(p_recherche2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -249,20 +279,29 @@ public class GestionMission extends javax.swing.JFrame {
         pPageLayout.setHorizontalGroup(
             pPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pPageLayout.createSequentialGroup()
-                .addGap(35, 35, 35)
-                .addComponent(bAjoutMission)
+                .addContainerGap(38, Short.MAX_VALUE)
+                .addComponent(bAjoutMission, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(bModif)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(bAffectEmp)
+                .addGap(18, 18, 18)
+                .addComponent(bSuppr)
                 .addGap(18, 18, 18)
                 .addComponent(bExportFic, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(443, Short.MAX_VALUE))
+                .addGap(31, 31, 31))
             .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         pPageLayout.setVerticalGroup(
             pPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pPageLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(bAjoutMission, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bExportFic, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(pPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(bExportFic, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE)
+                    .addComponent(bSuppr, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(bAffectEmp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(bAjoutMission, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(bModif, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 657, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -301,7 +340,6 @@ public class GestionMission extends javax.swing.JFrame {
         });
         menuMission.add(itemAllMission);
 
-        itemNewMission.setEnabled(false);
         itemNewMission.setText("Nouvelle mission");
         menuMission.add(itemNewMission);
 
@@ -376,8 +414,13 @@ public class GestionMission extends javax.swing.JFrame {
     }//GEN-LAST:event_bExportFicActionPerformed
 
     private void bAjoutMissionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAjoutMissionActionPerformed
-        // TODO add your handling code here:
+        new AjoutMission().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_bAjoutMissionActionPerformed
+
+    private void bModifActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bModifActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_bModifActionPerformed
 
     /**
      * @param args the command line arguments
@@ -414,14 +457,18 @@ public class GestionMission extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bAffectEmp;
     private javax.swing.JButton bAjoutMission;
     private javax.swing.JButton bExportFic;
+    private javax.swing.JButton bModif;
     private javax.swing.JButton bRetour;
+    private javax.swing.JButton bSuppr;
     private javax.swing.JFileChooser exportFic;
     private javax.swing.JMenuItem itemAllEmp;
     private javax.swing.JMenuItem itemAllMission;
     private javax.swing.JMenuItem itemNewEmp;
     private javax.swing.JMenuItem itemNewMission;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

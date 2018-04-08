@@ -13,21 +13,15 @@ import Modele.Outils;
 import Modele.Personnel;
 import java.awt.event.KeyEvent;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -215,7 +209,7 @@ public class GestionPersonnel extends javax.swing.JFrame {
         lTitreListe.setText("Liste des employés");
 
         l_titreComp.setFont(new java.awt.Font("American Typewriter", 0, 14)); // NOI18N
-        l_titreComp.setText("Compétence de l'employé");
+        l_titreComp.setText("Compétences de l'employé");
 
         tableEmp.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -436,14 +430,13 @@ public class GestionPersonnel extends javax.swing.JFrame {
         Iterator<Competence> it = p.getCompPers().iterator();
         DefaultTableModel model = (DefaultTableModel) tableCompEmp.getModel();
         model.setRowCount(0);
-        while(it.hasNext()){
+        while(it.hasNext()) {
             Competence c = it.next();
             model.addRow(new Object[]{c.getIdComp(), c.getCompFR()});
         }
     }//GEN-LAST:event_tableEmpMousePressed
 
     private void bModifCompActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bModifCompActionPerformed
-        // TODO add your handling code here:
         int row = tableEmp.getSelectedRow();
         int idp = (int) tableEmp.getValueAt(row, 0);
         String nom = (String) tableEmp.getValueAt(row, 1);
@@ -549,8 +542,8 @@ public class GestionPersonnel extends javax.swing.JFrame {
 
     private void tableEmpFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tableEmpFocusLost
         // TODO add your handling code here:
-        bModifComp.setEnabled(false);
-        bSuppr.setEnabled(false);
+        //bModifComp.setEnabled(false);
+        //bSuppr.setEnabled(false);
     }//GEN-LAST:event_tableEmpFocusLost
 
     
