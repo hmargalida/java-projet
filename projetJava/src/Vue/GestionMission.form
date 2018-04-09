@@ -4,6 +4,8 @@
   <NonVisualComponents>
     <Component class="javax.swing.JFileChooser" name="exportFic">
     </Component>
+    <Component class="javax.swing.ButtonGroup" name="group_filtres">
+    </Component>
     <Menu class="javax.swing.JMenuBar" name="menu">
       <SubComponents>
         <Menu class="javax.swing.JMenu" name="menuAccueil">
@@ -334,9 +336,16 @@
                     <Property name="text" type="java.lang.String" value="Entrez votre recherche"/>
                     <Property name="toolTipText" type="java.lang.String" value=""/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="tf_rechercheFocusGained"/>
+                    <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="tf_rechercheFocusLost"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JRadioButton" name="rb_idMission">
                   <Properties>
+                    <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                      <ComponentRef name="group_filtres"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Identifiant"/>
                   </Properties>
                   <AuxValues>
@@ -345,11 +354,17 @@
                 </Component>
                 <Component class="javax.swing.JRadioButton" name="rb_compM">
                   <Properties>
+                    <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                      <ComponentRef name="group_filtres"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Comp&#xe9;tence"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JRadioButton" name="rb_emp">
                   <Properties>
+                    <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                      <ComponentRef name="group_filtres"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Employ&#xe9;"/>
                   </Properties>
                 </Component>

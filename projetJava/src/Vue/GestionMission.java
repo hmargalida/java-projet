@@ -53,6 +53,7 @@ public class GestionMission extends javax.swing.JFrame {
     private void initComponents() {
 
         exportFic = new javax.swing.JFileChooser();
+        group_filtres = new javax.swing.ButtonGroup();
         pBandeau = new javax.swing.JPanel();
         l_titre = new javax.swing.JLabel();
         bRetour = new javax.swing.JButton();
@@ -154,12 +155,23 @@ public class GestionMission extends javax.swing.JFrame {
         tf_recherche.setForeground(new java.awt.Color(153, 153, 153));
         tf_recherche.setText("Entrez votre recherche");
         tf_recherche.setToolTipText("");
+        tf_recherche.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                tf_rechercheFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tf_rechercheFocusLost(evt);
+            }
+        });
 
+        group_filtres.add(rb_idMission);
         rb_idMission.setText("Identifiant");
         rb_idMission.setSelected(true);
 
+        group_filtres.add(rb_compM);
         rb_compM.setText("Compétence");
 
+        group_filtres.add(rb_emp);
         rb_emp.setText("Employé");
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "En préparation", "Plannifiée", "En cours", "Terminée"}));
@@ -422,6 +434,14 @@ public class GestionMission extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_bModifActionPerformed
 
+    private void tf_rechercheFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tf_rechercheFocusGained
+        tf_recherche.setText("");
+    }//GEN-LAST:event_tf_rechercheFocusGained
+
+    private void tf_rechercheFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tf_rechercheFocusLost
+        tf_recherche.setText("Entrez votre recherche");
+    }//GEN-LAST:event_tf_rechercheFocusLost
+
     /**
      * @param args the command line arguments
      */
@@ -464,6 +484,7 @@ public class GestionMission extends javax.swing.JFrame {
     private javax.swing.JButton bRetour;
     private javax.swing.JButton bSuppr;
     private javax.swing.JFileChooser exportFic;
+    private javax.swing.ButtonGroup group_filtres;
     private javax.swing.JMenuItem itemAllEmp;
     private javax.swing.JMenuItem itemAllMission;
     private javax.swing.JMenuItem itemNewEmp;

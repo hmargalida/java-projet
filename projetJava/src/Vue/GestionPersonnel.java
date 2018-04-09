@@ -172,6 +172,9 @@ public class GestionPersonnel extends javax.swing.JFrame {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 tf_rechercheFocusGained(evt);
             }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tf_rechercheFocusLost(evt);
+            }
         });
         tf_recherche.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -520,7 +523,6 @@ public class GestionPersonnel extends javax.swing.JFrame {
                             }
                         }
                     }
-
                 }
                 DefaultTableModel modelComp = (DefaultTableModel) tableCompEmp.getModel();
                 modelComp.setRowCount(0);
@@ -554,6 +556,10 @@ public class GestionPersonnel extends javax.swing.JFrame {
     private void tf_rechercheFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tf_rechercheFocusGained
         tf_recherche.setText("");
     }//GEN-LAST:event_tf_rechercheFocusGained
+
+    private void tf_rechercheFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tf_rechercheFocusLost
+        tf_recherche.setText("Entrez votre recherche");
+    }//GEN-LAST:event_tf_rechercheFocusLost
 
     
     /**
