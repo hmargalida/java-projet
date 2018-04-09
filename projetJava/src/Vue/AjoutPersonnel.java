@@ -287,6 +287,7 @@ public class AjoutPersonnel extends javax.swing.JFrame {
         else {
             Personnel p = new Personnel(nomEmp, prenomEmp, dateEntreeEmp);
             Entreprise.addPersonnel(p);
+            JOptionPane.showMessageDialog(rootPane, "L'employé " + prenomEmp + " " + nomEmp + " a bien été enregistré", "Enregistrement de l'employé", JOptionPane.INFORMATION_MESSAGE);
             // retour page précédente
             new GestionPersonnel(Modele.Entreprise.personnels).setVisible(true);
             this.dispose();

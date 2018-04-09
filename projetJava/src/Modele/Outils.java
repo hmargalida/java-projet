@@ -36,7 +36,7 @@ public class Outils {
             while(scan.hasNext()) {
                 String line = scan.nextLine();
                 String[] tab = line.split(";");
-                Competence comp = new Competence(tab[0], tab[1], tab[2]);
+                Competence comp = new Competence(tab[0], tab[1].trim(), tab[2].trim());
                 Entreprise.addCompetence(comp);
             }
         }

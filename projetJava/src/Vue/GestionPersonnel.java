@@ -168,6 +168,11 @@ public class GestionPersonnel extends javax.swing.JFrame {
         tf_recherche.setForeground(new java.awt.Color(153, 153, 153));
         tf_recherche.setText("Entrez votre recherche");
         tf_recherche.setToolTipText("");
+        tf_recherche.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                tf_rechercheFocusGained(evt);
+            }
+        });
         tf_recherche.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 tf_rechercheKeyPressed(evt);
@@ -545,6 +550,10 @@ public class GestionPersonnel extends javax.swing.JFrame {
         //bModifComp.setEnabled(false);
         //bSuppr.setEnabled(false);
     }//GEN-LAST:event_tableEmpFocusLost
+
+    private void tf_rechercheFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tf_rechercheFocusGained
+        tf_recherche.setText("");
+    }//GEN-LAST:event_tf_rechercheFocusGained
 
     
     /**
