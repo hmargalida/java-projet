@@ -237,7 +237,7 @@ public class GestionMission extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Identifiant", "Nom", "Prénom", "Compétences sur la mission"
+                "Identifiant", "Nom", "Prénom", "Compétence(s) sur la mission"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -282,8 +282,8 @@ public class GestionMission extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
                 .addComponent(l_titreTabEmpM, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(21, 21, 21))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29))
         );
 
         javax.swing.GroupLayout pPageLayout = new javax.swing.GroupLayout(pPage);
