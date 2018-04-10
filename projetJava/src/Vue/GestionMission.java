@@ -5,6 +5,7 @@
  */
 package Vue;
 
+import Modele.Competence;
 import Modele.Entreprise;
 import java.awt.Color;
 import java.util.ArrayList;
@@ -18,9 +19,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import Modele.FormatFichierException;
+import Modele.Mission;
 import Modele.Outils;
+import Modele.Personnel;
 import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
@@ -30,17 +34,29 @@ import javax.swing.table.DefaultTableModel;
  * @author heloise
  */
 public class GestionMission extends javax.swing.JFrame {
-    protected Map<Integer,Modele.Mission> missions;
+
+    protected Map<Integer, Modele.Mission> missions;
+    protected int idMissSelect;
+
     /**
      * Creates new form GestionMission
      */
-    public GestionMission(Map<Integer,Modele.Mission> missions) {
+    public GestionMission(Map<Integer, Modele.Mission> missions) {
         initComponents();
         this.setLocationRelativeTo(null);
         bModif.setEnabled(false);
         bSuppr.setEnabled(false);
         bAffectEmp.setEnabled(false);
         this.missions = missions;
+        int nbPersonneActMission = 0;
+
+        DefaultTableModel model = (DefaultTableModel) tableMission.getModel();
+        for (int miss : missions.keySet()) {
+            Modele.Mission m = Entreprise.getMission(miss);
+
+            //model.addRow(new Object[]{m.getIdM(), m.getBesoins().getNbPersNecessaire(), nbPersonneActMission,Modele.Outils.sdf.format(m.getDateDebut()), m.getDuree(), m.getStatut()});
+            model.addRow(new Object[]{m.getIdM(), m.getBesoins().getNbPersNecessaire(), m.getNbActuelEmp(), Modele.Outils.sdf.format(m.getDateDebut()), m.getDuree(), m.getStatut()});
+        }
     }
 
     /**
@@ -109,7 +125,7 @@ public class GestionMission extends javax.swing.JFrame {
                 .addComponent(bRetour, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27)
                 .addComponent(l_titre)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(555, Short.MAX_VALUE))
         );
         pBandeauLayout.setVerticalGroup(
             pBandeauLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -124,6 +140,11 @@ public class GestionMission extends javax.swing.JFrame {
         pPage.setBackground(new java.awt.Color(255, 255, 255));
 
         bAjoutMission.setText("Ajouter une mission");
+        bAjoutMission.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                bAjoutMissionMouseClicked(evt);
+            }
+        });
         bAjoutMission.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bAjoutMissionActionPerformed(evt);
@@ -184,7 +205,7 @@ public class GestionMission extends javax.swing.JFrame {
             p_recherche2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(p_recherche2Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
-                .addComponent(jComboBox1, 0, 123, Short.MAX_VALUE)
+                .addComponent(jComboBox1, 0, 141, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tf_recherche, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -219,15 +240,20 @@ public class GestionMission extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Identifiant", "Nombre d'employés", "Date de lancement", "Durée (en jour)", "Statut"
+                "Identifiant", "Besoin employés", "Employés affectés", "Date de lancement", "Durée (en jour)", "Statut"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        tableMission.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                tableMissionMousePressed(evt);
             }
         });
         jScrollPane2.setViewportView(tableMission);
@@ -265,9 +291,9 @@ public class GestionMission extends javax.swing.JFrame {
                         .addGap(61, 61, 61)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 701, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jScrollPane2)
-                                .addComponent(p_recherche2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(p_recherche2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -291,7 +317,7 @@ public class GestionMission extends javax.swing.JFrame {
         pPageLayout.setHorizontalGroup(
             pPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pPageLayout.createSequentialGroup()
-                .addContainerGap(38, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(bAjoutMission, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(bModif)
@@ -394,11 +420,11 @@ public class GestionMission extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_itemAllEmpActionPerformed
 
-    private void itemNewEmpActionPerformed(java.awt.event.ActionEvent evt) {                                           
+    private void itemNewEmpActionPerformed(java.awt.event.ActionEvent evt) {
         new AjoutPersonnel().setVisible(true);
         this.dispose();
-    } 
-    
+    }
+
     private void itemAllMissionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemAllMissionActionPerformed
         // TODO add your handling code here:
         new GestionMission(Modele.Entreprise.missions).setVisible(true);
@@ -408,19 +434,16 @@ public class GestionMission extends javax.swing.JFrame {
     private void bExportFicActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bExportFicActionPerformed
         // TODO add your handling code here:
         int returnVal = exportFic.showSaveDialog(this);
-        if(returnVal == JFileChooser.APPROVE_OPTION) {
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
             File f = exportFic.getSelectedFile();
             try {
                 Outils.sauvegarderMission(f.toString());
-            }
-            catch (FormatFichierException ef) {
+            } catch (FormatFichierException ef) {
                 JOptionPane.showMessageDialog(rootPane, ef.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
-            }
-            catch(IOException ioe) {
+            } catch (IOException ioe) {
                 Logger.getLogger(GestionPersonnel.class.getName()).log(Level.SEVERE, null, ioe);
             }
-        }
-        else {
+        } else {
             System.out.println("File access cancel by user");
         }
     }//GEN-LAST:event_bExportFicActionPerformed
@@ -442,6 +465,32 @@ public class GestionMission extends javax.swing.JFrame {
         tf_recherche.setText("Entrez votre recherche");
     }//GEN-LAST:event_tf_rechercheFocusLost
 
+    private void tableMissionMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMissionMousePressed
+        bModif.setEnabled(true);
+        bSuppr.setEnabled(true);
+        tableMissionEmp.removeAll();
+
+        int row = tableMission.getSelectedRow();
+        idMissSelect = (int) tableMission.getValueAt(row, 0);
+
+        Mission m = Entreprise.getMission(idMissSelect);
+        Map<Competence, ArrayList<Personnel>> aff = m.getAffectations();
+
+        DefaultTableModel model = (DefaultTableModel) tableMissionEmp.getModel();
+        model.setRowCount(0);
+        for (Competence c : aff.keySet()) {
+            //Modele.Mission m = Entreprise.getMission(miss);
+            for (Personnel p : aff.get(c)) {
+                model.addRow(new Object[]{p.getId(), p.getNom(), p.getPrenom(), c});
+            }
+        }
+    }//GEN-LAST:event_tableMissionMousePressed
+
+    private void bAjoutMissionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bAjoutMissionMouseClicked
+        new AjoutMission().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_bAjoutMissionMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -451,7 +500,7 @@ public class GestionMission extends javax.swing.JFrame {
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-        /*try {
+ /*try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());

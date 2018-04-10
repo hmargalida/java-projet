@@ -5,7 +5,14 @@
  */
 package Vue;
 
+import Modele.Besoin;
 import Modele.Entreprise;
+import Modele.Mission;
+import Modele.Outils;
+import java.awt.Color;
+import java.text.ParseException;
+import java.util.Date;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -43,6 +50,7 @@ public class AjoutMission extends javax.swing.JFrame {
         l_nbEmp = new javax.swing.JLabel();
         s_nbEmp = new javax.swing.JSpinner();
         b_enrg = new javax.swing.JButton();
+        l_err = new javax.swing.JLabel();
         menu = new javax.swing.JMenuBar();
         menuAccueil = new javax.swing.JMenu();
         menuEmploye = new javax.swing.JMenu();
@@ -94,13 +102,48 @@ public class AjoutMission extends javax.swing.JFrame {
         l_dateDeb.setText("Date de lancement :");
 
         tf_date.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
+        tf_date.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                tf_dateFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tf_dateFocusLost(evt);
+            }
+        });
 
         l_duree.setText("Durée (en jour) :");
+
+        tf_duree.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                tf_dureeFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tf_dureeFocusLost(evt);
+            }
+        });
 
         l_nbEmp.setText("Nombre d'employés total :");
         l_nbEmp.setToolTipText("");
 
+        s_nbEmp.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+        s_nbEmp.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        s_nbEmp.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                s_nbEmpFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                s_nbEmpFocusLost(evt);
+            }
+        });
+
         b_enrg.setText("Enregistrer");
+        b_enrg.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                b_enrgActionPerformed(evt);
+            }
+        });
+
+        l_err.setToolTipText("");
 
         javax.swing.GroupLayout pPageLayout = new javax.swing.GroupLayout(pPage);
         pPage.setLayout(pPageLayout);
@@ -123,21 +166,28 @@ public class AjoutMission extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(pPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(tf_duree, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
-                                    .addComponent(tf_date)))))
+                                    .addComponent(tf_date))
+                                .addGap(144, 144, 144)
+                                .addComponent(l_err))))
                     .addGroup(pPageLayout.createSequentialGroup()
                         .addGap(329, 329, 329)
                         .addComponent(b_enrg)))
-                .addContainerGap(371, Short.MAX_VALUE))
+                .addContainerGap(306, Short.MAX_VALUE))
         );
         pPageLayout.setVerticalGroup(
             pPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pPageLayout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addComponent(l_infoPrinc)
-                .addGap(18, 18, 18)
-                .addGroup(pPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(l_dateDeb)
-                    .addComponent(tf_date, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(pPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pPageLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(pPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(l_dateDeb)
+                            .addComponent(tf_date, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(pPageLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(l_err)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(l_duree)
@@ -234,6 +284,89 @@ public class AjoutMission extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_bRetourActionPerformed
 
+    private void b_enrgActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_enrgActionPerformed
+        int duree = 0;
+        int nbEmp = 0;
+
+        String sduree = tf_duree.getText();
+        duree = Integer.valueOf(sduree);
+        nbEmp = (int) s_nbEmp.getValue();
+        Date dateDeb = null;
+
+        try {
+            dateDeb = Outils.sdf.parse(tf_date.getText());
+        } catch (ParseException ex) {
+            l_err.setText("Erreur format date");
+        }
+        if (duree <= 0 || nbEmp <= 0 || dateDeb == null) {
+            JOptionPane.showMessageDialog(rootPane, "Erreur lors de la saisie du formulaire", "Erreur", JOptionPane.ERROR_MESSAGE);
+        } else {
+            Besoin b = new Besoin(nbEmp);
+            Mission m = new Mission(dateDeb, duree, b);
+            Entreprise.addMission(m);
+            JOptionPane.showMessageDialog(rootPane, "La mission " + m.getIdM() + " a bien été enregistrée", "Enregistrement de la mission", JOptionPane.INFORMATION_MESSAGE);
+            // retour page précédente
+            new GestionMission(Modele.Entreprise.missions).setVisible(true);
+            this.dispose();
+        }
+    }//GEN-LAST:event_b_enrgActionPerformed
+
+    private void tf_dateFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tf_dateFocusLost
+
+        try {
+            Outils.sdf.parse(tf_date.getText());
+        } catch (ParseException ex) {
+            l_err.setText("Erreur format date");
+            l_err.setForeground(Color.red);
+        }
+        if (!tf_duree.getText().isEmpty() && !((int) s_nbEmp.getValue() <= 0) && !tf_date.getText().isEmpty()) {
+            b_enrg.setEnabled(true);
+        } else {
+            b_enrg.setEnabled(false);
+        }
+    }//GEN-LAST:event_tf_dateFocusLost
+
+    private void tf_dateFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tf_dateFocusGained
+        l_err.setText("");
+    }//GEN-LAST:event_tf_dateFocusGained
+
+    private void tf_dureeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tf_dureeFocusLost
+        int duree;
+        try {
+            duree = Integer.parseInt(tf_duree.getText());
+            if (duree <= 0) {
+                l_err.setText("La durée de la mission doit être positive");
+            }
+        } catch (NumberFormatException ex) {
+            l_err.setText("Erreur durée");
+        }
+
+    }//GEN-LAST:event_tf_dureeFocusLost
+
+    private void s_nbEmpFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_s_nbEmpFocusLost
+        if (!tf_duree.getText().isEmpty() && !((int) s_nbEmp.getValue() <= 0) && !tf_date.getText().isEmpty()) {
+            b_enrg.setEnabled(true);
+        } else {
+            b_enrg.setEnabled(false);
+        }
+    }//GEN-LAST:event_s_nbEmpFocusLost
+
+    private void tf_dureeFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tf_dureeFocusGained
+        if (!tf_duree.getText().isEmpty() && !((int) s_nbEmp.getValue() <= 0) && !tf_date.getText().isEmpty()) {
+            b_enrg.setEnabled(true);
+        } else {
+            b_enrg.setEnabled(false);
+        }
+    }//GEN-LAST:event_tf_dureeFocusGained
+
+    private void s_nbEmpFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_s_nbEmpFocusGained
+        if (!tf_duree.getText().isEmpty() && !((int) s_nbEmp.getValue() <= 0) && !tf_date.getText().isEmpty()) {
+            b_enrg.setEnabled(true);
+        } else {
+            b_enrg.setEnabled(false);
+        }
+    }//GEN-LAST:event_s_nbEmpFocusGained
+
     /**
      * @param args the command line arguments
      */
@@ -278,6 +411,7 @@ public class AjoutMission extends javax.swing.JFrame {
     private javax.swing.JMenuItem itemNewMission;
     private javax.swing.JLabel l_dateDeb;
     private javax.swing.JLabel l_duree;
+    private javax.swing.JLabel l_err;
     private javax.swing.JLabel l_infoPrinc;
     private javax.swing.JLabel l_nbEmp;
     private javax.swing.JLabel l_titre;
