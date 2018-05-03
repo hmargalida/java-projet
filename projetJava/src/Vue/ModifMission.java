@@ -6,7 +6,6 @@
 package Vue;
 
 import Modele.Besoin;
-import Modele.Competence;
 import Modele.Entreprise;
 import Modele.FormatFichierException;
 import Modele.Mission;
@@ -14,26 +13,31 @@ import Modele.Outils;
 import java.awt.Color;
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author heloise
  */
-public class AjoutMission extends javax.swing.JFrame {
-    private int idMission=0;
+public class ModifMission extends javax.swing.JFrame {
+    private static int idMission;
+    private Mission missionAct;
+    
     /**
-     * Creates new form AjoutMission
+     * Creates new form ModifMission
      */
-    public AjoutMission() {
+    public ModifMission(int idM) {
+        this.idMission = idM;
+        missionAct = Entreprise.getMission(idM);
         initComponents();
         this.setLocationRelativeTo(null);
         b_enrg.setEnabled(false);
+        tf_date.setText(Outils.sdf.format(missionAct.getDateDebut()));
+        tf_duree.setText(String.valueOf(missionAct.getDuree()));
+        s_nbEmp.setValue(missionAct.getBesoins().getNbPersNecessaire());
     }
 
     /**
@@ -79,7 +83,7 @@ public class AjoutMission extends javax.swing.JFrame {
         pBandeau.setPreferredSize(new java.awt.Dimension(317, 73));
 
         l_titre.setFont(new java.awt.Font("Lucida Grande", 0, 22)); // NOI18N
-        l_titre.setText("Ajout d'une mission (1/2)");
+        l_titre.setText("Modification d'une mission");
 
         bRetour.setText("<");
         bRetour.addActionListener(new java.awt.event.ActionListener() {
@@ -97,7 +101,7 @@ public class AjoutMission extends javax.swing.JFrame {
                 .addComponent(bRetour, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27)
                 .addComponent(l_titre)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(431, Short.MAX_VALUE))
         );
         pBandeauLayout.setVerticalGroup(
             pBandeauLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -152,7 +156,7 @@ public class AjoutMission extends javax.swing.JFrame {
 
         l_err_duree.setToolTipText("");
 
-        b_enrg.setText("Enregistrer");
+        b_enrg.setText("Modifier");
         b_enrg.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 b_enrgActionPerformed(evt);
@@ -226,7 +230,7 @@ public class AjoutMission extends javax.swing.JFrame {
             .addGroup(pPageLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(p_infosP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(41, 41, 41))
+                .addGap(32, 32, 32))
         );
 
         menuAccueil.setText("Accueil");
@@ -274,18 +278,23 @@ public class AjoutMission extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pBandeau, javax.swing.GroupLayout.DEFAULT_SIZE, 785, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(pPage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(pBandeau, javax.swing.GroupLayout.DEFAULT_SIZE, 797, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(pPage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(pBandeau, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pPage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(9, Short.MAX_VALUE))
+                .addContainerGap(275, Short.MAX_VALUE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(93, 93, 93)
+                    .addComponent(pPage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
         pack();
@@ -314,6 +323,63 @@ public class AjoutMission extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_bRetourActionPerformed
 
+    private void tf_dateFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tf_dateFocusGained
+        l_err_date.setText("");
+    }//GEN-LAST:event_tf_dateFocusGained
+
+    private void tf_dateFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tf_dateFocusLost
+        try {
+            Outils.sdf.parse(tf_date.getText());
+        } catch (ParseException ex) {
+            l_err_date.setText("Le format de la date est incorrect");
+            l_err_date.setForeground(Color.red);
+        }
+        if (!tf_duree.getText().isEmpty() && !((int) s_nbEmp.getValue() <= 0) && !tf_date.getText().isEmpty()) {
+            b_enrg.setEnabled(true);
+        } else {
+            b_enrg.setEnabled(false);
+        }
+    }//GEN-LAST:event_tf_dateFocusLost
+
+    private void tf_dureeFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tf_dureeFocusGained
+        l_err_duree.setText("");
+        if (!tf_duree.getText().isEmpty() && !((int) s_nbEmp.getValue() <= 0) && !tf_date.getText().isEmpty()) {
+            b_enrg.setEnabled(true);
+        } else {
+            b_enrg.setEnabled(false);
+        }
+    }//GEN-LAST:event_tf_dureeFocusGained
+
+    private void tf_dureeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tf_dureeFocusLost
+        int duree;
+        try {
+            duree = Integer.parseInt(tf_duree.getText());
+            if (duree <= 0) {
+                l_err_duree.setText("Veuillez rentrer un nombre positif");
+                l_err_duree.setForeground(Color.red);
+            }
+        } catch (NumberFormatException ex) {
+            l_err_duree.setText("Veuillez rentrer un nombre positif");
+            l_err_duree.setForeground(Color.red);
+        }
+    }//GEN-LAST:event_tf_dureeFocusLost
+
+    private void s_nbEmpFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_s_nbEmpFocusGained
+        if (!tf_duree.getText().isEmpty() && !((int) s_nbEmp.getValue() <= 0) && !tf_date.getText().isEmpty()) {
+            b_enrg.setEnabled(true);
+        } else {
+            b_enrg.setEnabled(false);
+        }
+    }//GEN-LAST:event_s_nbEmpFocusGained
+
+    private void s_nbEmpFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_s_nbEmpFocusLost
+        if (!tf_duree.getText().isEmpty() && !((int) s_nbEmp.getValue() <= 0) && !tf_date.getText().isEmpty()) {
+            b_enrg.setEnabled(true);
+        } else {
+            b_enrg.setEnabled(false);
+        }
+    }//GEN-LAST:event_s_nbEmpFocusLost
+
     private void b_enrgActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_enrgActionPerformed
         int duree = 0;
         int nbEmp = 0;
@@ -330,74 +396,16 @@ public class AjoutMission extends javax.swing.JFrame {
         if (duree <= 0 || nbEmp <= 0 || dateDeb == null) {
             JOptionPane.showMessageDialog(rootPane, "Erreur lors de la saisie du formulaire", "Erreur", JOptionPane.ERROR_MESSAGE);
         } else {
-            Besoin b = new Besoin(nbEmp);
-            Mission m = new Mission(dateDeb, duree, b);
-            Entreprise.addMission(m);
-            this.idMission = m.getIdM();
-            JOptionPane.showMessageDialog(rootPane, "La mission " + m.getIdM() + " a bien été enregistrée.\nVous pouvez renseigner les compétences de la mission.", "Enregistrement de la mission", JOptionPane.INFORMATION_MESSAGE);
+            Mission m = Entreprise.getMission(idMission);
+            m.setDateDeb(dateDeb);
+            m.setDuree(duree);
+            m.getBesoins().setNbPersNecessaire(nbEmp);
+            JOptionPane.showMessageDialog(rootPane, "La mission " + m.getIdM() + " a bien été modifiée.\nVous pouvez renseigner les compétences de la mission.", "Modification de la mission", JOptionPane.INFORMATION_MESSAGE);
             // retour page précédente
-            new AjoutBesoinMission(m.getIdM()).setVisible(true);
+            new ModifBesoinMission(m.getIdM()).setVisible(true);
             this.dispose();
         }
     }//GEN-LAST:event_b_enrgActionPerformed
-
-    private void tf_dateFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tf_dateFocusLost
-        try {
-            Outils.sdf.parse(tf_date.getText());
-        } catch (ParseException ex) {
-            l_err_date.setText("Le format de la date est incorrect");
-            l_err_date.setForeground(Color.red);
-        }
-        if (!tf_duree.getText().isEmpty() && !((int) s_nbEmp.getValue() <= 0) && !tf_date.getText().isEmpty()) {
-            b_enrg.setEnabled(true);
-        } else {
-            b_enrg.setEnabled(false);
-        }
-    }//GEN-LAST:event_tf_dateFocusLost
-
-    private void tf_dateFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tf_dateFocusGained
-        l_err_date.setText("");
-    }//GEN-LAST:event_tf_dateFocusGained
-
-    private void tf_dureeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tf_dureeFocusLost
-        int duree;
-        try {
-            duree = Integer.parseInt(tf_duree.getText());
-            if (duree <= 0) {
-                l_err_duree.setText("Veuillez rentrer un nombre positif");
-                l_err_duree.setForeground(Color.red);
-            }
-        } catch (NumberFormatException ex) {
-            l_err_duree.setText("Veuillez rentrer un nombre positif");
-            l_err_duree.setForeground(Color.red);
-        }
-
-    }//GEN-LAST:event_tf_dureeFocusLost
-
-    private void s_nbEmpFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_s_nbEmpFocusLost
-        if (!tf_duree.getText().isEmpty() && !((int) s_nbEmp.getValue() <= 0) && !tf_date.getText().isEmpty()) {
-            b_enrg.setEnabled(true);
-        } else {
-            b_enrg.setEnabled(false);
-        }
-    }//GEN-LAST:event_s_nbEmpFocusLost
-
-    private void tf_dureeFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tf_dureeFocusGained
-        l_err_duree.setText("");
-        if (!tf_duree.getText().isEmpty() && !((int) s_nbEmp.getValue() <= 0) && !tf_date.getText().isEmpty()) {
-            b_enrg.setEnabled(true);
-        } else {
-            b_enrg.setEnabled(false);
-        }
-    }//GEN-LAST:event_tf_dureeFocusGained
-
-    private void s_nbEmpFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_s_nbEmpFocusGained
-        if (!tf_duree.getText().isEmpty() && !((int) s_nbEmp.getValue() <= 0) && !tf_date.getText().isEmpty()) {
-            b_enrg.setEnabled(true);
-        } else {
-            b_enrg.setEnabled(false);
-        }
-    }//GEN-LAST:event_s_nbEmpFocusGained
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         try {
@@ -431,20 +439,20 @@ public class AjoutMission extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AjoutMission.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ModifMission.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AjoutMission.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ModifMission.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AjoutMission.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ModifMission.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AjoutMission.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ModifMission.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AjoutMission().setVisible(true);
+                new ModifMission(idMission).setVisible(true);
             }
         });
     }

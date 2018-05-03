@@ -7,8 +7,13 @@ package Vue;
 
 import Modele.Competence;
 import Modele.Entreprise;
+import Modele.FormatFichierException;
+import Modele.Outils;
 import Modele.Personnel;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JCheckBox;
 import javax.swing.JList;
@@ -114,6 +119,11 @@ public class AjoutComp extends javax.swing.JFrame {
         itemNewMission = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         pBandeau.setBackground(new java.awt.Color(102, 153, 255));
         pBandeau.setPreferredSize(new java.awt.Dimension(317, 73));
@@ -217,8 +227,7 @@ public class AjoutComp extends javax.swing.JFrame {
                         .addGap(47, 47, 47))
                     .addGroup(pPageLayout.createSequentialGroup()
                         .addGap(93, 93, 93)
-                        .addComponent(lTitreListe)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(lTitreListe)))
                 .addGroup(pPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pPageLayout.createSequentialGroup()
                         .addGap(53, 53, 53)
@@ -337,6 +346,14 @@ public class AjoutComp extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_bRetourActionPerformed
 
+    private void b_removeCompActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_removeCompActionPerformed
+        String value = list_compEmp.getSelectedValue();
+        String id = value.split("-")[0].trim();
+        this.p.removeCompetencePers(Entreprise.getCompetence(id));
+        initList();
+        b_removeComp.setEnabled(false);
+    }//GEN-LAST:event_b_removeCompActionPerformed
+
     private void b_ajoutCompActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_ajoutCompActionPerformed
         String value = list_compEntr.getSelectedValue();
         String id = value.split("-")[0].trim();
@@ -345,23 +362,30 @@ public class AjoutComp extends javax.swing.JFrame {
         b_ajoutComp.setEnabled(false);
     }//GEN-LAST:event_b_ajoutCompActionPerformed
 
-    private void list_compEntrMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_list_compEntrMousePressed
-        b_ajoutComp.setEnabled(true);
-        b_removeComp.setEnabled(false);
-    }//GEN-LAST:event_list_compEntrMousePressed
-
     private void list_compEmpMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_list_compEmpMousePressed
         b_removeComp.setEnabled(true);
         b_ajoutComp.setEnabled(false);
     }//GEN-LAST:event_list_compEmpMousePressed
 
-    private void b_removeCompActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_removeCompActionPerformed
-        String value = list_compEmp.getSelectedValue();
-        String id = value.split("-")[0].trim();
-        this.p.removeCompetencePers(Entreprise.getCompetence(id));
-        initList();
+    private void list_compEntrMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_list_compEntrMousePressed
+        b_ajoutComp.setEnabled(true);
         b_removeComp.setEnabled(false);
-    }//GEN-LAST:event_b_removeCompActionPerformed
+    }//GEN-LAST:event_list_compEntrMousePressed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        try {
+            Outils.sauvegarderPersonnel("data/liste_personnel.csv");
+            Outils.sauvegarderCompPersonnel("data/competences_personnel.csv");
+            Outils.sauvegarderCompetence("data/liste_competences.csv");
+            Outils.sauvegarderMission("data/liste_missions.csv");
+            Outils.sauvegarderBesoinMission("data/liste_besoins.csv");
+            Outils.sauvegarderAffectation("data/liste_affectations.csv");
+        } catch (IOException ex) {
+            Logger.getLogger(GestionPersonnel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (FormatFichierException ex) {
+            Logger.getLogger(GestionPersonnel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments

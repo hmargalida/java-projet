@@ -22,7 +22,7 @@ public class Besoin {
         nbPersComp = new HashMap<>();
     }
     
-    public void besoinParCompetence(Competence c, int nbPers) {
+    public void besoinParCompetence(Competence c, int nbPers) throws NbEmployeDepasseException {
         int nbAct=0;
         for(Competence comp : this.nbPersComp.keySet()) {
             nbAct += this.nbPersComp.get(comp);
@@ -31,7 +31,7 @@ public class Besoin {
             this.nbPersComp.put(c, nbPers);
         }
         else {
-            System.err.println("Le nombre de personnel pour cette compétence dépasse le besoin total");
+            throw new NbEmployeDepasseException();
         }
     }
     
@@ -41,6 +41,10 @@ public class Besoin {
     
     public int getNbPersNecessaire() {
         return this.nbPersNecessaire;
+    }
+    
+    public void setNbPersNecessaire(int nbPers) {
+        this.nbPersNecessaire = nbPers;
     }
     
     public Map<Competence, Integer> getMapBesoins() {

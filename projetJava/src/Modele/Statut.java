@@ -12,16 +12,18 @@ import java.awt.Color;
  * @author heloise
  */
 public enum Statut {
-    en_preparation("En préparation",Color.LIGHT_GRAY),
-    plannifie("Plannifié",Color.ORANGE),
-    en_cours("En cours",Color.CYAN),
-    terminee("Terminée", Color.GREEN);
+    en_preparation("En préparation", "en_preparation", Color.LIGHT_GRAY),
+    plannifie("Plannifié", "plannifie", Color.ORANGE),
+    en_cours("En cours", "en_cours", Color.CYAN),
+    terminee("Terminée", "terminee", Color.GREEN);
     
     private String name;
+    private String normName;
     private Color color;
     
-    Statut(String name, Color color) {
+    Statut(String name, String normName, Color color) {
         this.name = name;
+        this.normName = normName;
         this.color = color;
     }
     
@@ -31,5 +33,9 @@ public enum Statut {
     
     public Color getCouleur() {
         return this.color;
+    }
+    
+    public String getNormName() {
+        return this.normName;
     }
 }

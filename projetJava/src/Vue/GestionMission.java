@@ -7,24 +7,19 @@ package Vue;
 
 import Modele.Competence;
 import Modele.Entreprise;
-import java.awt.Color;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import Modele.FormatFichierException;
 import Modele.Mission;
+import Modele.MissionInexistanteException;
 import Modele.Outils;
 import Modele.Personnel;
 import java.io.File;
 import java.io.IOException;
-import java.util.Iterator;
+import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
@@ -37,11 +32,14 @@ public class GestionMission extends javax.swing.JFrame {
 
     protected Map<Integer, Modele.Mission> missions;
     protected int idMissSelect;
+    private final String[] statModifiable = {"En préparation", "Plannifié"};
+    List<String> listModifiable;
 
     /**
      * Creates new form GestionMission
      */
     public GestionMission(Map<Integer, Modele.Mission> missions) {
+        listModifiable = Arrays.asList(statModifiable);
         initComponents();
         this.setLocationRelativeTo(null);
         bModif.setEnabled(false);
@@ -102,6 +100,11 @@ public class GestionMission extends javax.swing.JFrame {
         itemNewMission = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         pBandeau.setBackground(new java.awt.Color(255, 153, 51));
         pBandeau.setPreferredSize(new java.awt.Dimension(317, 73));
@@ -125,7 +128,7 @@ public class GestionMission extends javax.swing.JFrame {
                 .addComponent(bRetour, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27)
                 .addComponent(l_titre)
-                .addContainerGap(555, Short.MAX_VALUE))
+                .addContainerGap(538, Short.MAX_VALUE))
         );
         pBandeauLayout.setVerticalGroup(
             pBandeauLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -159,6 +162,11 @@ public class GestionMission extends javax.swing.JFrame {
         });
 
         bSuppr.setText("Supprimer");
+        bSuppr.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bSupprActionPerformed(evt);
+            }
+        });
 
         bExportFic.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Vue/img/sauvegarder.jpeg"))); // NOI18N
         bExportFic.setText("Exporter les fiches");
@@ -169,7 +177,12 @@ public class GestionMission extends javax.swing.JFrame {
             }
         });
 
-        bAffectEmp.setText("Affecter un employé");
+        bAffectEmp.setText("Modifier les affectations");
+        bAffectEmp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bAffectEmpActionPerformed(evt);
+            }
+        });
 
         p_recherche2.setBorder(javax.swing.BorderFactory.createTitledBorder("Options de recherche"));
 
@@ -244,7 +257,7 @@ public class GestionMission extends javax.swing.JFrame {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, true, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -263,11 +276,11 @@ public class GestionMission extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Identifiant", "Nom", "Prénom", "Compétences sur la mission"
+                "Identifiant", "Nom et prénom", "Compétences sur la mission"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -281,19 +294,13 @@ public class GestionMission extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(70, 70, 70)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(l_titreTabMission, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(l_titreTabEmpM, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(61, 61, 61)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 701, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(p_recherche2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING)))))
+                .addGap(61, 61, 61)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(l_titreTabEmpM, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(p_recherche2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2)
+                    .addComponent(l_titreTabMission, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -301,15 +308,15 @@ public class GestionMission extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(29, 29, 29)
                 .addComponent(p_recherche2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(l_titreTabMission, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(l_titreTabEmpM, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(21, 21, 21))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout pPageLayout = new javax.swing.GroupLayout(pPage);
@@ -390,7 +397,7 @@ public class GestionMission extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(pBandeau, javax.swing.GroupLayout.DEFAULT_SIZE, 840, Short.MAX_VALUE)
-            .addComponent(pPage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(pPage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -454,7 +461,16 @@ public class GestionMission extends javax.swing.JFrame {
     }//GEN-LAST:event_bAjoutMissionActionPerformed
 
     private void bModifActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bModifActionPerformed
-        // TODO add your handling code here:
+        int row = tableMission.getSelectedRow();
+        idMissSelect = (int) tableMission.getValueAt(row, 0);
+        String s = Entreprise.getMission(idMissSelect).getStatut();
+        if (listModifiable.contains(s)) {
+            new ModifMission(idMissSelect).setVisible(true);
+            this.dispose();
+        }
+        else {
+            JOptionPane.showMessageDialog(rootPane, "Une mission \"" + s + "\" ne peut plus être modifiée.", "Attention", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_bModifActionPerformed
 
     private void tf_rechercheFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tf_rechercheFocusGained
@@ -468,6 +484,7 @@ public class GestionMission extends javax.swing.JFrame {
     private void tableMissionMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMissionMousePressed
         bModif.setEnabled(true);
         bSuppr.setEnabled(true);
+        bAffectEmp.setEnabled(true);
         tableMissionEmp.removeAll();
 
         int row = tableMission.getSelectedRow();
@@ -481,7 +498,7 @@ public class GestionMission extends javax.swing.JFrame {
         for (Competence c : aff.keySet()) {
             //Modele.Mission m = Entreprise.getMission(miss);
             for (Personnel p : aff.get(c)) {
-                model.addRow(new Object[]{p.getId(), p.getNom(), p.getPrenom(), c});
+                model.addRow(new Object[]{p.getId(), p.getNom()+ " " + p.getPrenom(), c});
             }
         }
     }//GEN-LAST:event_tableMissionMousePressed
@@ -490,6 +507,53 @@ public class GestionMission extends javax.swing.JFrame {
         new AjoutMission().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_bAjoutMissionMouseClicked
+
+    private void bSupprActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSupprActionPerformed
+        try {
+            Entreprise.removeMission(idMissSelect);
+            // Pour mettre a jour la JTable après la suppression
+            DefaultTableModel model = (DefaultTableModel) tableMission.getModel();
+            // remise à zéro de la jtable
+            model.setRowCount(0);
+            // re remplissage
+            for (int mission : Entreprise.missions.keySet()) {
+                Modele.Mission m = Entreprise.getMission(mission);
+                model.addRow(new Object[]{m.getIdM(), m.getBesoins().getNbPersNecessaire(), m.getNbActuelEmp(), Modele.Outils.sdf.format(m.getDateDebut()), m.getDuree(), m.getStatut()});
+            }
+            DefaultTableModel modelEmp = (DefaultTableModel) tableMissionEmp.getModel();
+            modelEmp.setRowCount(0);
+        } catch (MissionInexistanteException ex) {
+            JOptionPane.showMessageDialog(rootPane, ex.getMessage() + " " + idMissSelect, "Erreur", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_bSupprActionPerformed
+
+    private void bAffectEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAffectEmpActionPerformed
+        int row = tableMission.getSelectedRow();
+        idMissSelect = (int) tableMission.getValueAt(row, 0);
+        String s = Entreprise.getMission(idMissSelect).getStatut();
+        if (listModifiable.contains(s)) {
+            new AffecterMission(idMissSelect).setVisible(true);
+            this.dispose();
+        }
+        else {
+            JOptionPane.showMessageDialog(rootPane, "Une mission \"" + s + "\" ne peut plus être modifiée.", "Attention", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_bAffectEmpActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        try {
+            Outils.sauvegarderPersonnel("data/liste_personnel.csv");
+            Outils.sauvegarderCompPersonnel("data/competences_personnel.csv");
+            Outils.sauvegarderCompetence("data/liste_competences.csv");
+            Outils.sauvegarderMission("data/liste_missions.csv");
+            Outils.sauvegarderBesoinMission("data/liste_besoins.csv");
+            Outils.sauvegarderAffectation("data/liste_affectations.csv");
+        } catch (IOException ex) {
+            Logger.getLogger(GestionPersonnel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (FormatFichierException ex) {
+            Logger.getLogger(GestionPersonnel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments

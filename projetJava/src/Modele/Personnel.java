@@ -5,9 +5,13 @@
  */
 package Modele;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 /**
  *
@@ -20,7 +24,7 @@ public class Personnel {
     private String prenom;
     private Date dateEntree;
     private Set<Competence> competencesPers;
-    private static int countEmp;
+    public static int countEmp;
     
     /**
     * Constructeur d'un objet Personnel lorsque l'identifiant de l'employé

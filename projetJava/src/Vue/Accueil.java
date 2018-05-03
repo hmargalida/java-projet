@@ -5,12 +5,15 @@
  */
 package Vue;
 
+import Modele.FormatFichierException;
 import Modele.Mission;
 import Modele.Outils;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -56,6 +59,11 @@ public class Accueil extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(155, 243, 111));
         jPanel1.setBorder(javax.swing.BorderFactory.createCompoundBorder(null, javax.swing.BorderFactory.createCompoundBorder()));
@@ -237,6 +245,21 @@ public class Accueil extends javax.swing.JFrame {
         new AjoutPersonnel().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_itemNewEmpActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        try {
+            Outils.sauvegarderPersonnel("data/liste_personnel.csv");
+            Outils.sauvegarderCompPersonnel("data/competences_personnel.csv");
+            Outils.sauvegarderCompetence("data/liste_competences.csv");
+            Outils.sauvegarderMission("data/liste_missions.csv");
+            Outils.sauvegarderBesoinMission("data/liste_besoins.csv");
+            Outils.sauvegarderAffectation("data/liste_affectations.csv");
+        } catch (IOException ex) {
+            Logger.getLogger(GestionPersonnel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (FormatFichierException ex) {
+            Logger.getLogger(GestionPersonnel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments

@@ -22,7 +22,7 @@ import java.util.regex.Pattern;
 public class Mission {
 
     private int idMission;
-    private static int countMission;
+    public static int countMission;
     private Date dateDebut;
     private int dureeJ;
     private Besoin besoins;
@@ -77,7 +77,7 @@ public class Mission {
      * @param p L'employé à affecter
      * @param c La compétence sur laquelle est affecté l'employé
      */
-    public void affecterPersonnel(Personnel p, Competence c) {
+    public void affecterPersonnel(Personnel p, Competence c) throws QuotaDepasseException{
         int nbPersAct = 0;
         boolean inscrit = false; // vérifie si l'employé est déjà inscrit sur cette compétence
         int nbPersVoulu = this.besoins.getNbPersComp(c);
@@ -99,7 +99,7 @@ public class Mission {
                         System.err.println("L'employé est déjà assigné à cette compétence");
                     }
                 } else {
-                    System.err.println("Le quota pour cette compétence est atteint");
+                    throw new QuotaDepasseException();
                 }
             } else {
                 System.err.println("L'employe " + p.getId() + " ne possède pas cette compétence");
@@ -107,7 +107,22 @@ public class Mission {
         } else {
             System.err.println("La personne que vous tentez d'insérer ne fait pas partie de l'entreprise");
         }
-
+    }
+    
+    public void desaffecterEmploye(Personnel p, Competence c) {
+        if(this.affectations.containsKey(c)) {
+            ArrayList<Personnel> persAffect = this.affectations.get(c);
+            if(persAffect.contains(p)) {
+                persAffect.remove(p);
+                this.affectations.put(c, persAffect);
+            }
+            else {
+                System.err.println("L'employé " + p.getId() + " ne participe pas à cette mission");
+            }
+        }
+        else {
+            System.err.println("La compétence '" + c.getCompFR() + "' ne fait pas partie des besoins de la mission");
+        }
     }
 
     /**
@@ -271,25 +286,23 @@ public class Mission {
     public Color getColorStatut() {
         return this.statut.getCouleur();
     }
-
-    /*public ArrayList<String> getCompPers() {
-        ArrayList<String> mapComp = new ArrayList<>();
-        for(Competence comp : this.affectations.keySet()) {
-            for(Personnel pers : this.affectations.get(comp)){
-                for(String personne : mapComp) {
-                    Matcher m = Pattern.compile("("+pers.getNom() + "-.*)").matcher(personne);
-                    System.out.println(personne);
-                    if(m.matches()) {
-                        String msg = m.group(1);
-                        String msg2 = msg + "_"+comp.getCompFR();
-                        mapComp.set(mapComp.indexOf(msg), msg2);
-                    }
-                }
-                mapComp.add(pers.getNom()+"-"+comp.getCompFR());
-            }
+    
+    public int getNbActuelEmp() {
+        int nbPersonneActMission = 0;
+        for (Competence comp : this.getAffectations().keySet()) {
+            nbPersonneActMission += this.getAffectations().get(comp).size(); //nombre actuel de personne sur la mission
         }
-        return mapComp;
-    }*/
+        return nbPersonneActMission;
+    }
+    
+    public void setDuree(int dureeM) {
+        this.dureeJ = dureeM;
+    }
+    
+    public void setDateDeb(Date dateDeb) {
+        this.dateDebut = dateDeb;
+    }
+
     /**
      * Affichage d'une chaine de caractère comportant les infos de la mission
      *
@@ -314,7 +327,7 @@ public class Mission {
      * @return String
      */
     public String formatFic() {
-        return this.idMission + ";" + Outils.sdf.format(this.dateDebut) + ";" + this.dureeJ + ";" + besoins.getNbPersNecessaire() + ";" + this.statut;
+        return this.idMission + ";" + Outils.sdf.format(this.dateDebut) + ";" + this.dureeJ + ";" + besoins.getNbPersNecessaire() + ";" + this.statut.getNormName();
     }
 
     /**
@@ -344,13 +357,5 @@ public class Mission {
      */
     public String formatFicBesoin(Competence c) {
         return this.idMission + ";" + c.getIdComp() + ";" + besoins.getNbPersComp(c);
-    }
-
-    public int getNbActuelEmp() {
-        int nbPersonneActMission = 0;
-        for (Competence comp : this.getAffectations().keySet()) {
-            nbPersonneActMission += this.getAffectations().get(comp).size(); //nombre actuel de personne sur la mission
-        }
-        return nbPersonneActMission;
     }
 }

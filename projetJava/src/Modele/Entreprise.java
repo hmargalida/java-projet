@@ -9,13 +9,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  *
  * @author heloise
  */
 public class Entreprise {
-    public static Map<Integer,Personnel> personnels = new HashMap<Integer,Personnel>();
+    public static TreeMap<Integer,Personnel> personnels = new TreeMap<Integer,Personnel>();
     public static Map<Integer,Mission> missions = new HashMap<Integer,Mission>();
     public static Map<String,Competence> competences = new HashMap<String,Competence>();
     
@@ -66,6 +67,7 @@ public class Entreprise {
     public static void removePersonnel(int idp) throws EmpInexistantException {
         if (personnels.containsKey(idp)) {
             Entreprise.personnels.remove(idp);
+            Personnel.countEmp--;
         }
         else {
             throw new EmpInexistantException();
@@ -76,12 +78,13 @@ public class Entreprise {
      * méthode enlevant une mission de la "bd" de l'entreprise
      * @param idm la mission à supprimer
      */
-    public static void removeMission(int idm) {
+    public static void removeMission(int idm) throws MissionInexistanteException {
         if (missions.containsKey(idm)) {
-            Entreprise.personnels.remove(idm);
+            Entreprise.missions.remove(idm);
+            Mission.countMission--;
         }
         else {
-            System.err.println("Cette mission n'existe pas");
+            throw new MissionInexistanteException();
         }
     }
     

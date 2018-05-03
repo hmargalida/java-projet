@@ -6,9 +6,11 @@
 package Vue;
 
 import Modele.Entreprise;
+import Modele.FormatFichierException;
 import Modele.Outils;
 import Modele.Personnel;
 import java.awt.Color;
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.logging.Level;
@@ -62,6 +64,11 @@ public class AjoutPersonnel extends javax.swing.JFrame {
         itemNewMission = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         pBandeau.setBackground(new java.awt.Color(102, 153, 255));
         pBandeau.setPreferredSize(new java.awt.Dimension(317, 73));
@@ -279,7 +286,7 @@ public class AjoutPersonnel extends javax.swing.JFrame {
         try {
             dateEntreeEmp = Outils.sdf.parse(tf_date.getText());
         } catch (ParseException ex) {
-            l_err.setText("Erreur format date");
+            l_err.setText("Le format de la date est incorrect");
         }
         if(nomEmp.isEmpty() || prenomEmp.isEmpty() || dateEntreeEmp == null) {
             JOptionPane.showMessageDialog(rootPane, "Erreur lors de la saisie du formulaire", "Erreur", JOptionPane.ERROR_MESSAGE);
@@ -299,7 +306,7 @@ public class AjoutPersonnel extends javax.swing.JFrame {
         try {
             Outils.sdf.parse(tf_date.getText());
         } catch (ParseException ex) {
-            l_err.setText("Erreur format date");
+            l_err.setText("Le format de la date est incorrect");
             l_err.setForeground(Color.red);
         }
         if (!tf_nom.getText().isEmpty() && !tf_prenom.getText().isEmpty() && !tf_date.getText().isEmpty()) {
@@ -334,6 +341,21 @@ public class AjoutPersonnel extends javax.swing.JFrame {
             b_Enreg.setEnabled(false);
         }
     }//GEN-LAST:event_tf_prenomFocusLost
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        try {
+            Outils.sauvegarderPersonnel("data/liste_personnel.csv");
+            Outils.sauvegarderCompPersonnel("data/competences_personnel.csv");
+            Outils.sauvegarderCompetence("data/liste_competences.csv");
+            Outils.sauvegarderMission("data/liste_missions.csv");
+            Outils.sauvegarderBesoinMission("data/liste_besoins.csv");
+            Outils.sauvegarderAffectation("data/liste_affectations.csv");
+        } catch (IOException ex) {
+            Logger.getLogger(GestionPersonnel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (FormatFichierException ex) {
+            Logger.getLogger(GestionPersonnel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments

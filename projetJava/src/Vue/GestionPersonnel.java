@@ -12,6 +12,9 @@ import Modele.FormatFichierException;
 import Modele.Outils;
 import Modele.Personnel;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -96,6 +99,11 @@ public class GestionPersonnel extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(102, 102, 102));
         setForeground(new java.awt.Color(102, 102, 102));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         pBandeau.setBackground(new java.awt.Color(102, 153, 255));
         pBandeau.setBorder(javax.swing.BorderFactory.createCompoundBorder(null, javax.swing.BorderFactory.createCompoundBorder()));
@@ -560,6 +568,21 @@ public class GestionPersonnel extends javax.swing.JFrame {
     private void tf_rechercheFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tf_rechercheFocusLost
         tf_recherche.setText("Entrez votre recherche");
     }//GEN-LAST:event_tf_rechercheFocusLost
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        try {
+            Outils.sauvegarderPersonnel("data/liste_personnel.csv");
+            Outils.sauvegarderCompPersonnel("data/competences_personnel.csv");
+            Outils.sauvegarderCompetence("data/liste_competences.csv");
+            Outils.sauvegarderMission("data/liste_missions.csv");
+            Outils.sauvegarderBesoinMission("data/liste_besoins.csv");
+            Outils.sauvegarderAffectation("data/liste_affectations.csv");
+        } catch (IOException ex) {
+            Logger.getLogger(GestionPersonnel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (FormatFichierException ex) {
+            Logger.getLogger(GestionPersonnel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_formWindowClosing
 
     
     /**
