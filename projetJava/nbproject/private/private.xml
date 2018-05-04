@@ -4,13 +4,15 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/Users/heloise/Documents/01-%20Travail/MIAGE/L3/S6/01-%20Java/java-projet/projetJava/src/Vue/GestionMission.java</file>
-            <file>file:/Users/heloise/Documents/01-%20Travail/MIAGE/L3/S6/01-%20Java/java-projet/projetJava/src/Vue/AffecterMission.java</file>
-            <file>file:/Users/heloise/Documents/01-%20Travail/MIAGE/L3/S6/01-%20Java/java-projet/projetJava/src/Vue/ModifBesoinMission.java</file>
+            <file>file:/Users/heloise/Documents/01-%20Travail/MIAGE/L3/S6/01-%20Java/java-projet/projetJava/src/Modele/Personnel.java</file>
             <file>file:/Users/heloise/Documents/01-%20Travail/MIAGE/L3/S6/01-%20Java/java-projet/projetJava/src/Modele/Outils.java</file>
-            <file>file:/Users/heloise/Documents/01-%20Travail/MIAGE/L3/S6/01-%20Java/java-projet/projetJava/src/Modele/Mission.java</file>
-            <file>file:/Users/heloise/Documents/01-%20Travail/MIAGE/L3/S6/01-%20Java/java-projet/projetJava/src/Modele/Besoin.java</file>
-            <file>file:/Users/heloise/Documents/01-%20Travail/MIAGE/L3/S6/01-%20Java/java-projet/projetJava/src/Vue/AjoutBesoinMission.java</file>
-            <file>file:/Users/heloise/Documents/01-%20Travail/MIAGE/L3/S6/01-%20Java/java-projet/projetJava/src/Vue/ModifMission.java</file>
+            <file>file:/Users/heloise/Documents/01-%20Travail/MIAGE/L3/S6/01-%20Java/java-projet/projetJava/src/Modele/Test.java</file>
+            <file>file:/Users/heloise/Documents/01-%20Travail/MIAGE/L3/S6/01-%20Java/java-projet/projetJava/src/Vue/Accueil.java</file>
+            <file>file:/Users/heloise/Documents/01-%20Travail/MIAGE/L3/S6/01-%20Java/java-projet/projetJava/src/Vue/AjoutComp.java</file>
+            <file>file:/Users/heloise/Documents/01-%20Travail/MIAGE/L3/S6/01-%20Java/java-projet/projetJava/src/Vue/GestionPersonnel.java</file>
+            <file>file:/Users/heloise/Documents/01-%20Travail/MIAGE/L3/S6/01-%20Java/java-projet/projetJava/src/Vue/AjoutMission.java</file>
+            <file>file:/Users/heloise/Documents/01-%20Travail/MIAGE/L3/S6/01-%20Java/java-projet/projetJava/src/Vue/GestionComp.java</file>
+            <file>file:/Users/heloise/Documents/01-%20Travail/MIAGE/L3/S6/01-%20Java/java-projet/projetJava/src/Vue/AjoutPersonnel.java</file>
         </group>
     </open-files>
 </project-private>

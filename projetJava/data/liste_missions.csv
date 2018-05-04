@@ -4,3 +4,7 @@ idM;dateDeb;duree;nombreEmpNecessaire;statut
 3;09/03/2018;2;4;en_cours
 4;01/02/2018;5;4;terminee
 5;01/01/0001;4;5;en_preparation
+6;01/01/0001;5;4;en_preparation
+7;01/01/0001;1;4;en_preparation
+8;01/01/0014;5;5;en_preparation
+9;01/01/0001;1;10;en_preparation
