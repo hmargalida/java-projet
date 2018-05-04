@@ -28,7 +28,6 @@ public class Besoin {
             nbAct += this.nbPersComp.get(comp);
         }
         if((nbPers+nbAct)<=nbPersNecessaire) {
-            System.out.println((nbPers+nbAct));
             this.nbPersComp.put(c, nbPers);
         }
         else {

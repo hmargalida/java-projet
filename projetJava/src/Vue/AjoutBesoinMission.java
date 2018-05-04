@@ -371,7 +371,6 @@ public class AjoutBesoinMission extends javax.swing.JFrame {
         String row = list_comp.getSelectedValue();
         String idComp = row.split("-")[0].trim();
         int valueSpinner = (int)s_nbEmpComp.getValue();
-        System.out.println(valueSpinner);
         if (idComp!=null && valueSpinner!=0 && idMission!=0) {
             try {
                 b.besoinParCompetence(Entreprise.getCompetence(idComp), valueSpinner);
