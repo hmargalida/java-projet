@@ -35,7 +35,7 @@ public class GestionComp extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) tableComp.getModel();
         for (String comp : competences.keySet()) {
             Modele.Competence c = Entreprise.getCompetence(comp);
-            model.addRow(new Object[]{c.getIdComp(), c.getCompFR(), c.getCompFR()});
+            model.addRow(new Object[]{c.getIdComp(), c.getCompFR(), c.getCompEN()});
         }
     }
 
@@ -69,6 +69,7 @@ public class GestionComp extends javax.swing.JFrame {
         menuMission = new javax.swing.JMenu();
         itemAllMission = new javax.swing.JMenuItem();
         itemNewMission = new javax.swing.JMenuItem();
+        javax.swing.JMenu menuCompetence1 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -210,19 +211,15 @@ public class GestionComp extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(p_recherche, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(p_recherche, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 783, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 783, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lTitreListe))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lTitreListe)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -260,7 +257,6 @@ public class GestionComp extends javax.swing.JFrame {
         menuEmploye.setText("Employés");
 
         itemAllEmp.setText("Liste des employés");
-        itemAllEmp.setEnabled(false);
         itemAllEmp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 itemAllEmpActionPerformed(evt);
@@ -283,11 +279,19 @@ public class GestionComp extends javax.swing.JFrame {
         });
         menuMission.add(itemAllMission);
 
-        itemNewMission.setEnabled(false);
         itemNewMission.setText("Nouvelle mission");
         menuMission.add(itemNewMission);
 
         menu.add(menuMission);
+
+        menuCompetence1.setText("Compétences");
+        menuCompetence1.setEnabled(false);
+        menuCompetence1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menuCompetence1MouseClicked(evt);
+            }
+        });
+        menu.add(menuCompetence1);
 
         setJMenuBar(menu);
 
@@ -374,6 +378,11 @@ public class GestionComp extends javax.swing.JFrame {
     private void tf_rechercheActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_rechercheActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tf_rechercheActionPerformed
+
+    private void menuCompetence1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuCompetence1MouseClicked
+        new GestionComp(competences).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_menuCompetence1MouseClicked
 
     /**
      * @param args the command line arguments
