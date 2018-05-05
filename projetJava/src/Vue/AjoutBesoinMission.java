@@ -42,7 +42,7 @@ public class AjoutBesoinMission extends javax.swing.JFrame {
         l_besoinVal.setText(String.valueOf(b.getNbPersNecessaire()));
         s_nbEmpComp.setBounds(0, 0, b.getNbPersNecessaire(), 1);
         s_nbEmpComp.repaint();
-        //b_ajouter.setEnabled(false);
+        b_ajouter.setEnabled(false);
         ArrayList<String> strings = new ArrayList<>();
         for(String comp : Entreprise.competences.keySet()) {
             strings.add(Entreprise.getCompetence(comp).getIdComp()+ " - " + Entreprise.getCompetence(comp).getCompFR());
@@ -355,16 +355,21 @@ public class AjoutBesoinMission extends javax.swing.JFrame {
     }//GEN-LAST:event_bRetourActionPerformed
 
     private void list_compMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_list_compMousePressed
-        s_nbEmpComp.setValue(Integer.valueOf(0));
         String row = list_comp.getSelectedValue();
         String idComp = row.split("-")[0].trim();
         int valueSpinner = (int)s_nbEmpComp.getValue();
+        if (idComp!=null && valueSpinner!=0 && idMission!=0) {
+            b_ajouter.setEnabled(true);
+        }
     }//GEN-LAST:event_list_compMousePressed
 
     private void s_nbEmpCompMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_s_nbEmpCompMousePressed
         String row = list_comp.getSelectedValue();
         String idComp = row.split("-")[0].trim();
         int valueSpinner = (int)s_nbEmpComp.getValue();
+        if (idComp!=null && valueSpinner!=0 && idMission!=0) {
+            b_ajouter.setEnabled(true);
+        }
     }//GEN-LAST:event_s_nbEmpCompMousePressed
 
     private void b_ajouterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_ajouterActionPerformed
@@ -372,6 +377,7 @@ public class AjoutBesoinMission extends javax.swing.JFrame {
         String idComp = row.split("-")[0].trim();
         int valueSpinner = (int)s_nbEmpComp.getValue();
         if (idComp!=null && valueSpinner!=0 && idMission!=0) {
+            
             try {
                 b.besoinParCompetence(Entreprise.getCompetence(idComp), valueSpinner);
             } catch (NbEmployeDepasseException ex) {

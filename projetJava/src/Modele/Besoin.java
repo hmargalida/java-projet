@@ -27,7 +27,7 @@ public class Besoin {
         for(Competence comp : this.nbPersComp.keySet()) {
             nbAct += this.nbPersComp.get(comp);
         }
-        if((nbPers+nbAct)<=nbPersNecessaire) {
+        if((nbPers+nbAct)<=nbPersNecessaire || nbAct==0) {
             this.nbPersComp.put(c, nbPers);
         }
         else {

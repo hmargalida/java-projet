@@ -9,10 +9,12 @@ import Modele.Competence;
 import Modele.Entreprise;
 import Modele.FormatFichierException;
 import Modele.Outils;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -20,6 +22,7 @@ import java.util.logging.Logger;
  */
 public class GestionComp extends javax.swing.JFrame {
     private Map<String,Modele.Competence> competences;
+    protected int idCompSelect;
    
     /**
      * Creates new form GestionComp
@@ -28,6 +31,12 @@ public class GestionComp extends javax.swing.JFrame {
         this.competences = competences;
         initComponents();
         this.setLocationRelativeTo(null);
+        
+        DefaultTableModel model = (DefaultTableModel) tableComp.getModel();
+        for (String comp : competences.keySet()) {
+            Modele.Competence c = Entreprise.getCompetence(comp);
+            model.addRow(new Object[]{c.getIdComp(), c.getCompFR(), c.getCompFR()});
+        }
     }
 
     /**
@@ -39,11 +48,19 @@ public class GestionComp extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         pBandeau = new javax.swing.JPanel();
         l_titre = new javax.swing.JLabel();
         bRetour = new javax.swing.JButton();
         pPage = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
+        p_recherche = new javax.swing.JPanel();
+        tf_recherche = new javax.swing.JTextField();
+        rb_fr = new javax.swing.JRadioButton();
+        rb_ang = new javax.swing.JRadioButton();
+        lTitreListe = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tableComp = new javax.swing.JTable();
         menu = new javax.swing.JMenuBar();
         menuAccueil = new javax.swing.JMenu();
         menuEmploye = new javax.swing.JMenu();
@@ -96,31 +113,140 @@ public class GestionComp extends javax.swing.JFrame {
 
         pPage.setBackground(new java.awt.Color(255, 255, 255));
 
+        p_recherche.setBorder(javax.swing.BorderFactory.createTitledBorder("Options de recherche"));
+
+        tf_recherche.setForeground(new java.awt.Color(153, 153, 153));
+        tf_recherche.setText("Entrez votre recherche");
+        tf_recherche.setToolTipText("");
+        tf_recherche.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                tf_rechercheFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tf_rechercheFocusLost(evt);
+            }
+        });
+        tf_recherche.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tf_rechercheActionPerformed(evt);
+            }
+        });
+        tf_recherche.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tf_rechercheKeyPressed(evt);
+            }
+        });
+
+        buttonGroup1.add(rb_fr);
+        rb_fr.setText("Français");
+        rb_fr.setSelected(true);
+
+        buttonGroup1.add(rb_ang);
+        rb_ang.setText("Anglais");
+        rb_ang.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rb_angActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout p_rechercheLayout = new javax.swing.GroupLayout(p_recherche);
+        p_recherche.setLayout(p_rechercheLayout);
+        p_rechercheLayout.setHorizontalGroup(
+            p_rechercheLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(p_rechercheLayout.createSequentialGroup()
+                .addGap(57, 57, 57)
+                .addComponent(tf_recherche, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(40, 40, 40)
+                .addComponent(rb_fr)
+                .addGap(26, 26, 26)
+                .addComponent(rb_ang)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        p_rechercheLayout.setVerticalGroup(
+            p_rechercheLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(p_rechercheLayout.createSequentialGroup()
+                .addGap(0, 10, Short.MAX_VALUE)
+                .addGroup(p_rechercheLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(tf_recherche, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(rb_fr)
+                    .addComponent(rb_ang))
+                .addContainerGap())
+        );
+
+        lTitreListe.setFont(new java.awt.Font("American Typewriter", 0, 14)); // NOI18N
+        lTitreListe.setText("Liste des compétences");
+
+        tableComp.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Identifiant", "Nom français", "Nom anglais"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tableComp.getTableHeader().setReorderingAllowed(false);
+        tableComp.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tableCompFocusLost(evt);
+            }
+        });
+        tableComp.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                tableCompMousePressed(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tableComp);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 832, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(p_recherche, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 783, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lTitreListe)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 544, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(p_recherche, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(lTitreListe)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout pPageLayout = new javax.swing.GroupLayout(pPage);
         pPage.setLayout(pPageLayout);
         pPageLayout.setHorizontalGroup(
             pPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pPageLayout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         pPageLayout.setVerticalGroup(
             pPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pPageLayout.createSequentialGroup()
-                .addContainerGap(41, Short.MAX_VALUE)
+            .addGroup(pPageLayout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         menuAccueil.setText("Accueil");
@@ -176,8 +302,9 @@ public class GestionComp extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(pBandeau, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pPage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(pPage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
@@ -220,6 +347,34 @@ public class GestionComp extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formWindowClosing
 
+    private void tableCompMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableCompMousePressed
+
+    }//GEN-LAST:event_tableCompMousePressed
+
+    private void tableCompFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tableCompFocusLost
+
+    }//GEN-LAST:event_tableCompFocusLost
+
+    private void rb_angActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rb_angActionPerformed
+
+    }//GEN-LAST:event_rb_angActionPerformed
+
+    private void tf_rechercheKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tf_rechercheKeyPressed
+
+    }//GEN-LAST:event_tf_rechercheKeyPressed
+
+    private void tf_rechercheFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tf_rechercheFocusLost
+        tf_recherche.setText("Entrez votre recherche");
+    }//GEN-LAST:event_tf_rechercheFocusLost
+
+    private void tf_rechercheFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tf_rechercheFocusGained
+        tf_recherche.setText("");
+    }//GEN-LAST:event_tf_rechercheFocusGained
+
+    private void tf_rechercheActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_rechercheActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tf_rechercheActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -257,11 +412,14 @@ public class GestionComp extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bRetour;
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JMenuItem itemAllEmp;
     private javax.swing.JMenuItem itemAllMission;
     private javax.swing.JMenuItem itemNewEmp;
     private javax.swing.JMenuItem itemNewMission;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lTitreListe;
     private javax.swing.JLabel l_titre;
     private javax.swing.JMenuBar menu;
     private javax.swing.JMenu menuAccueil;
@@ -269,5 +427,10 @@ public class GestionComp extends javax.swing.JFrame {
     private javax.swing.JMenu menuMission;
     private javax.swing.JPanel pBandeau;
     private javax.swing.JPanel pPage;
+    private javax.swing.JPanel p_recherche;
+    private javax.swing.JRadioButton rb_ang;
+    private javax.swing.JRadioButton rb_fr;
+    private javax.swing.JTable tableComp;
+    private javax.swing.JTextField tf_recherche;
     // End of variables declaration//GEN-END:variables
 }
