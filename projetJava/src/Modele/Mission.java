@@ -134,23 +134,18 @@ public class Mission {
     }
 
     private void changerStatut() {
-
         switch (this.statut) {
-
             case en_preparation:
                 if (this.bienPreparee()) {
                     this.statut = Statut.plannifie;
                 }
-
             case plannifie:
                 // Vérifier si la mission a commencée 
                 if (Outils.dateAuj.before(this.dateDebut) == false) {
                     this.statut = Statut.en_cours;
                     this.modifiable=false;
                 }
-
             case en_cours:
-
                 // Vérifier que la durée est respectée
                 Calendar dateFin = Calendar.getInstance();
 
@@ -160,7 +155,6 @@ public class Mission {
                 if (Outils.dateAuj.before(dateFin.getTime()) == false) {
                     this.statut = Statut.terminee;
                 }
-
         }
     }
     
@@ -202,8 +196,6 @@ public class Mission {
         return true;
     }
 
-    //public List<String> recommanderEmp(){
-    //}
     /**
      * Accesseur identifiant de la mission
      *

@@ -51,7 +51,6 @@ public class GestionMission extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) tableMission.getModel();
         for (int miss : missions.keySet()) {
             Modele.Mission m = Entreprise.getMission(miss);
-
             //model.addRow(new Object[]{m.getIdM(), m.getBesoins().getNbPersNecessaire(), nbPersonneActMission,Modele.Outils.sdf.format(m.getDateDebut()), m.getDuree(), m.getStatut()});
             model.addRow(new Object[]{m.getIdM(), m.getBesoins().getNbPersNecessaire(), m.getNbActuelEmp(), Modele.Outils.sdf.format(m.getDateDebut()), m.getDuree(), m.getStatut()});
         }
