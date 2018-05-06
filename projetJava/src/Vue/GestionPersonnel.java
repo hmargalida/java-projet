@@ -88,6 +88,7 @@ public class GestionPersonnel extends javax.swing.JFrame {
         menuMission = new javax.swing.JMenu();
         itemAllMission = new javax.swing.JMenuItem();
         itemNewMission = new javax.swing.JMenuItem();
+        menuComp = new javax.swing.JMenu();
 
         exportFic.setApproveButtonText("");
         exportFic.setApproveButtonToolTipText("");
@@ -382,11 +383,18 @@ public class GestionPersonnel extends javax.swing.JFrame {
         });
         menuMission.add(itemAllMission);
 
-        itemNewMission.setEnabled(false);
         itemNewMission.setText("Nouvelle mission");
         menuMission.add(itemNewMission);
 
         menu.add(menuMission);
+
+        menuComp.setText("Compétences");
+        menuComp.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menuCompMouseClicked(evt);
+            }
+        });
+        menu.add(menuComp);
 
         setJMenuBar(menu);
 
@@ -584,6 +592,11 @@ public class GestionPersonnel extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formWindowClosing
 
+    private void menuCompMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuCompMouseClicked
+        new GestionComp(Entreprise.competences).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_menuCompMouseClicked
+
     
     /**
      * @param args the command line arguments
@@ -640,6 +653,7 @@ public class GestionPersonnel extends javax.swing.JFrame {
     private javax.swing.JLabel l_titreComp;
     private javax.swing.JMenuBar menu;
     private javax.swing.JMenu menuAccueil;
+    private javax.swing.JMenu menuComp;
     private javax.swing.JMenu menuEmploye;
     private javax.swing.JMenu menuMission;
     private javax.swing.JPanel pBandeau;

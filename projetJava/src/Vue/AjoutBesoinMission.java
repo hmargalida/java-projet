@@ -40,9 +40,6 @@ public class AjoutBesoinMission extends javax.swing.JFrame {
         b = m.getBesoins();
         
         l_besoinVal.setText(String.valueOf(b.getNbPersNecessaire()));
-        s_nbEmpComp.setBounds(0, 0, b.getNbPersNecessaire(), 1);
-        s_nbEmpComp.repaint();
-        //b_ajouter.setEnabled(false);
         ArrayList<String> strings = new ArrayList<>();
         for(String comp : Entreprise.competences.keySet()) {
             strings.add(Entreprise.getCompetence(comp).getIdComp()+ " - " + Entreprise.getCompetence(comp).getCompFR());
@@ -88,6 +85,7 @@ public class AjoutBesoinMission extends javax.swing.JFrame {
         menuMission = new javax.swing.JMenu();
         itemAllMission = new javax.swing.JMenuItem();
         itemNewMission = new javax.swing.JMenuItem();
+        menuComp = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -144,7 +142,7 @@ public class AjoutBesoinMission extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(list_comp);
 
-        s_nbEmpComp.setModel(new javax.swing.SpinnerNumberModel(0, 0, 10, 1));
+        s_nbEmpComp.setModel(new javax.swing.SpinnerNumberModel(0, 0, 500, 1));
         s_nbEmpComp.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 s_nbEmpCompMousePressed(evt);
@@ -308,6 +306,14 @@ public class AjoutBesoinMission extends javax.swing.JFrame {
 
         menu.add(menuMission);
 
+        menuComp.setText("Compétences");
+        menuComp.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menuCompMouseClicked(evt);
+            }
+        });
+        menu.add(menuComp);
+
         setJMenuBar(menu);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -351,7 +357,6 @@ public class AjoutBesoinMission extends javax.swing.JFrame {
     private void bRetourActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bRetourActionPerformed
         new GestionMission(Entreprise.missions).setVisible(true);
         this.dispose();
-        // TODO add your handling code here:
     }//GEN-LAST:event_bRetourActionPerformed
 
     private void list_compMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_list_compMousePressed
@@ -405,6 +410,11 @@ public class AjoutBesoinMission extends javax.swing.JFrame {
             Logger.getLogger(GestionPersonnel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_formWindowClosing
+
+    private void menuCompMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuCompMouseClicked
+        new GestionComp(Entreprise.competences).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_menuCompMouseClicked
 
     /**
      * @param args the command line arguments
@@ -460,6 +470,7 @@ public class AjoutBesoinMission extends javax.swing.JFrame {
     private javax.swing.JList<String> list_comp;
     private javax.swing.JMenuBar menu;
     private javax.swing.JMenu menuAccueil;
+    private javax.swing.JMenu menuComp;
     private javax.swing.JMenu menuEmploye;
     private javax.swing.JMenu menuMission;
     private javax.swing.JPanel pBandeau;

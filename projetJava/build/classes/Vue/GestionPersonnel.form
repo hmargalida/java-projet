@@ -68,11 +68,16 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Nouvelle mission"/>
               </Properties>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="itemNewMission.setEnabled(false);"/>
-              </AuxValues>
             </MenuItem>
           </SubComponents>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="menuComp">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Comp&#xe9;tences"/>
+          </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="menuCompMouseClicked"/>
+          </Events>
         </Menu>
       </SubComponents>
     </Menu>

@@ -59,6 +59,14 @@
             </MenuItem>
           </SubComponents>
         </Menu>
+        <Menu class="javax.swing.JMenu" name="menuComp">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Comp&#xe9;tences"/>
+          </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="menuCompMouseClicked"/>
+          </Events>
+        </Menu>
       </SubComponents>
     </Menu>
   </NonVisualComponents>
@@ -297,16 +305,14 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
-                          <Component id="jComboBox1" pref="141" max="32767" attributes="0"/>
+                          <Component id="cb_statut" pref="141" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="tf_recherche" min="-2" pref="193" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="rb_idMission" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="rb_compM" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
                           <Component id="rb_emp" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="130" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -317,9 +323,8 @@
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="tf_recherche" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="rb_idMission" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="rb_compM" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="rb_emp" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jComboBox1" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="cb_statut" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace pref="16" max="32767" attributes="0"/>
                       </Group>
@@ -338,6 +343,7 @@
                   <Events>
                     <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="tf_rechercheFocusGained"/>
                     <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="tf_rechercheFocusLost"/>
+                    <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="tf_rechercheKeyPressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JRadioButton" name="rb_idMission">
@@ -351,14 +357,6 @@
                     <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="rb_idMission.setSelected(true);"/>
                   </AuxValues>
                 </Component>
-                <Component class="javax.swing.JRadioButton" name="rb_compM">
-                  <Properties>
-                    <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-                      <ComponentRef name="group_filtres"/>
-                    </Property>
-                    <Property name="text" type="java.lang.String" value="Comp&#xe9;tence"/>
-                  </Properties>
-                </Component>
                 <Component class="javax.swing.JRadioButton" name="rb_emp">
                   <Properties>
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
@@ -367,16 +365,19 @@
                     <Property name="text" type="java.lang.String" value="Employ&#xe9;"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JComboBox" name="jComboBox1">
+                <Component class="javax.swing.JComboBox" name="cb_statut">
                   <Properties>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                      <Connection code="new javax.swing.DefaultComboBoxModel&lt;&gt;(new String[] { &quot;En pr&#xe9;paration&quot;, &quot;Plannifi&#xe9;e&quot;, &quot;En cours&quot;, &quot;Termin&#xe9;e&quot;})" type="code"/>
+                      <Connection code="new javax.swing.DefaultComboBoxModel&lt;&gt;(new String[] {&quot;Tout&quot;, &quot;En pr&#xe9;paration&quot;, &quot;Plannifi&#xe9;e&quot;, &quot;En cours&quot;, &quot;Termin&#xe9;e&quot;})" type="code"/>
                     </Property>
                     <Property name="selectedItem" type="java.lang.Object" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                      <Connection component="jComboBox1" type="bean"/>
+                      <Connection component="cb_statut" type="bean"/>
                     </Property>
                     <Property name="toolTipText" type="java.lang.String" value=""/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cb_statutActionPerformed"/>
+                  </Events>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                   </AuxValues>

@@ -30,7 +30,7 @@ public class Mission {
     private ArrayList<Personnel> persAffect;
     private Statut statut;
     private boolean modifiable;
-
+    
     /**
      * Constructeur d'un objet Mission
      *
@@ -71,13 +71,17 @@ public class Mission {
         this.modifiable = true;
     }
 
+    public boolean isModifiable() {
+        return this.modifiable;
+    }
+    
     /**
      * Méthode permettant d'affecter un employé sur la mission
      *
      * @param p L'employé à affecter
      * @param c La compétence sur laquelle est affecté l'employé
      */
-    public void affecterPersonnel(Personnel p, Competence c) throws QuotaDepasseException{
+    public void affecterPersonnel(Personnel p, Competence c) throws QuotaDepasseException {
         int nbPersAct = 0;
         boolean inscrit = false; // vérifie si l'employé est déjà inscrit sur cette compétence
         int nbPersVoulu = this.besoins.getNbPersComp(c);
@@ -108,19 +112,17 @@ public class Mission {
             System.err.println("La personne que vous tentez d'insérer ne fait pas partie de l'entreprise");
         }
     }
-    
+
     public void desaffecterEmploye(Personnel p, Competence c) {
-        if(this.affectations.containsKey(c)) {
+        if (this.affectations.containsKey(c)) {
             ArrayList<Personnel> persAffect = this.affectations.get(c);
-            if(persAffect.contains(p)) {
+            if (persAffect.contains(p)) {
                 persAffect.remove(p);
                 this.affectations.put(c, persAffect);
-            }
-            else {
+            } else {
                 System.err.println("L'employé " + p.getId() + " ne participe pas à cette mission");
             }
-        }
-        else {
+        } else {
             System.err.println("La compétence '" + c.getCompFR() + "' ne fait pas partie des besoins de la mission");
         }
     }
@@ -135,6 +137,44 @@ public class Mission {
         return this.statut.toString();
     }
 
+    public void changerStatut() {
+        switch (this.statut) {
+            case en_preparation:
+                if (this.bienPreparee()) {
+                    this.statut = Statut.plannifie;
+                }
+                this.modifiable = true;
+                break;
+            case plannifie:
+                // Vérifier si un employé n'a pas été modifié
+                if (!this.bienPreparee()) {
+                    this.statut = Statut.en_preparation;
+                }
+                // Vérifier si la mission a commencée 
+                if (Outils.dateAuj.before(this.dateDebut) == false) {
+                    this.statut = Statut.en_cours;
+                }
+                this.modifiable=true;
+                break;
+            case en_cours:
+                this.modifiable=false;
+                // Vérifier que la durée est respectée
+                Calendar dateFin = Calendar.getInstance();
+
+                dateFin.setTime(this.dateDebut);
+                dateFin.add(Calendar.DATE, this.dureeJ);
+
+                if (Outils.dateAuj.before(dateFin.getTime()) == false) {
+                    this.statut = Statut.terminee;
+                    this.modifiable=false;
+                }
+                break;
+            case terminee:
+                this.modifiable=false;
+                break;
+        }
+    }
+    
     private boolean bienPreparee() {
         int nbPersonneActMission = 0;
         int besoin;
@@ -171,55 +211,6 @@ public class Mission {
             }
         }
         return true;
-    }
-
-    public void missionPlannifiee() {
-        // Vérifier que la mission est modifiable
-        if (!this.modifiable) {
-            System.err.println("Cette mission n'est plus modifiable");
-        } //Vérifier que la mission est en préparation
-        else if (this.statut != Statut.en_preparation) {
-            System.err.println("La mission doit être en préparation");
-        } // Vérifier que la maison est bien préparée
-        else if (!this.bienPreparee()) {
-            System.err.println("Veuillez compléter la mission");
-        } else { //Changement de statut
-            this.statut = Statut.plannifie;
-            //System.out.println("Mission correctement plannifiée!");
-        }
-    }
-
-    public void missionEnCours() {
-        // Vérifier que la mission est planifiée
-        if (this.statut == Statut.en_preparation) {
-            System.err.println("La mission n'est pas correctement plannifiée");
-        } else if (this.statut == Statut.terminee) {
-            System.err.println("La mission est déjà terminée");
-        } // Vérifier que la mission a bien commencée 
-        else if (Outils.dateAuj.before(this.dateDebut) == true) {
-            System.err.println("La mission commencera le :" + this.dateDebut);
-        } else {
-            this.statut = Statut.en_cours;
-            //System.out.println("Mission en cours!");
-        }
-    }
-
-    public void missionTermine() {
-        // Vérifier que la mission est en cours
-        if (this.statut != Statut.en_cours) {
-            System.err.println("La mission n'a pas encore commencée");
-        }
-        // Vérifier que la durée est respectée
-        Calendar dateFin = Calendar.getInstance();
-        dateFin.setTime(this.dateDebut);
-        dateFin.add(Calendar.DATE, this.dureeJ);
-
-        if (Outils.dateAuj.before(dateFin.getTime()) == true) {
-            System.err.println("La mission n'est pas terminée");
-        } else {
-            this.statut = Statut.terminee;
-            //System.out.println("Mission terminée!");
-        }
     }
 
     //public List<String> recommanderEmp(){
@@ -286,7 +277,7 @@ public class Mission {
     public Color getColorStatut() {
         return this.statut.getCouleur();
     }
-    
+
     public int getNbActuelEmp() {
         int nbPersonneActMission = 0;
         for (Competence comp : this.getAffectations().keySet()) {
@@ -294,11 +285,11 @@ public class Mission {
         }
         return nbPersonneActMission;
     }
-    
+
     public void setDuree(int dureeM) {
         this.dureeJ = dureeM;
     }
-    
+
     public void setDateDeb(Date dateDeb) {
         this.dateDebut = dateDeb;
     }

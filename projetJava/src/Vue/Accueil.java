@@ -5,6 +5,7 @@
  */
 package Vue;
 
+import Modele.Entreprise;
 import Modele.FormatFichierException;
 import Modele.Mission;
 import Modele.Outils;
@@ -54,6 +55,7 @@ public class Accueil extends javax.swing.JFrame {
         menuMission = new javax.swing.JMenu();
         itemAllMission = new javax.swing.JMenuItem();
         itemNewMission = new javax.swing.JMenuItem();
+        menuComp = new javax.swing.JMenu();
 
         jMenu2.setText("jMenu2");
 
@@ -187,6 +189,14 @@ public class Accueil extends javax.swing.JFrame {
 
         menu.add(menuMission);
 
+        menuComp.setText("Compétences");
+        menuComp.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menuCompMouseClicked(evt);
+            }
+        });
+        menu.add(menuComp);
+
         setJMenuBar(menu);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -261,6 +271,11 @@ public class Accueil extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formWindowClosing
 
+    private void menuCompMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuCompMouseClicked
+        new GestionComp(Entreprise.competences).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_menuCompMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -327,6 +342,7 @@ public class Accueil extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JMenuBar menu;
     private javax.swing.JMenu menuAccueil;
+    private javax.swing.JMenu menuComp;
     private javax.swing.JMenu menuEmploye;
     private javax.swing.JMenu menuMission;
     // End of variables declaration//GEN-END:variables

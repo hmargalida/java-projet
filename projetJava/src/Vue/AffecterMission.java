@@ -81,6 +81,7 @@ public class AffecterMission extends javax.swing.JFrame {
         menuMission = new javax.swing.JMenu();
         itemAllMission = new javax.swing.JMenuItem();
         itemNewMission = new javax.swing.JMenuItem();
+        menuComp = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -228,8 +229,8 @@ public class AffecterMission extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(pPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
+                .addGroup(pPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(l_empComp))
                 .addGroup(pPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pPageLayout.createSequentialGroup()
@@ -285,6 +286,14 @@ public class AffecterMission extends javax.swing.JFrame {
 
         menu4.add(menuMission);
 
+        menuComp.setText("Compétences");
+        menuComp.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menuCompMouseClicked(evt);
+            }
+        });
+        menu4.add(menuComp);
+
         setJMenuBar(menu4);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -321,7 +330,7 @@ public class AffecterMission extends javax.swing.JFrame {
         new GestionMission(Modele.Entreprise.missions).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_itemAllMissionActionPerformed
-
+   
     private void bRetourActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bRetourActionPerformed
         new GestionMission(Entreprise.missions).setVisible(true);
         this.dispose();
@@ -441,6 +450,11 @@ public class AffecterMission extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formWindowClosing
 
+    private void menuCompMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuCompMouseClicked
+        new GestionComp(Entreprise.competences).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_menuCompMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -496,6 +510,7 @@ public class AffecterMission extends javax.swing.JFrame {
     private javax.swing.JList<String> list_affect;
     private javax.swing.JMenuBar menu4;
     private javax.swing.JMenu menuAccueil4;
+    private javax.swing.JMenu menuComp;
     private javax.swing.JMenu menuEmploye;
     private javax.swing.JMenu menuMission;
     private javax.swing.JPanel pBandeau;

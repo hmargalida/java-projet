@@ -7,6 +7,7 @@ package Vue;
 
 import Modele.Competence;
 import Modele.Entreprise;
+import static Modele.Entreprise.competences;
 import java.util.ArrayList;
 import java.util.Map;
 import javax.swing.JFileChooser;
@@ -16,6 +17,7 @@ import Modele.Mission;
 import Modele.MissionInexistanteException;
 import Modele.Outils;
 import Modele.Personnel;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
@@ -51,8 +53,7 @@ public class GestionMission extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) tableMission.getModel();
         for (int miss : missions.keySet()) {
             Modele.Mission m = Entreprise.getMission(miss);
-
-            //model.addRow(new Object[]{m.getIdM(), m.getBesoins().getNbPersNecessaire(), nbPersonneActMission,Modele.Outils.sdf.format(m.getDateDebut()), m.getDuree(), m.getStatut()});
+            m.changerStatut();
             model.addRow(new Object[]{m.getIdM(), m.getBesoins().getNbPersNecessaire(), m.getNbActuelEmp(), Modele.Outils.sdf.format(m.getDateDebut()), m.getDuree(), m.getStatut()});
         }
     }
@@ -81,9 +82,8 @@ public class GestionMission extends javax.swing.JFrame {
         p_recherche2 = new javax.swing.JPanel();
         tf_recherche = new javax.swing.JTextField();
         rb_idMission = new javax.swing.JRadioButton();
-        rb_compM = new javax.swing.JRadioButton();
         rb_emp = new javax.swing.JRadioButton();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cb_statut = new javax.swing.JComboBox<>();
         l_titreTabMission = new javax.swing.JLabel();
         l_titreTabEmpM = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -98,6 +98,7 @@ public class GestionMission extends javax.swing.JFrame {
         menuMission = new javax.swing.JMenu();
         itemAllMission = new javax.swing.JMenuItem();
         itemNewMission = new javax.swing.JMenuItem();
+        menuComp = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -197,20 +198,27 @@ public class GestionMission extends javax.swing.JFrame {
                 tf_rechercheFocusLost(evt);
             }
         });
+        tf_recherche.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tf_rechercheKeyPressed(evt);
+            }
+        });
 
         group_filtres.add(rb_idMission);
         rb_idMission.setText("Identifiant");
         rb_idMission.setSelected(true);
 
-        group_filtres.add(rb_compM);
-        rb_compM.setText("Compétence");
-
         group_filtres.add(rb_emp);
         rb_emp.setText("Employé");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "En préparation", "Plannifiée", "En cours", "Terminée"}));
-        jComboBox1.setSelectedItem(jComboBox1);
-        jComboBox1.setToolTipText("");
+        cb_statut.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {"Tout", "En préparation", "Plannifiée", "En cours", "Terminée"}));
+        cb_statut.setSelectedItem(cb_statut);
+        cb_statut.setToolTipText("");
+        cb_statut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cb_statutActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout p_recherche2Layout = new javax.swing.GroupLayout(p_recherche2);
         p_recherche2.setLayout(p_recherche2Layout);
@@ -218,16 +226,14 @@ public class GestionMission extends javax.swing.JFrame {
             p_recherche2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(p_recherche2Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
-                .addComponent(jComboBox1, 0, 141, Short.MAX_VALUE)
+                .addComponent(cb_statut, 0, 141, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tf_recherche, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(rb_idMission)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(rb_compM)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(27, 27, 27)
                 .addComponent(rb_emp)
-                .addGap(23, 23, 23))
+                .addGap(130, 130, 130))
         );
         p_recherche2Layout.setVerticalGroup(
             p_recherche2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -236,9 +242,8 @@ public class GestionMission extends javax.swing.JFrame {
                 .addGroup(p_recherche2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tf_recherche, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(rb_idMission)
-                    .addComponent(rb_compM)
                     .addComponent(rb_emp)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cb_statut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
@@ -390,6 +395,14 @@ public class GestionMission extends javax.swing.JFrame {
 
         menu.add(menuMission);
 
+        menuComp.setText("Compétences");
+        menuComp.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menuCompMouseClicked(evt);
+            }
+        });
+        menu.add(menuComp);
+
         setJMenuBar(menu);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -413,7 +426,6 @@ public class GestionMission extends javax.swing.JFrame {
     private void bRetourActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bRetourActionPerformed
         new Accueil().setVisible(true);
         this.dispose();
-        // TODO add your handling code here:
     }//GEN-LAST:event_bRetourActionPerformed
 
     private void menuAccueilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuAccueilMouseClicked
@@ -467,8 +479,7 @@ public class GestionMission extends javax.swing.JFrame {
         if (listModifiable.contains(s)) {
             new ModifMission(idMissSelect).setVisible(true);
             this.dispose();
-        }
-        else {
+        } else {
             JOptionPane.showMessageDialog(rootPane, "Une mission \"" + s + "\" ne peut plus être modifiée.", "Attention", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_bModifActionPerformed
@@ -482,15 +493,18 @@ public class GestionMission extends javax.swing.JFrame {
     }//GEN-LAST:event_tf_rechercheFocusLost
 
     private void tableMissionMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMissionMousePressed
-        bModif.setEnabled(true);
+
         bSuppr.setEnabled(true);
-        bAffectEmp.setEnabled(true);
         tableMissionEmp.removeAll();
 
         int row = tableMission.getSelectedRow();
         idMissSelect = (int) tableMission.getValueAt(row, 0);
-
         Mission m = Entreprise.getMission(idMissSelect);
+        if (m.isModifiable()) {
+            bModif.setEnabled(true);
+            bAffectEmp.setEnabled(true);
+        }
+
         Map<Competence, ArrayList<Personnel>> aff = m.getAffectations();
 
         DefaultTableModel model = (DefaultTableModel) tableMissionEmp.getModel();
@@ -498,9 +512,10 @@ public class GestionMission extends javax.swing.JFrame {
         for (Competence c : aff.keySet()) {
             //Modele.Mission m = Entreprise.getMission(miss);
             for (Personnel p : aff.get(c)) {
-                model.addRow(new Object[]{p.getId(), p.getNom()+ " " + p.getPrenom(), c});
+                model.addRow(new Object[]{p.getId(), p.getNom() + " " + p.getPrenom(), c});
             }
         }
+
     }//GEN-LAST:event_tableMissionMousePressed
 
     private void bAjoutMissionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bAjoutMissionMouseClicked
@@ -534,8 +549,7 @@ public class GestionMission extends javax.swing.JFrame {
         if (listModifiable.contains(s)) {
             new AffecterMission(idMissSelect).setVisible(true);
             this.dispose();
-        }
-        else {
+        } else {
             JOptionPane.showMessageDialog(rootPane, "Une mission \"" + s + "\" ne peut plus être modifiée.", "Attention", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_bAffectEmpActionPerformed
@@ -554,6 +568,106 @@ public class GestionMission extends javax.swing.JFrame {
             Logger.getLogger(GestionPersonnel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_formWindowClosing
+
+    private void menuCompetenceMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuCompetenceMouseClicked
+        new GestionComp(competences).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_menuCompetenceMouseClicked
+
+    private void cb_statutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_statutActionPerformed
+        List<Mission> statutRech = new ArrayList<>();
+        String statSelected = (String)cb_statut.getSelectedItem();
+        if(statSelected.equals("Tout")) {
+            DefaultTableModel modelMission = (DefaultTableModel) tableMission.getModel();
+            modelMission.setRowCount(0);
+            DefaultTableModel model = (DefaultTableModel) tableMissionEmp.getModel();
+            model.setRowCount(0);
+            for (int idm : this.missions.keySet()) {
+                Mission m = Entreprise.getMission(idm);
+                modelMission.addRow(new Object[]{m.getIdM(), m.getBesoins().getNbPersNecessaire(), m.getNbActuelEmp(), Modele.Outils.sdf.format(m.getDateDebut()), m.getDuree(), m.getStatut()});
+            }
+        }
+        else {
+            for(int idm : this.missions.keySet()) {
+                Mission m = Entreprise.getMission(idm);
+                if(m.getStatut().equals(statSelected)) {
+                    statutRech.add(m);
+                }
+            }
+            DefaultTableModel modelMission = (DefaultTableModel) tableMission.getModel();
+            modelMission.setRowCount(0);
+            DefaultTableModel model = (DefaultTableModel) tableMissionEmp.getModel();
+            model.setRowCount(0);
+            for (Mission m : statutRech) {
+                modelMission.addRow(new Object[]{m.getIdM(), m.getBesoins().getNbPersNecessaire(), m.getNbActuelEmp(), Modele.Outils.sdf.format(m.getDateDebut()), m.getDuree(), m.getStatut()});
+            }
+            statutRech.clear();
+        }
+    }//GEN-LAST:event_cb_statutActionPerformed
+
+    private void tf_rechercheKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tf_rechercheKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            String nomRech = tf_recherche.getText();
+            List<Mission> missionRech = new ArrayList<>();
+            
+            if (!nomRech.isEmpty()) {
+                if(rb_idMission.isSelected()) {
+                    for(int idm : this.missions.keySet()) {
+                        Mission m = Entreprise.getMission(idm);
+                        int id;
+                        try {
+                            id = Integer.valueOf(nomRech);
+                        }
+                        catch (NumberFormatException nb) {
+                            id = 0;
+                        }
+                        if(m.getIdM()==id) {
+                            missionRech.add(m);
+                        }
+                    }
+                }
+                else if(rb_emp.isSelected()) {
+                    for(int idm : this.missions.keySet()) {
+                        Mission m = Entreprise.getMission(idm);
+                        for(Competence c : m.getAffectations().keySet()) {
+                            List<Personnel> persM = m.getAffectations().get(c);
+                            for(Personnel p : persM) {
+                                if (p.getNom().contains(nomRech) || p.getPrenom().contains(nomRech)) {
+                                    if(!missionRech.contains(m)) {
+                                        missionRech.add(m);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                DefaultTableModel modelMission = (DefaultTableModel) tableMission.getModel();
+                modelMission.setRowCount(0);
+                DefaultTableModel model = (DefaultTableModel) tableMissionEmp.getModel();
+                model.setRowCount(0);
+                for (Mission m: missionRech) {
+                    modelMission.addRow(new Object[]{m.getIdM(), m.getBesoins().getNbPersNecessaire(), m.getNbActuelEmp(), Modele.Outils.sdf.format(m.getDateDebut()), m.getDuree(), m.getStatut()});
+                }
+                missionRech.clear();
+            }
+            else {
+                DefaultTableModel modelMission = (DefaultTableModel) tableMission.getModel();
+                modelMission.setRowCount(0);
+                DefaultTableModel model = (DefaultTableModel) tableMissionEmp.getModel();
+                model.setRowCount(0);
+                for (int idm : this.missions.keySet()) {
+                    Mission m = Entreprise.getMission(idm);
+                    modelMission.addRow(new Object[]{m.getIdM(), m.getBesoins().getNbPersNecessaire(), m.getNbActuelEmp(), Modele.Outils.sdf.format(m.getDateDebut()), m.getDuree(), m.getStatut()});
+                }
+                missionRech.clear();
+            }
+        }
+    }//GEN-LAST:event_tf_rechercheKeyPressed
+
+    private void menuCompMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuCompMouseClicked
+        new GestionComp(Entreprise.competences).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_menuCompMouseClicked
 
     /**
      * @param args the command line arguments
@@ -596,13 +710,13 @@ public class GestionMission extends javax.swing.JFrame {
     private javax.swing.JButton bModif;
     private javax.swing.JButton bRetour;
     private javax.swing.JButton bSuppr;
+    private javax.swing.JComboBox<String> cb_statut;
     private javax.swing.JFileChooser exportFic;
     private javax.swing.ButtonGroup group_filtres;
     private javax.swing.JMenuItem itemAllEmp;
     private javax.swing.JMenuItem itemAllMission;
     private javax.swing.JMenuItem itemNewEmp;
     private javax.swing.JMenuItem itemNewMission;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -611,12 +725,12 @@ public class GestionMission extends javax.swing.JFrame {
     private javax.swing.JLabel l_titreTabMission;
     private javax.swing.JMenuBar menu;
     private javax.swing.JMenu menuAccueil;
+    private javax.swing.JMenu menuComp;
     private javax.swing.JMenu menuEmploye;
     private javax.swing.JMenu menuMission;
     private javax.swing.JPanel pBandeau;
     private javax.swing.JPanel pPage;
     private javax.swing.JPanel p_recherche2;
-    private javax.swing.JRadioButton rb_compM;
     private javax.swing.JRadioButton rb_emp;
     private javax.swing.JRadioButton rb_idMission;
     private javax.swing.JTable tableMission;

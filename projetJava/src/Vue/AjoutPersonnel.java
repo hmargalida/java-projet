@@ -62,6 +62,7 @@ public class AjoutPersonnel extends javax.swing.JFrame {
         menuMission = new javax.swing.JMenu();
         itemAllMission = new javax.swing.JMenuItem();
         itemNewMission = new javax.swing.JMenuItem();
+        menuComp = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -234,6 +235,14 @@ public class AjoutPersonnel extends javax.swing.JFrame {
 
         menu.add(menuMission);
 
+        menuComp.setText("Compétences");
+        menuComp.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menuCompMouseClicked(evt);
+            }
+        });
+        menu.add(menuComp);
+
         setJMenuBar(menu);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -275,7 +284,6 @@ public class AjoutPersonnel extends javax.swing.JFrame {
     private void bRetourActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bRetourActionPerformed
         new GestionPersonnel(Entreprise.personnels).setVisible(true);
         this.dispose();
-        // TODO add your handling code here:
     }//GEN-LAST:event_bRetourActionPerformed
 
     private void b_EnregActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_EnregActionPerformed
@@ -357,6 +365,11 @@ public class AjoutPersonnel extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formWindowClosing
 
+    private void menuCompMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuCompMouseClicked
+        new GestionComp(Entreprise.competences).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_menuCompMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -407,6 +420,7 @@ public class AjoutPersonnel extends javax.swing.JFrame {
     private javax.swing.JLabel l_titre;
     private javax.swing.JMenuBar menu;
     private javax.swing.JMenu menuAccueil;
+    private javax.swing.JMenu menuComp;
     private javax.swing.JMenu menuEmploye;
     private javax.swing.JMenu menuMission;
     private javax.swing.JPanel pBandeau;
