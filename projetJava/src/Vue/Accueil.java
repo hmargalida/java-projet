@@ -94,7 +94,7 @@ public class Accueil extends javax.swing.JFrame {
 
         jButton3.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Vue/img/folder.png"))); // NOI18N
-        jButton3.setText("Gestion des compétences");
+        jButton3.setText("Consultation des compétences");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -183,7 +183,6 @@ public class Accueil extends javax.swing.JFrame {
         });
         menuMission.add(itemAllMission);
 
-        itemNewMission.setEnabled(false);
         itemNewMission.setText("Nouvelle mission");
         menuMission.add(itemNewMission);
 

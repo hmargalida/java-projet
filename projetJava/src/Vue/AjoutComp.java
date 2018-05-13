@@ -109,17 +109,11 @@ public class AjoutComp extends javax.swing.JFrame {
         list_compEmp = new javax.swing.JList<>();
         b_ajoutComp = new javax.swing.JButton();
         b_removeComp = new javax.swing.JButton();
-        menu = new javax.swing.JMenuBar();
-        menuAccueil = new javax.swing.JMenu();
-        menuEmploye = new javax.swing.JMenu();
-        itemAllEmp = new javax.swing.JMenuItem();
-        itemNewEmp = new javax.swing.JMenuItem();
-        menuMission = new javax.swing.JMenu();
-        itemAllMission = new javax.swing.JMenuItem();
-        itemNewMission = new javax.swing.JMenuItem();
-        menuComp = new javax.swing.JMenu();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setMaximumSize(new java.awt.Dimension(820, 470));
+        setMinimumSize(new java.awt.Dimension(820, 470));
+        setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
@@ -258,57 +252,8 @@ public class AjoutComp extends javax.swing.JFrame {
                                 .addComponent(b_ajoutComp, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(51, 51, 51)
                                 .addComponent(b_removeComp, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(81, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
-
-        menuAccueil.setText("Accueil");
-        menuAccueil.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                menuAccueilMouseClicked(evt);
-            }
-        });
-        menu.add(menuAccueil);
-
-        menuEmploye.setText("Employés");
-
-        itemAllEmp.setText("Liste des employés");
-        itemAllEmp.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itemAllEmpActionPerformed(evt);
-            }
-        });
-        menuEmploye.add(itemAllEmp);
-
-        itemNewEmp.setText("Nouvel employé");
-        menuEmploye.add(itemNewEmp);
-
-        menu.add(menuEmploye);
-
-        menuMission.setText("Missions");
-
-        itemAllMission.setText("Liste des missions");
-        itemAllMission.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itemAllMissionActionPerformed(evt);
-            }
-        });
-        menuMission.add(itemAllMission);
-
-        itemNewMission.setEnabled(false);
-        itemNewMission.setText("Nouvelle mission");
-        menuMission.add(itemNewMission);
-
-        menu.add(menuMission);
-
-        menuComp.setText("Compétences");
-        menuComp.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                menuCompMouseClicked(evt);
-            }
-        });
-        menu.add(menuComp);
-
-        setJMenuBar(menu);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -323,35 +268,18 @@ public class AjoutComp extends javax.swing.JFrame {
                 .addComponent(pBandeau, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pPage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void menuAccueilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuAccueilMouseClicked
-        new Accueil().setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_menuAccueilMouseClicked
-
-    private void itemAllEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemAllEmpActionPerformed
-        // TODO add your handling code here:
-        new GestionPersonnel(Modele.Entreprise.personnels).setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_itemAllEmpActionPerformed
-
     private void itemNewEmpActionPerformed(java.awt.event.ActionEvent evt) {                                           
         new AjoutPersonnel().setVisible(true);
         this.dispose();
     } 
-    
-    private void itemAllMissionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemAllMissionActionPerformed
-        new GestionMission(Modele.Entreprise.missions).setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_itemAllMissionActionPerformed
-  
+      
     private void bRetourActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bRetourActionPerformed
-        new GestionPersonnel(Entreprise.personnels).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_bRetourActionPerformed
 
@@ -396,11 +324,6 @@ public class AjoutComp extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formWindowClosing
 
-    private void menuCompMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuCompMouseClicked
-        new GestionComp(Entreprise.competences).setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_menuCompMouseClicked
-
     /**
      * @param args the command line arguments
      */
@@ -440,10 +363,6 @@ public class AjoutComp extends javax.swing.JFrame {
     private javax.swing.JButton bRetour;
     private javax.swing.JButton b_ajoutComp;
     private javax.swing.JButton b_removeComp;
-    private javax.swing.JMenuItem itemAllEmp;
-    private javax.swing.JMenuItem itemAllMission;
-    private javax.swing.JMenuItem itemNewEmp;
-    private javax.swing.JMenuItem itemNewMission;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lTitreListe;
@@ -452,11 +371,6 @@ public class AjoutComp extends javax.swing.JFrame {
     private javax.swing.JLabel l_titre;
     private javax.swing.JList<String> list_compEmp;
     private javax.swing.JList<String> list_compEntr;
-    private javax.swing.JMenuBar menu;
-    private javax.swing.JMenu menuAccueil;
-    private javax.swing.JMenu menuComp;
-    private javax.swing.JMenu menuEmploye;
-    private javax.swing.JMenu menuMission;
     private javax.swing.JPanel pBandeau;
     private javax.swing.JPanel pPage;
     // End of variables declaration//GEN-END:variables

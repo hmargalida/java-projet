@@ -5,13 +5,9 @@
  */
 package Modele;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
 
 /**
  *
@@ -24,7 +20,7 @@ public class Personnel {
     private String prenom;
     private Date dateEntree;
     private Set<Competence> competencesPers;
-    public static int countEmp;
+    //public static int countEmp;
     
     /**
     * Constructeur d'un objet Personnel lorsque l'identifiant de l'employé
@@ -40,7 +36,6 @@ public class Personnel {
         this.prenom = prenom;
         this.dateEntree = dateEntree;
         this.idPersonnel = idP; 
-        Personnel.countEmp++;
         this.competencesPers = new HashSet<>();
     }
     
@@ -54,7 +49,11 @@ public class Personnel {
         this.nom = nom;
         this.prenom = prenom;
         this.dateEntree = dateEntree;
-        this.idPersonnel = ++Personnel.countEmp;
+        int index = 1;
+        while (Entreprise.personnels.containsKey(index)) {
+            index++;
+        }
+        this.idPersonnel = index;
         this.competencesPers = new HashSet<>();
     }
     

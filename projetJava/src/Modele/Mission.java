@@ -22,7 +22,6 @@ import java.util.regex.Pattern;
 public class Mission {
 
     private int idMission;
-    public static int countMission;
     private Date dateDebut;
     private int dureeJ;
     private Besoin besoins;
@@ -39,7 +38,11 @@ public class Mission {
      * @param b Le besoin (nb de personne totale)
      */
     public Mission(Date dateDebut, int dureeJ, Besoin b) {
-        this.idMission = ++Mission.countMission;
+        int index = 1;
+        while (Entreprise.missions.containsKey(index)) {
+            index++;
+        }
+        this.idMission = index;
         this.dateDebut = dateDebut;
         this.dureeJ = dureeJ;
         this.besoins = b;
@@ -61,7 +64,6 @@ public class Mission {
      */
     public Mission(int idMission, Date dateDebut, int dureeJ, String statut, Besoin b) {
         this.idMission = idMission;
-        Mission.countMission++;
         this.dateDebut = dateDebut;
         this.dureeJ = dureeJ;
         this.besoins = b;

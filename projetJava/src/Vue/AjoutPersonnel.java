@@ -54,17 +54,11 @@ public class AjoutPersonnel extends javax.swing.JFrame {
         tf_date = new javax.swing.JFormattedTextField();
         b_Enreg = new javax.swing.JButton();
         l_err = new javax.swing.JLabel();
-        menu = new javax.swing.JMenuBar();
-        menuAccueil = new javax.swing.JMenu();
-        menuEmploye = new javax.swing.JMenu();
-        itemAllEmp = new javax.swing.JMenuItem();
-        itemNewEmp = new javax.swing.JMenuItem();
-        menuMission = new javax.swing.JMenu();
-        itemAllMission = new javax.swing.JMenuItem();
-        itemNewMission = new javax.swing.JMenuItem();
-        menuComp = new javax.swing.JMenu();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setMaximumSize(new java.awt.Dimension(620, 360));
+        setMinimumSize(new java.awt.Dimension(620, 360));
+        setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
@@ -93,7 +87,7 @@ public class AjoutPersonnel extends javax.swing.JFrame {
                 .addComponent(bRetour, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27)
                 .addComponent(l_titre)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(331, Short.MAX_VALUE))
         );
         pBandeauLayout.setVerticalGroup(
             pBandeauLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -148,29 +142,26 @@ public class AjoutPersonnel extends javax.swing.JFrame {
         pPageLayout.setHorizontalGroup(
             pPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pPageLayout.createSequentialGroup()
-                .addGroup(pPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pPageLayout.createSequentialGroup()
-                        .addGap(34, 34, 34)
-                        .addGroup(pPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(pPageLayout.createSequentialGroup()
-                                .addComponent(l_prenomEmp)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(tf_prenom))
-                            .addGroup(pPageLayout.createSequentialGroup()
-                                .addComponent(l_nomEmp)
-                                .addGap(18, 18, 18)
-                                .addComponent(tf_nom))
-                            .addComponent(l_infoPrinc)
-                            .addGroup(pPageLayout.createSequentialGroup()
-                                .addComponent(l_dateEntree)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(tf_date, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(l_err))
-                    .addGroup(pPageLayout.createSequentialGroup()
-                        .addGap(349, 349, 349)
-                        .addComponent(b_Enreg)))
-                .addContainerGap(351, Short.MAX_VALUE))
+                .addGap(34, 34, 34)
+                .addGroup(pPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(b_Enreg)
+                    .addGroup(pPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(pPageLayout.createSequentialGroup()
+                            .addComponent(l_prenomEmp)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(tf_prenom))
+                        .addGroup(pPageLayout.createSequentialGroup()
+                            .addComponent(l_nomEmp)
+                            .addGap(18, 18, 18)
+                            .addComponent(tf_nom))
+                        .addComponent(l_infoPrinc)
+                        .addGroup(pPageLayout.createSequentialGroup()
+                            .addComponent(l_dateEntree)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(tf_date, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(l_err)
+                .addContainerGap(225, Short.MAX_VALUE))
         );
         pPageLayout.setVerticalGroup(
             pPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -190,67 +181,19 @@ public class AjoutPersonnel extends javax.swing.JFrame {
                     .addComponent(l_dateEntree)
                     .addComponent(tf_date, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(l_err))
-                .addGap(27, 27, 27)
+                .addGap(29, 29, 29)
                 .addComponent(b_Enreg, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(187, Short.MAX_VALUE))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
-
-        menuAccueil.setText("Accueil");
-        menuAccueil.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                menuAccueilMouseClicked(evt);
-            }
-        });
-        menu.add(menuAccueil);
-
-        menuEmploye.setText("Employés");
-
-        itemAllEmp.setText("Liste des employés");
-        itemAllEmp.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itemAllEmpActionPerformed(evt);
-            }
-        });
-        menuEmploye.add(itemAllEmp);
-
-        itemNewEmp.setEnabled(false);
-        itemNewEmp.setText("Nouvel employé");
-        menuEmploye.add(itemNewEmp);
-
-        menu.add(menuEmploye);
-
-        menuMission.setText("Missions");
-
-        itemAllMission.setText("Liste des missions");
-        itemAllMission.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itemAllMissionActionPerformed(evt);
-            }
-        });
-        menuMission.add(itemAllMission);
-
-        itemNewMission.setEnabled(false);
-        itemNewMission.setText("Nouvelle mission");
-        menuMission.add(itemNewMission);
-
-        menu.add(menuMission);
-
-        menuComp.setText("Compétences");
-        menuComp.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                menuCompMouseClicked(evt);
-            }
-        });
-        menu.add(menuComp);
-
-        setJMenuBar(menu);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pBandeau, javax.swing.GroupLayout.DEFAULT_SIZE, 812, Short.MAX_VALUE)
-            .addComponent(pPage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(pBandeau, javax.swing.GroupLayout.DEFAULT_SIZE, 618, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(pPage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 7, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -264,25 +207,7 @@ public class AjoutPersonnel extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void menuAccueilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuAccueilMouseClicked
-        new Accueil().setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_menuAccueilMouseClicked
-
-    private void itemAllEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemAllEmpActionPerformed
-        // TODO add your handling code here:
-        new GestionPersonnel(Modele.Entreprise.personnels).setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_itemAllEmpActionPerformed
-
-    private void itemAllMissionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemAllMissionActionPerformed
-        // TODO add your handling code here:
-        new GestionMission(Modele.Entreprise.missions).setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_itemAllMissionActionPerformed
-
     private void bRetourActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bRetourActionPerformed
-        new GestionPersonnel(Entreprise.personnels).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_bRetourActionPerformed
 
@@ -304,7 +229,6 @@ public class AjoutPersonnel extends javax.swing.JFrame {
             Entreprise.addPersonnel(p);
             JOptionPane.showMessageDialog(rootPane, "L'employé " + prenomEmp + " " + nomEmp + " a bien été enregistré", "Enregistrement de l'employé", JOptionPane.INFORMATION_MESSAGE);
             // retour page précédente
-            new GestionPersonnel(Modele.Entreprise.personnels).setVisible(true);
             this.dispose();
         }
     }//GEN-LAST:event_b_EnregActionPerformed
@@ -365,11 +289,6 @@ public class AjoutPersonnel extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formWindowClosing
 
-    private void menuCompMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuCompMouseClicked
-        new GestionComp(Entreprise.competences).setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_menuCompMouseClicked
-
     /**
      * @param args the command line arguments
      */
@@ -408,21 +327,12 @@ public class AjoutPersonnel extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bRetour;
     private javax.swing.JButton b_Enreg;
-    private javax.swing.JMenuItem itemAllEmp;
-    private javax.swing.JMenuItem itemAllMission;
-    private javax.swing.JMenuItem itemNewEmp;
-    private javax.swing.JMenuItem itemNewMission;
     private javax.swing.JLabel l_dateEntree;
     private javax.swing.JLabel l_err;
     private javax.swing.JLabel l_infoPrinc;
     private javax.swing.JLabel l_nomEmp;
     private javax.swing.JLabel l_prenomEmp;
     private javax.swing.JLabel l_titre;
-    private javax.swing.JMenuBar menu;
-    private javax.swing.JMenu menuAccueil;
-    private javax.swing.JMenu menuComp;
-    private javax.swing.JMenu menuEmploye;
-    private javax.swing.JMenu menuMission;
     private javax.swing.JPanel pBandeau;
     private javax.swing.JPanel pPage;
     private javax.swing.JFormattedTextField tf_date;

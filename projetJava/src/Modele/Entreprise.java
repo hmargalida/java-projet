@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -29,7 +30,7 @@ public class Entreprise {
             Entreprise.personnels.put(p.getId(),p);
         }
         else {
-            System.err.println("L'employé fait déjà partie de l'entreprise");
+            System.err.println("L'employé " + p.getId() + " fait déjà partie de l'entreprise");
         }
     }
     
@@ -64,10 +65,19 @@ public class Entreprise {
      * @param idp le personnel à supprimer
      * @throws Modele.EmpInexistantException
      */
-    public static void removePersonnel(int idp) throws EmpInexistantException {
+    public static void removePersonnel(int idp) throws EmpInexistantException, EmpAffecteException {
         if (personnels.containsKey(idp)) {
+            for(int idm : Entreprise.missions.keySet()) {
+                Mission m = Entreprise.getMission(idm);
+                if(!m.getStatut().equals("Terminée")) {
+                    for(Competence c : m.getAffectations().keySet()) {
+                        if (m.getAffectations().get(c).contains(Entreprise.getEmploye(idp))) {
+                            throw new EmpAffecteException();
+                        }
+                    }
+                }
+            }
             Entreprise.personnels.remove(idp);
-            Personnel.countEmp--;
         }
         else {
             throw new EmpInexistantException();
@@ -81,7 +91,6 @@ public class Entreprise {
     public static void removeMission(int idm) throws MissionInexistanteException {
         if (missions.containsKey(idm)) {
             Entreprise.missions.remove(idm);
-            Mission.countMission--;
         }
         else {
             throw new MissionInexistanteException();

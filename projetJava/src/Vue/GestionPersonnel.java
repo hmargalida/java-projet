@@ -6,9 +6,11 @@
 package Vue;
 
 import Modele.Competence;
+import Modele.EmpAffecteException;
 import Modele.EmpInexistantException;
 import Modele.Entreprise;
 import Modele.FormatFichierException;
+import Modele.Mission;
 import Modele.Outils;
 import Modele.Personnel;
 import java.awt.event.KeyEvent;
@@ -25,6 +27,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -100,6 +103,17 @@ public class GestionPersonnel extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(102, 102, 102));
         setForeground(new java.awt.Color(102, 102, 102));
+        setMaximumSize(new java.awt.Dimension(860, 730));
+        setMinimumSize(new java.awt.Dimension(860, 730));
+        setPreferredSize(new java.awt.Dimension(860, 730));
+        setResizable(false);
+        addWindowFocusListener(new java.awt.event.WindowFocusListener() {
+            public void windowGainedFocus(java.awt.event.WindowEvent evt) {
+                formWindowGainedFocus(evt);
+            }
+            public void windowLostFocus(java.awt.event.WindowEvent evt) {
+            }
+        });
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
@@ -172,8 +186,6 @@ public class GestionPersonnel extends javax.swing.JFrame {
             }
         });
 
-        p_recherche.setBorder(javax.swing.BorderFactory.createTitledBorder("Options de recherche"));
-
         tf_recherche.setForeground(new java.awt.Color(153, 153, 153));
         tf_recherche.setText("Entrez votre recherche");
         tf_recherche.setToolTipText("");
@@ -192,7 +204,7 @@ public class GestionPersonnel extends javax.swing.JFrame {
         });
 
         bg_recherche.add(rb_nomEmp);
-        rb_nomEmp.setText("Nom de l'employé");
+        rb_nomEmp.setText("Employé");
         rb_nomEmp.setSelected(true);
 
         bg_recherche.add(rb_comp);
@@ -203,23 +215,22 @@ public class GestionPersonnel extends javax.swing.JFrame {
         p_rechercheLayout.setHorizontalGroup(
             p_rechercheLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(p_rechercheLayout.createSequentialGroup()
-                .addGap(53, 53, 53)
                 .addComponent(tf_recherche, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(48, 48, 48)
+                .addGap(24, 24, 24)
                 .addComponent(rb_nomEmp)
                 .addGap(18, 18, 18)
                 .addComponent(rb_comp)
-                .addContainerGap(129, Short.MAX_VALUE))
+                .addContainerGap(231, Short.MAX_VALUE))
         );
         p_rechercheLayout.setVerticalGroup(
             p_rechercheLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(p_rechercheLayout.createSequentialGroup()
-                .addGap(14, 14, 14)
+                .addContainerGap(10, Short.MAX_VALUE)
                 .addGroup(p_rechercheLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tf_recherche, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(rb_nomEmp)
                     .addComponent(rb_comp))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addGap(7, 7, 7))
         );
 
         lTitreListe.setFont(new java.awt.Font("American Typewriter", 0, 14)); // NOI18N
@@ -244,6 +255,7 @@ public class GestionPersonnel extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tableEmp.setMinimumSize(new java.awt.Dimension(860, 670));
         tableEmp.getTableHeader().setReorderingAllowed(false);
         tableEmp.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -286,15 +298,20 @@ public class GestionPersonnel extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(43, 43, 43)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(18, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(p_recherche, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 707, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 707, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(l_titreComp)
-                    .addComponent(lTitreListe))
-                .addGap(81, 81, 81))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(p_recherche, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lTitreListe)
+                            .addComponent(l_titreComp)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 817, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 817, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(15, 15, 15))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -308,8 +325,8 @@ public class GestionPersonnel extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(l_titreComp, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(79, Short.MAX_VALUE))
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout pPageLayout = new javax.swing.GroupLayout(pPage);
@@ -317,36 +334,33 @@ public class GestionPersonnel extends javax.swing.JFrame {
         pPageLayout.setHorizontalGroup(
             pPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pPageLayout.createSequentialGroup()
-                .addGap(32, 32, 32)
+                .addGap(22, 22, 22)
                 .addComponent(bAjoutPers)
-                .addGap(18, 18, 18)
+                .addGap(43, 43, 43)
                 .addComponent(bModifComp, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(bExportFic, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(43, 43, 43)
                 .addComponent(bSuppr, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(83, Short.MAX_VALUE))
-            .addGroup(pPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(pPageLayout.createSequentialGroup()
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(31, 31, 31))
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         pPageLayout.setVerticalGroup(
             pPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pPageLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(pPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(bAjoutPers, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(bModifComp, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(bExportFic, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(pPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pPageLayout.createSequentialGroup()
+                        .addGroup(pPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(bAjoutPers, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(bModifComp, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pPageLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(bExportFic, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(bSuppr, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(631, Short.MAX_VALUE))
-            .addGroup(pPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pPageLayout.createSequentialGroup()
-                    .addContainerGap(57, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(17, 17, 17)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         menuAccueil.setText("Accueil");
@@ -402,15 +416,16 @@ public class GestionPersonnel extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pBandeau, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(pPage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(pPage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pBandeau, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(pBandeau, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pPage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(pPage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -466,12 +481,16 @@ public class GestionPersonnel extends javax.swing.JFrame {
         String nom = (String) tableEmp.getValueAt(row, 1);
         String prenom = (String) tableEmp.getValueAt(row, 2);
         new AjoutComp(idp, nom, prenom).setVisible(true);
-        this.dispose();
+        //this.dispose();
     }//GEN-LAST:event_bModifCompActionPerformed
 
     private void bSupprActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSupprActionPerformed
         try {
-            Entreprise.removePersonnel(idEmpSelect);
+            try {
+                Entreprise.removePersonnel(idEmpSelect);
+            } catch (EmpAffecteException ex) {
+                JOptionPane.showMessageDialog(rootPane, ex.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+            }
             // Pour mettre a jour la JTable après la suppression
             DefaultTableModel model = (DefaultTableModel) tableEmp.getModel();
             // remise à zéro de la jtable
@@ -511,7 +530,7 @@ public class GestionPersonnel extends javax.swing.JFrame {
     private void bAjoutPersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAjoutPersActionPerformed
         // TODO add your handling code here:
         new AjoutPersonnel().setVisible(true);
-        this.dispose();
+        //this.dispose();
     }//GEN-LAST:event_bAjoutPersActionPerformed
 
     private void tf_rechercheKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tf_rechercheKeyPressed
@@ -523,7 +542,7 @@ public class GestionPersonnel extends javax.swing.JFrame {
                 if (rb_nomEmp.isSelected()) {
                     for(int idp : this.personnels.keySet()) {
                         Personnel p = Entreprise.getEmploye(idp);
-                        if (p.getNom().toLowerCase().equals(nomRech.toLowerCase())) {
+                        if (p.getNom().toLowerCase().equals(nomRech.toLowerCase()) || p.getPrenom().toLowerCase().equals(nomRech.toLowerCase())) {
                             persRech.add(p);
                         }
                     }
@@ -596,6 +615,17 @@ public class GestionPersonnel extends javax.swing.JFrame {
         new GestionComp(Entreprise.competences).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_menuCompMouseClicked
+
+    private void formWindowGainedFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowGainedFocus
+        DefaultTableModel modelComp = (DefaultTableModel) tableCompEmp.getModel();
+        modelComp.setRowCount(0);
+        DefaultTableModel model = (DefaultTableModel) tableEmp.getModel();
+        model.setRowCount(0);
+        for (int pers : personnels.keySet()) {
+            Modele.Personnel p = Entreprise.getEmploye(pers);
+            model.addRow(new Object[]{p.getId(), p.getNom(), p.getPrenom(), Modele.Outils.sdf.format(p.getDateEntree())});
+        }
+    }//GEN-LAST:event_formWindowGainedFocus
 
     
     /**

@@ -77,17 +77,11 @@ public class AjoutBesoinMission extends javax.swing.JFrame {
         b_retourMission = new javax.swing.JButton();
         l_besoin = new javax.swing.JLabel();
         l_besoinVal = new javax.swing.JLabel();
-        menu = new javax.swing.JMenuBar();
-        menuAccueil = new javax.swing.JMenu();
-        menuEmploye = new javax.swing.JMenu();
-        itemAllEmp = new javax.swing.JMenuItem();
-        itemNewEmp = new javax.swing.JMenuItem();
-        menuMission = new javax.swing.JMenu();
-        itemAllMission = new javax.swing.JMenuItem();
-        itemNewMission = new javax.swing.JMenuItem();
-        menuComp = new javax.swing.JMenu();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setMaximumSize(new java.awt.Dimension(790, 605));
+        setMinimumSize(new java.awt.Dimension(790, 605));
+        setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
@@ -267,55 +261,6 @@ public class AjoutBesoinMission extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        menuAccueil.setText("Accueil");
-        menuAccueil.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                menuAccueilMouseClicked(evt);
-            }
-        });
-        menu.add(menuAccueil);
-
-        menuEmploye.setText("Employés");
-
-        itemAllEmp.setText("Liste des employés");
-        itemAllEmp.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itemAllEmpActionPerformed(evt);
-            }
-        });
-        menuEmploye.add(itemAllEmp);
-
-        itemNewEmp.setText("Nouvel employé");
-        menuEmploye.add(itemNewEmp);
-
-        menu.add(menuEmploye);
-
-        menuMission.setText("Missions");
-
-        itemAllMission.setText("Liste des missions");
-        itemAllMission.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itemAllMissionActionPerformed(evt);
-            }
-        });
-        menuMission.add(itemAllMission);
-
-        itemNewMission.setEnabled(false);
-        itemNewMission.setText("Nouvelle mission");
-        menuMission.add(itemNewMission);
-
-        menu.add(menuMission);
-
-        menuComp.setText("Compétences");
-        menuComp.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                menuCompMouseClicked(evt);
-            }
-        });
-        menu.add(menuComp);
-
-        setJMenuBar(menu);
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -336,23 +281,6 @@ public class AjoutBesoinMission extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void menuAccueilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuAccueilMouseClicked
-        new Accueil().setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_menuAccueilMouseClicked
-
-    private void itemAllEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemAllEmpActionPerformed
-        // TODO add your handling code here:
-        new GestionPersonnel(Modele.Entreprise.personnels).setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_itemAllEmpActionPerformed
-
-    private void itemAllMissionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemAllMissionActionPerformed
-        // TODO add your handling code here:
-        new GestionMission(Modele.Entreprise.missions).setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_itemAllMissionActionPerformed
 
     private void bRetourActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bRetourActionPerformed
         new GestionMission(Entreprise.missions).setVisible(true);
@@ -392,7 +320,6 @@ public class AjoutBesoinMission extends javax.swing.JFrame {
     }//GEN-LAST:event_b_ajouterActionPerformed
 
     private void b_retourMissionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_retourMissionActionPerformed
-        new GestionMission(Entreprise.missions).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_b_retourMissionActionPerformed
 
@@ -410,11 +337,6 @@ public class AjoutBesoinMission extends javax.swing.JFrame {
             Logger.getLogger(GestionPersonnel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_formWindowClosing
-
-    private void menuCompMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuCompMouseClicked
-        new GestionComp(Entreprise.competences).setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_menuCompMouseClicked
 
     /**
      * @param args the command line arguments
@@ -455,10 +377,6 @@ public class AjoutBesoinMission extends javax.swing.JFrame {
     private javax.swing.JButton bRetour;
     private javax.swing.JButton b_ajouter;
     private javax.swing.JButton b_retourMission;
-    private javax.swing.JMenuItem itemAllEmp;
-    private javax.swing.JMenuItem itemAllMission;
-    private javax.swing.JMenuItem itemNewEmp;
-    private javax.swing.JMenuItem itemNewMission;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel l_besoin;
@@ -468,11 +386,6 @@ public class AjoutBesoinMission extends javax.swing.JFrame {
     private javax.swing.JLabel l_titreSpinner;
     private javax.swing.JLabel l_titrelist;
     private javax.swing.JList<String> list_comp;
-    private javax.swing.JMenuBar menu;
-    private javax.swing.JMenu menuAccueil;
-    private javax.swing.JMenu menuComp;
-    private javax.swing.JMenu menuEmploye;
-    private javax.swing.JMenu menuMission;
     private javax.swing.JPanel pBandeau;
     private javax.swing.JPanel pPage;
     private javax.swing.JPanel p_comp;

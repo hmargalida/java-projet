@@ -29,6 +29,8 @@ public class AffecterMission extends javax.swing.JFrame {
     private static int idMission;
     private Mission missionAct;
     private Besoin b;
+    private ArrayList<String> persAvecComp ;
+    private ArrayList<String> persAffect ;
     
     /**
      * Creates new form AffecterMission
@@ -46,6 +48,48 @@ public class AffecterMission extends javax.swing.JFrame {
         for (Competence comp : b.getMapBesoins().keySet()) {
             model.addRow(new Object[]{comp.getIdComp() + " - " + comp.getCompFR(), b.getNbPersComp(comp)});
         }
+    }
+    
+    public void initList(Competence c) {
+        persAvecComp = new ArrayList<>();
+        persAffect = new ArrayList<>();
+        // mise à zéro des listes 
+        list_EmpComp.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = {};
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        list_affect.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = {};
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        
+        // re remplissage des listes
+        // Employés affectés
+        if (missionAct.getAffectations().get(c) != null) {
+            for(Personnel p : missionAct.getAffectations().get(c)) {
+                persAffect.add(p.getId() + " - " + p.getPrenom() + " " + p.getNom());
+            }
+            list_affect.setModel(new javax.swing.AbstractListModel<String>() {
+                String[] elements = persAffect.toArray(new String[persAffect.size()]);
+                public int getSize() { return elements.length; }
+                public String getElementAt(int i) { return elements[i]; }
+            });
+        }
+        // Employés ayant la compétences`
+        for(int idp : Entreprise.personnels.keySet()) {
+            Personnel p = Entreprise.getEmploye(idp);
+            String cle = p.getId() + " - " + p.getPrenom() + " " + p.getNom();
+            if(p.aCompetence(c) && !persAffect.contains(cle)) {
+                persAvecComp.add(p.getId() + " - " + p.getPrenom() + " " + p.getNom());
+            }
+        }
+        list_EmpComp.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] elements = persAvecComp.toArray(new String[persAvecComp.size()]);
+            public int getSize() { return elements.length; }
+            public String getElementAt(int i) { return elements[i]; }
+        });
     }
 
     /**
@@ -73,17 +117,11 @@ public class AffecterMission extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         list_affect = new javax.swing.JList<>();
         jLabel1 = new javax.swing.JLabel();
-        menu4 = new javax.swing.JMenuBar();
-        menuAccueil4 = new javax.swing.JMenu();
-        menuEmploye = new javax.swing.JMenu();
-        itemAllEmp = new javax.swing.JMenuItem();
-        itemNewEmp = new javax.swing.JMenuItem();
-        menuMission = new javax.swing.JMenu();
-        itemAllMission = new javax.swing.JMenuItem();
-        itemNewMission = new javax.swing.JMenuItem();
-        menuComp = new javax.swing.JMenu();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setMaximumSize(new java.awt.Dimension(810, 530));
+        setMinimumSize(new java.awt.Dimension(810, 530));
+        setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
@@ -204,22 +242,26 @@ public class AffecterMission extends javax.swing.JFrame {
             .addGroup(pPageLayout.createSequentialGroup()
                 .addGap(57, 57, 57)
                 .addGroup(pPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(l_tablecomp)
+                    .addGroup(pPageLayout.createSequentialGroup()
+                        .addComponent(jScrollPane1)
+                        .addContainerGap())
                     .addGroup(pPageLayout.createSequentialGroup()
                         .addGroup(pPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(l_tablecomp)
                             .addGroup(pPageLayout.createSequentialGroup()
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(59, 59, 59)
                                 .addGroup(pPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(b_ajout, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(b_suppr, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(l_empComp, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(75, 75, 75)
-                        .addGroup(pPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(0, 15, Short.MAX_VALUE))
+                                    .addGroup(pPageLayout.createSequentialGroup()
+                                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(59, 59, 59)
+                                        .addGroup(pPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(b_ajout, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(b_suppr, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(l_empComp, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(75, 75, 75)
+                                .addGroup(pPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(0, 15, Short.MAX_VALUE))))
         );
         pPageLayout.setVerticalGroup(
             pPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -247,55 +289,6 @@ public class AffecterMission extends javax.swing.JFrame {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
-        menuAccueil4.setText("Accueil");
-        menuAccueil4.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                menuAccueil4MouseClicked(evt);
-            }
-        });
-        menu4.add(menuAccueil4);
-
-        menuEmploye.setText("Employés");
-
-        itemAllEmp.setText("Liste des employés");
-        itemAllEmp.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itemAllEmpActionPerformed(evt);
-            }
-        });
-        menuEmploye.add(itemAllEmp);
-
-        itemNewEmp.setText("Nouvel employé");
-        menuEmploye.add(itemNewEmp);
-
-        menu4.add(menuEmploye);
-
-        menuMission.setText("Missions");
-
-        itemAllMission.setText("Liste des missions");
-        itemAllMission.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itemAllMissionActionPerformed(evt);
-            }
-        });
-        menuMission.add(itemAllMission);
-
-        itemNewMission.setEnabled(false);
-        itemNewMission.setText("Nouvelle mission");
-        menuMission.add(itemNewMission);
-
-        menu4.add(menuMission);
-
-        menuComp.setText("Compétences");
-        menuComp.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                menuCompMouseClicked(evt);
-            }
-        });
-        menu4.add(menuComp);
-
-        setJMenuBar(menu4);
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -314,25 +307,9 @@ public class AffecterMission extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void menuAccueil4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuAccueil4MouseClicked
-        new Accueil().setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_menuAccueil4MouseClicked
-
-    private void itemAllEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemAllEmpActionPerformed
-        // TODO add your handling code here:
-        new GestionPersonnel(Modele.Entreprise.personnels).setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_itemAllEmpActionPerformed
-
-    private void itemAllMissionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemAllMissionActionPerformed
-        new GestionMission(Modele.Entreprise.missions).setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_itemAllMissionActionPerformed
    
     private void bRetourActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bRetourActionPerformed
-        new GestionMission(Entreprise.missions).setVisible(true);
+        //new GestionMission(Entreprise.missions).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_bRetourActionPerformed
 
@@ -343,36 +320,7 @@ public class AffecterMission extends javax.swing.JFrame {
         String idComp = comp.split("-")[0].trim();
         Competence c = Entreprise.getCompetence(idComp);
         int besoin = (int)table_comp.getValueAt(row, 1);
-        
-        // affichage des employés avec cette compétence
-        ArrayList<String> persAvecComp = new ArrayList<>();
-        for(int idp : Entreprise.personnels.keySet()) {
-            Personnel p = Entreprise.getEmploye(idp);
-            if(p.aCompetence(c)) {
-                persAvecComp.add(p.getId() + " - " + p.getPrenom() + " " + p.getNom());
-            }
-        }
-        list_EmpComp.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] elements = persAvecComp.toArray(new String[persAvecComp.size()]);
-            public int getSize() { return elements.length; }
-            public String getElementAt(int i) { return elements[i]; }
-        });
-        
-        // affichage des employés déjà affectés à la mission sur cette compétence
-        DefaultListModel dm = new DefaultListModel();
-        dm.clear();
-        list_affect.setModel(dm);
-        ArrayList<String> persAffect = new ArrayList<>();
-        if(missionAct.getAffectations().get(c) != null) {
-            for(Personnel p : missionAct.getAffectations().get(c)) {
-                persAffect.add(p.getId() + " - " + p.getPrenom() + " " + p.getNom());
-            }
-            list_affect.setModel(new javax.swing.AbstractListModel<String>() {
-                String[] elements = persAffect.toArray(new String[persAffect.size()]);
-                public int getSize() { return elements.length; }
-                public String getElementAt(int i) { return elements[i]; }
-            });
-        }
+        initList(c);
     }//GEN-LAST:event_table_compMousePressed
 
     private void list_EmpCompMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_list_EmpCompMousePressed
@@ -394,22 +342,11 @@ public class AffecterMission extends javax.swing.JFrame {
         Competence c = Entreprise.getCompetence(idCompSelect);
         try {
             missionAct.affecterPersonnel(p, c);
+            initList(c);
         } catch (QuotaDepasseException ex) {
             JOptionPane.showMessageDialog(rootPane, ex.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
         }
         
-        // affichage des employés déjà affectés à la mission sur cette compétence 
-        ArrayList<String> persAffect = new ArrayList<>();
-        if(missionAct.getAffectations().get(c) !=null) {
-            for(Personnel pers : missionAct.getAffectations().get(c)) {
-                persAffect.add(pers.getId() + " - " + pers.getPrenom() + " " + pers.getNom());
-            }
-            list_affect.setModel(new javax.swing.AbstractListModel<String>() {
-                String[] elements = persAffect.toArray(new String[persAffect.size()]);
-                public int getSize() { return elements.length; }
-                public String getElementAt(int i) { return elements[i]; }
-            });
-        }
     }//GEN-LAST:event_b_ajoutActionPerformed
 
     private void b_supprActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_supprActionPerformed
@@ -420,19 +357,7 @@ public class AffecterMission extends javax.swing.JFrame {
         Competence c = Entreprise.getCompetence(idCompSelect);
         
         missionAct.desaffecterEmploye(p, c);
-        
-        // mise à jour de la liste des employés affectés
-        ArrayList<String> persAffect = new ArrayList<>();
-        if(missionAct.getAffectations().get(c) !=null) {
-            for(Personnel pers : missionAct.getAffectations().get(c)) {
-                persAffect.add(pers.getId() + " - " + pers.getPrenom() + " " + pers.getNom());
-            }
-            list_affect.setModel(new javax.swing.AbstractListModel<String>() {
-                String[] elements = persAffect.toArray(new String[persAffect.size()]);
-                public int getSize() { return elements.length; }
-                public String getElementAt(int i) { return elements[i]; }
-            });
-        }
+        initList(c);
     }//GEN-LAST:event_b_supprActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
@@ -449,11 +374,6 @@ public class AffecterMission extends javax.swing.JFrame {
             Logger.getLogger(GestionPersonnel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_formWindowClosing
-
-    private void menuCompMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuCompMouseClicked
-        new GestionComp(Entreprise.competences).setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_menuCompMouseClicked
 
     /**
      * @param args the command line arguments
@@ -494,10 +414,6 @@ public class AffecterMission extends javax.swing.JFrame {
     private javax.swing.JButton bRetour;
     private javax.swing.JButton b_ajout;
     private javax.swing.JButton b_suppr;
-    private javax.swing.JMenuItem itemAllEmp;
-    private javax.swing.JMenuItem itemAllMission;
-    private javax.swing.JMenuItem itemNewEmp;
-    private javax.swing.JMenuItem itemNewMission;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -508,11 +424,6 @@ public class AffecterMission extends javax.swing.JFrame {
     private javax.swing.JLabel l_titre;
     private javax.swing.JList<String> list_EmpComp;
     private javax.swing.JList<String> list_affect;
-    private javax.swing.JMenuBar menu4;
-    private javax.swing.JMenu menuAccueil4;
-    private javax.swing.JMenu menuComp;
-    private javax.swing.JMenu menuEmploye;
-    private javax.swing.JMenu menuMission;
     private javax.swing.JPanel pBandeau;
     private javax.swing.JPanel pPage;
     private javax.swing.JTable table_comp;
