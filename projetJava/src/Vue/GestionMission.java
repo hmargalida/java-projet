@@ -433,8 +433,8 @@ public class GestionMission extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bRetourActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bRetourActionPerformed
-        new Accueil().setVisible(true);
         this.dispose();
+        new Accueil().setVisible(true);
     }//GEN-LAST:event_bRetourActionPerformed
 
     private void menuAccueilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuAccueilMouseClicked

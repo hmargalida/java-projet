@@ -7,10 +7,8 @@ package Modele;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -60,23 +58,28 @@ public class Entreprise {
         }
     }
     
+    public static void desaffecterTouteMission(int idp) {
+        Personnel p = Entreprise.getEmploye(idp);
+        // pour toutes les missions 
+        for (int idm : missions.keySet()) {
+            Mission m = Entreprise.getMission(idm);
+            // pour toutes les compétences nécessaires à la mission 
+            for (Competence c : m.getAffectations().keySet()) {
+                ArrayList<Personnel> listeEmp = Entreprise.getMission(idm).getAffectations().get(c);
+                if (listeEmp.contains(p)) {
+                    m.desaffecterEmploye(p, c);
+                }
+            }
+        }
+    }
+    
     /**
      * méthode enlevant un employé de la "bd" de l'entreprise
      * @param idp le personnel à supprimer
      * @throws Modele.EmpInexistantException
      */
-    public static void removePersonnel(int idp) throws EmpInexistantException, EmpAffecteException {
+    public static void removePersonnel(int idp) throws EmpInexistantException {
         if (personnels.containsKey(idp)) {
-            for(int idm : Entreprise.missions.keySet()) {
-                Mission m = Entreprise.getMission(idm);
-                if(!m.getStatut().equals("Terminée")) {
-                    for(Competence c : m.getAffectations().keySet()) {
-                        if (m.getAffectations().get(c).contains(Entreprise.getEmploye(idp))) {
-                            throw new EmpAffecteException();
-                        }
-                    }
-                }
-            }
             Entreprise.personnels.remove(idp);
         }
         else {

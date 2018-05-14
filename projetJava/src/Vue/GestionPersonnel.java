@@ -9,6 +9,7 @@ import Modele.Competence;
 import Modele.EmpAffecteException;
 import Modele.EmpInexistantException;
 import Modele.Entreprise;
+import static Modele.Entreprise.personnels;
 import Modele.FormatFichierException;
 import Modele.Mission;
 import Modele.Outils;
@@ -485,25 +486,44 @@ public class GestionPersonnel extends javax.swing.JFrame {
     }//GEN-LAST:event_bModifCompActionPerformed
 
     private void bSupprActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSupprActionPerformed
-        try {
-            try {
-                Entreprise.removePersonnel(idEmpSelect);
-            } catch (EmpAffecteException ex) {
-                JOptionPane.showMessageDialog(rootPane, ex.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+        for(int idm : Entreprise.missions.keySet()) {
+            Mission m = Entreprise.getMission(idm);
+            if (m.getStatut().equals("En préparation")) {
+                for(Competence c : m.getAffectations().keySet()) {
+                    if (m.getAffectations().get(c).contains(Entreprise.getEmploye(idEmpSelect))) {
+                        int returnConfirm = JOptionPane.showConfirmDialog(rootPane, "Cet employé est affecté à une mission en préparation.\nSi vous confirmer la suppression, il sera désaffecté de la mission", "Confirmation de suppression", JOptionPane.YES_NO_OPTION);
+                        if (returnConfirm == JOptionPane.YES_OPTION) {
+                            try {
+                                Entreprise.desaffecterTouteMission(idEmpSelect);
+                                Entreprise.removePersonnel(idEmpSelect);
+                                // Pour mettre a jour la JTable après la suppression
+                                DefaultTableModel model = (DefaultTableModel) tableEmp.getModel();
+                                // remise à zéro de la jtable
+                                model.setRowCount(0);
+                                // re remplissage
+                                for (int pers : personnels.keySet()) {
+                                    Modele.Personnel p = Entreprise.getEmploye(pers);
+                                    model.addRow(new Object[]{p.getId(), p.getNom(), p.getPrenom(), Modele.Outils.sdf.format(p.getDateEntree())});
+                                }
+                                DefaultTableModel modelComp = (DefaultTableModel) tableCompEmp.getModel();
+                                modelComp.setRowCount(0);
+                            } catch (EmpInexistantException ex) {
+                                JOptionPane.showMessageDialog(rootPane, ex.getMessage() + " " + idEmpSelect, "Erreur", JOptionPane.ERROR_MESSAGE);
+                            }
+                        }
+                    }
+                }
             }
-            // Pour mettre a jour la JTable après la suppression
-            DefaultTableModel model = (DefaultTableModel) tableEmp.getModel();
-            // remise à zéro de la jtable
-            model.setRowCount(0);
-            // re remplissage
-            for (int pers : personnels.keySet()) {
-                Modele.Personnel p = Entreprise.getEmploye(pers);
-                model.addRow(new Object[]{p.getId(), p.getNom(), p.getPrenom(), Modele.Outils.sdf.format(p.getDateEntree())});
+            if(m.getStatut().equals("En cours") || m.getStatut().equals("Plannifié")) {
+                for(Competence c : m.getAffectations().keySet()) {
+                    if (m.getAffectations().get(c).contains(Entreprise.getEmploye(idEmpSelect))) {
+                        JOptionPane.showMessageDialog(rootPane, "Cet employé est affecté sur une mission non modifiable, vous ne pouvez pas le supprimer", "Erreur", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
             }
-            DefaultTableModel modelComp = (DefaultTableModel) tableCompEmp.getModel();
-            modelComp.setRowCount(0);
-        } catch (EmpInexistantException ex) {
-            JOptionPane.showMessageDialog(rootPane, ex.getMessage() + " " + idEmpSelect, "Erreur", JOptionPane.ERROR_MESSAGE);
+            else if (m.getStatut().equals("Terminé")) {
+                Entreprise.personnels.remove(idEmpSelect);
+            }
         }
     }//GEN-LAST:event_bSupprActionPerformed
 

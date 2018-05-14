@@ -10,7 +10,7 @@ package Modele;
  * @author heloise
  */
 public class EmpAffecteException extends Exception {
-    
+    // en cours et plannifié
     public EmpAffecteException() {
         this.toString();
     }
