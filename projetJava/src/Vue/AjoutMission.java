@@ -91,7 +91,7 @@ public class AjoutMission extends javax.swing.JFrame {
                 .addComponent(bRetour, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27)
                 .addComponent(l_titre)
-                .addContainerGap(256, Short.MAX_VALUE))
+                .addContainerGap(289, Short.MAX_VALUE))
         );
         pBandeauLayout.setVerticalGroup(
             pBandeauLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -133,12 +133,9 @@ public class AjoutMission extends javax.swing.JFrame {
 
         s_nbEmp.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
         s_nbEmp.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        s_nbEmp.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                s_nbEmpFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                s_nbEmpFocusLost(evt);
+        s_nbEmp.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                s_nbEmpStateChanged(evt);
             }
         });
 
@@ -165,7 +162,7 @@ public class AjoutMission extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(tf_date, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(l_err_date, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(l_err_date, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(p_infosPLayout.createSequentialGroup()
                         .addComponent(l_duree)
                         .addGap(36, 36, 36)
@@ -210,8 +207,8 @@ public class AjoutMission extends javax.swing.JFrame {
             pPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pPageLayout.createSequentialGroup()
                 .addGap(21, 21, 21)
-                .addComponent(p_infosP, javax.swing.GroupLayout.PREFERRED_SIZE, 564, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addComponent(p_infosP, javax.swing.GroupLayout.PREFERRED_SIZE, 608, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pPageLayout.setVerticalGroup(
             pPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -225,7 +222,7 @@ public class AjoutMission extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pBandeau, javax.swing.GroupLayout.DEFAULT_SIZE, 609, Short.MAX_VALUE)
+            .addComponent(pBandeau, javax.swing.GroupLayout.DEFAULT_SIZE, 642, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(pPage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
@@ -307,14 +304,6 @@ public class AjoutMission extends javax.swing.JFrame {
 
     }//GEN-LAST:event_tf_dureeFocusLost
 
-    private void s_nbEmpFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_s_nbEmpFocusLost
-        if (!tf_duree.getText().isEmpty() && !((int) s_nbEmp.getValue() <= 0) && !tf_date.getText().isEmpty()) {
-            b_enrg.setEnabled(true);
-        } else {
-            b_enrg.setEnabled(false);
-        }
-    }//GEN-LAST:event_s_nbEmpFocusLost
-
     private void tf_dureeFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tf_dureeFocusGained
         l_err_duree.setText("");
         if (!tf_duree.getText().isEmpty() && !((int) s_nbEmp.getValue() <= 0) && !tf_date.getText().isEmpty()) {
@@ -323,14 +312,6 @@ public class AjoutMission extends javax.swing.JFrame {
             b_enrg.setEnabled(false);
         }
     }//GEN-LAST:event_tf_dureeFocusGained
-
-    private void s_nbEmpFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_s_nbEmpFocusGained
-        if (!tf_duree.getText().isEmpty() && !((int) s_nbEmp.getValue() <= 0) && !tf_date.getText().isEmpty()) {
-            b_enrg.setEnabled(true);
-        } else {
-            b_enrg.setEnabled(false);
-        }
-    }//GEN-LAST:event_s_nbEmpFocusGained
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         try {
@@ -346,6 +327,14 @@ public class AjoutMission extends javax.swing.JFrame {
             Logger.getLogger(GestionPersonnel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_formWindowClosing
+
+    private void s_nbEmpStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_s_nbEmpStateChanged
+        if (!tf_duree.getText().isEmpty() && !((int) s_nbEmp.getValue() <= 0) && !tf_date.getText().isEmpty()) {
+            b_enrg.setEnabled(true);
+        } else {
+            b_enrg.setEnabled(false);
+        }
+    }//GEN-LAST:event_s_nbEmpStateChanged
 
     /**
      * @param args the command line arguments

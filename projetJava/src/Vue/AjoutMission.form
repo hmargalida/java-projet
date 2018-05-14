@@ -30,7 +30,7 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="pBandeau" alignment="0" pref="609" max="32767" attributes="0"/>
+          <Component id="pBandeau" alignment="0" pref="642" max="32767" attributes="0"/>
           <Group type="102" alignment="0" attributes="0">
               <Component id="pPage" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -67,7 +67,7 @@
                   <Component id="bRetour" min="-2" pref="29" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
                   <Component id="l_titre" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="256" max="32767" attributes="0"/>
+                  <EmptySpace pref="289" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -110,8 +110,8 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
-                  <Component id="p_infosP" min="-2" pref="564" max="-2" attributes="0"/>
-                  <EmptySpace pref="17" max="32767" attributes="0"/>
+                  <Component id="p_infosP" min="-2" pref="608" max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -146,7 +146,7 @@
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="tf_date" min="-2" pref="159" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="l_err_date" min="-2" pref="353" max="-2" attributes="0"/>
+                              <Component id="l_err_date" min="-2" pref="243" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="l_duree" min="-2" max="-2" attributes="0"/>
@@ -243,8 +243,7 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="s_nbEmpFocusGained"/>
-                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="s_nbEmpFocusLost"/>
+                <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="s_nbEmpStateChanged"/>
               </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="l_err_date">
