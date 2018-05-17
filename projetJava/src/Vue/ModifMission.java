@@ -337,6 +337,7 @@ public class ModifMission extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "La mission " + m.getIdM() + " a bien été modifiée.\nVous pouvez renseigner les compétences de la mission.", "Modification de la mission", JOptionPane.INFORMATION_MESSAGE);
             // retour page précédente
             new ModifBesoinMission(m.getIdM()).setVisible(true);
+            m.changerStatut();
             this.dispose();
         }
     }//GEN-LAST:event_b_enrgActionPerformed

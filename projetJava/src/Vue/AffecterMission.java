@@ -342,6 +342,7 @@ public class AffecterMission extends javax.swing.JFrame {
         Competence c = Entreprise.getCompetence(idCompSelect);
         try {
             missionAct.affecterPersonnel(p, c);
+            missionAct.changerStatut();
             initList(c);
         } catch (QuotaDepasseException ex) {
             JOptionPane.showMessageDialog(rootPane, ex.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
@@ -357,6 +358,7 @@ public class AffecterMission extends javax.swing.JFrame {
         Competence c = Entreprise.getCompetence(idCompSelect);
         
         missionAct.desaffecterEmploye(p, c);
+        missionAct.changerStatut();
         initList(c);
     }//GEN-LAST:event_b_supprActionPerformed
 
