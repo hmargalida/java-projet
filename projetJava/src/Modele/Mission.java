@@ -5,6 +5,9 @@
  */
 package Modele;
 
+import static Modele.Statut.en_cours;
+import static Modele.Statut.en_preparation;
+import static Modele.Statut.plannifie;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -29,7 +32,7 @@ public class Mission {
     private ArrayList<Personnel> persAffect;
     private Statut statut;
     private boolean modifiable;
-    
+
     /**
      * Constructeur d'un objet Mission
      *
@@ -76,7 +79,7 @@ public class Mission {
     public boolean isModifiable() {
         return this.modifiable;
     }
-    
+
     /**
      * Méthode permettant d'affecter un employé sur la mission
      *
@@ -140,43 +143,43 @@ public class Mission {
     }
 
     public void changerStatut() {
-        switch (this.statut) {
-            case en_preparation:
-                if (this.bienPreparee()) {
-                    this.statut = Statut.plannifie;
-                }
-                this.modifiable = true;
-                break;
-            case plannifie:
-                // Vérifier si un employé n'a pas été modifié
-                if (!this.bienPreparee()) {
-                    this.statut = Statut.en_preparation;
-                }
-                // Vérifier si la mission a commencée 
-                if (Outils.dateAuj.before(this.dateDebut) == false) {
-                    this.statut = Statut.en_cours;
-                }
-                this.modifiable=true;
-                break;
-            case en_cours:
-                this.modifiable=false;
-                // Vérifier que la durée est respectée
-                Calendar dateFin = Calendar.getInstance();
 
-                dateFin.setTime(this.dateDebut);
-                dateFin.add(Calendar.DATE, this.dureeJ);
+        if (this.statut == en_preparation) {
 
-                if (Outils.dateAuj.before(dateFin.getTime()) == false) {
-                    this.statut = Statut.terminee;
-                    this.modifiable=false;
-                }
-                break;
-            case terminee:
-                this.modifiable=false;
-                break;
+            if (this.bienPreparee()) {
+                this.statut = Statut.plannifie;
+                this.changerStatut();
+            }
+        }
+
+        if (this.statut == plannifie) {
+
+            // Vérifier si un employé n'a pas été modifié
+            if (!this.bienPreparee()) {
+                this.statut = Statut.en_preparation;
+
+            }
+            // Vérifier si la mission a commencée 
+            if (Outils.dateAuj.before(this.dateDebut) == false) {
+                this.statut = Statut.en_cours;
+                this.modifiable = false;
+
+            }
+
+        }
+        if (this.statut == en_cours) {
+            // Vérifier que la durée est respectée
+            Calendar dateFin = Calendar.getInstance();
+
+            dateFin.setTime(this.dateDebut);
+            dateFin.add(Calendar.DATE, this.dureeJ);
+
+            if (Outils.dateAuj.before(dateFin.getTime()) == false) {
+                this.statut = Statut.terminee;
+            }
         }
     }
-    
+
     private boolean bienPreparee() {
         int nbPersonneActMission = 0;
         int besoin;
