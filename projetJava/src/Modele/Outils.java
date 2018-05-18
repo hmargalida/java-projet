@@ -24,7 +24,7 @@ public class Outils {
     
     public static final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     public static Date dateAuj = new Date();
-    public static File jarDir = new File(ClassLoader.getSystemClassLoader().getResource(".").getPath());
+    public static File f = new File("t");
     
     /**
      * méthode de chargement du fichier CSV de compétence de l'entreprise
@@ -33,7 +33,6 @@ public class Outils {
      */
     public static void chargerCompetence(String fileName) throws FileNotFoundException {
         try {
-            
             File fic = new File("data/"+fileName);
             Scanner scan = new Scanner(fic);
             while(scan.hasNext()) {
