@@ -11,10 +11,17 @@ package Modele;
  */
 public class FormatFichierException extends Exception {
 
+    /**
+     * Constructeur de l'exception FormatFichierException
+     */
     public FormatFichierException() {
         this.toString();
     }
     
+    /**
+     * Retourne le message d'erreur
+     * @return String message d'erreur
+     */
     public String getMessage() {
         return "Le format du fichier doit être un fichier CSV";
     }

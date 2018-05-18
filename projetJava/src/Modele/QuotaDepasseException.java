@@ -11,10 +11,17 @@ package Modele;
  */
 public class QuotaDepasseException extends Exception {
     
+    /**
+     * Constructeur de l'exception QuotaDepasseException
+     */
     public QuotaDepasseException() {
         this.toString();
     }   
     
+    /**
+     * Retourne le message d'erreur
+     * @return String message d'erreur
+     */
     public String getMessage() {
         return "Le quota pour cette compétence est atteint";
     } 

@@ -32,6 +32,9 @@ public class AjoutComp extends javax.swing.JFrame {
 
     /**
      * Creates new form AjoutComp
+     * @param idp Identifiant de l'employé
+     * @param nom nom de l'employé
+     * @param prenom prenom de l'employé
      */
     public AjoutComp(int idp, String nom, String prenom) {
         initComponents();

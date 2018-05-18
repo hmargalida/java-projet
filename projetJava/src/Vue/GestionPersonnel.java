@@ -40,6 +40,7 @@ public class GestionPersonnel extends javax.swing.JFrame {
     protected int idEmpSelect;
     /**
      * Creates new form GestionPersonnel
+     * @param personnels employés de l'entreprise
      */
     public GestionPersonnel(Map<Integer,Modele.Personnel> personnels) {
         initComponents();
@@ -632,7 +633,7 @@ public class GestionPersonnel extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosing
 
     private void menuCompMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuCompMouseClicked
-        new GestionComp(Entreprise.competences).setVisible(true);
+        new GestionComp().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_menuCompMouseClicked
 

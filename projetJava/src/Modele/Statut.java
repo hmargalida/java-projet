@@ -21,20 +21,35 @@ public enum Statut {
     private String normName;
     private Color color;
     
+    /**
+     * Constructeur du Statut
+     */
     Statut(String name, String normName, Color color) {
         this.name = name;
         this.normName = normName;
         this.color = color;
     }
     
+    /**
+     * Retourne le libellé du statut
+     * @return String libellé du statut
+     */
     public String toString() {
         return name;
     }
     
+    /**
+     * Retourne la couleur associée au statut
+     * @return Color couleur
+     */
     public Color getCouleur() {
         return this.color;
     }
     
+    /**
+     * Retourne le libellé normalisé du statut
+     * @return String
+     */
     public String getNormName() {
         return this.normName;
     }

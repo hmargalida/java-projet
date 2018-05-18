@@ -10,11 +10,18 @@ package Modele;
  * @author heloise
  */
 public class EmpAffecteException extends Exception {
-    // en cours et plannifié
+    
+    /**
+     * Constructeur de l'exception EmpAffecteException
+     */
     public EmpAffecteException() {
         this.toString();
     }
     
+    /**
+     * Retourne le message d'erreur
+     * @return String message d'erreur
+     */
     public String getMessage() {
         return "Cet employé est affecté sur une mission, vous ne pouvez pas le supprimer";
     }

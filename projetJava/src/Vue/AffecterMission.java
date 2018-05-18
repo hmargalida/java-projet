@@ -34,6 +34,7 @@ public class AffecterMission extends javax.swing.JFrame {
     
     /**
      * Creates new form AffecterMission
+     * @param idM Identifiant de la mission
      */
     public AffecterMission(int idM) {
         initComponents();

@@ -58,6 +58,10 @@ public class Entreprise {
         }
     }
     
+    /**
+     * permet de désaffecter un employé de toutes ses missions
+     * @param idp identifiant de l'employé
+     */
     public static void desaffecterTouteMission(int idp) {
         Personnel p = Entreprise.getEmploye(idp);
         // pour toutes les missions 
@@ -76,7 +80,7 @@ public class Entreprise {
     /**
      * méthode enlevant un employé de la "bd" de l'entreprise
      * @param idp le personnel à supprimer
-     * @throws Modele.EmpInexistantException
+     * @throws EmpInexistantException si l'employé est introuvable
      */
     public static void removePersonnel(int idp) throws EmpInexistantException {
         if (personnels.containsKey(idp)) {
@@ -90,6 +94,7 @@ public class Entreprise {
     /**
      * méthode enlevant une mission de la "bd" de l'entreprise
      * @param idm la mission à supprimer
+     * @throws MissionInexistanteException si la mission est introuvable
      */
     public static void removeMission(int idm) throws MissionInexistanteException {
         if (missions.containsKey(idm)) {

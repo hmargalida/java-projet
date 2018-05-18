@@ -31,6 +31,7 @@ public class ModifBesoinMission extends javax.swing.JFrame {
     
     /**
      * Creates new form ModifBesoinMission
+     * @param idm identifiant de la mission
      */
     public ModifBesoinMission(int idm) {
         initComponents();

@@ -11,10 +11,17 @@ package Modele;
  */
 public class NbEmployeDepasseException extends Exception {
     
+    /**
+     * Constructeur de l'exception NbEmployeDepasseException
+     */
     public NbEmployeDepasseException() {
         this.toString();
     }   
     
+    /**
+     * Retourne le message d'erreur
+     * @return String message d'erreur
+     */
     public String getMessage() {
         return "Le nombre d'employé pour cette compétence dépasse le besoin total";
     } 

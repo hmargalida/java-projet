@@ -3,9 +3,6 @@ package Modele;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.Calendar;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -39,12 +36,12 @@ public class Test {
                 System.err.println("ERREUR - Format de date incorrecte");
             }
             // Liste des employés AVANT ajout
-            System.out.println("////// Employés");
+            /*System.out.println("////// Employés");
             for (int p : Entreprise.personnels.keySet()) {
                 System.out.println(Entreprise.personnels.get(p));
             }
             // creation d'employés
-            /*Personnel p1 = new Personnel("MacFly", "Marty", Outils.sdf.parse("25/01/2018"));
+            Personnel p1 = new Personnel("MacFly", "Marty", Outils.sdf.parse("25/01/2018"));
             Personnel p2 = new Personnel("Marga", "Helo", Outils.sdf.parse("25/01/2018"));
             Personnel p3 = new Personnel("Jean", "Dupont", Outils.sdf.parse("25/01/2018"));
             
@@ -79,14 +76,14 @@ public class Test {
             }
             
             // Liste des missions avant ajout
-            */
+            
             System.out.println("////// Missions");
             for (int m : Entreprise.missions.keySet()) {
                 System.out.println(Entreprise.missions.get(m));
             }
             
             //création d'une mission
-            /*Besoin b = new Besoin(4);
+            Besoin b = new Besoin(4);
             Mission m5 = new Mission(Outils.sdf.parse("01/02/2018"), 5, b);
             Entreprise.addMission(m5);
             

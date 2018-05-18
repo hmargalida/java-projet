@@ -28,6 +28,7 @@ public class ModifMission extends javax.swing.JFrame {
     
     /**
      * Creates new form ModifMission
+     * @param idM identifiant de la mission
      */
     public ModifMission(int idM) {
         this.idMission = idM;

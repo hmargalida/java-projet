@@ -5,16 +5,25 @@
  */
 package Vue;
 
+import Modele.Competence;
 import Modele.Entreprise;
 import Modele.FormatFichierException;
 import Modele.Mission;
 import Modele.Outils;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JLabel;
+import javax.swing.Timer;
 
 /**
  *
@@ -29,6 +38,24 @@ public class Accueil extends javax.swing.JFrame {
     public Accueil() {
         initComponents();
         this.setLocationRelativeTo(null);
+        
+        ClockLabel labelC = new ClockLabel("date time");
+        jPanel3.add(labelC);
+        
+        int nbEmpTotal = Entreprise.personnels.size();
+        l_rstNbEmpTotal.setText(String.valueOf(nbEmpTotal));
+        int nbMissionEnCours =0;
+        int nbEmpMissionEnCours =0;
+        for (int idm : Entreprise.missions.keySet()) {
+            Mission m = Entreprise.getMission(idm);
+            if (m.getStatut().equals("En cours")) {
+                nbMissionEnCours++;
+                nbEmpMissionEnCours += m.getNbActuelEmp();
+            }
+        }
+        l_rstNbMissionTotal.setText(String.valueOf(nbMissionEnCours));
+        l_rstNbEmpM.setText(String.valueOf(nbEmpMissionEnCours));
+        
     }
 
     /**
@@ -47,6 +74,15 @@ public class Accueil extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        l_nbEmpTotal = new javax.swing.JLabel();
+        l_nbEmpMission = new javax.swing.JLabel();
+        l_nbMissionTotal = new javax.swing.JLabel();
+        l_rstNbEmpTotal = new javax.swing.JLabel();
+        l_rstNbMissionTotal = new javax.swing.JLabel();
+        l_rstNbEmpM = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        jSeparator1 = new javax.swing.JSeparator();
         menu = new javax.swing.JMenuBar();
         menuAccueil = new javax.swing.JMenu();
         menuEmploye = new javax.swing.JMenu();
@@ -80,7 +116,7 @@ public class Accueil extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(279, 279, 279)
                 .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(285, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -120,22 +156,83 @@ public class Accueil extends javax.swing.JFrame {
             }
         });
 
+        l_nbEmpTotal.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
+        l_nbEmpTotal.setText("Nombre d'employés total :");
+
+        l_nbEmpMission.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
+        l_nbEmpMission.setText("Nombre d'employés sur des missions en cours :");
+
+        l_nbMissionTotal.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
+        l_nbMissionTotal.setText("Nombre de missions en cours :");
+
+        l_rstNbEmpTotal.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
+
+        l_rstNbMissionTotal.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
+
+        l_rstNbEmpM.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
+
+        jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel3.setLayout(new java.awt.GridLayout());
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(119, 119, 119)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 398, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(122, Short.MAX_VALUE))
+                .addGap(40, 40, 40)
+                .addComponent(jLabel2)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jSeparator1)
+                    .addComponent(jButton3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(l_nbEmpTotal)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(l_rstNbEmpTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(l_nbMissionTotal)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(l_rstNbMissionTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(l_nbEmpMission)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(l_rstNbEmpM, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(l_rstNbEmpM, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(l_rstNbEmpTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(l_nbEmpTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(l_nbMissionTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(l_rstNbMissionTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(l_nbEmpMission, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(17, 17, 17)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1)
                 .addGap(12, 12, 12)
                 .addComponent(jButton2)
@@ -229,7 +326,7 @@ public class Accueil extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        new GestionComp(Modele.Entreprise.competences).setVisible(true);
+        new GestionComp().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -271,7 +368,7 @@ public class Accueil extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosing
 
     private void menuCompMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuCompMouseClicked
-        new GestionComp(Entreprise.competences).setVisible(true);
+        new GestionComp().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_menuCompMouseClicked
 
@@ -336,13 +433,49 @@ public class Accueil extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel l_nbEmpMission;
+    private javax.swing.JLabel l_nbEmpTotal;
+    private javax.swing.JLabel l_nbMissionTotal;
+    private javax.swing.JLabel l_rstNbEmpM;
+    private javax.swing.JLabel l_rstNbEmpTotal;
+    private javax.swing.JLabel l_rstNbMissionTotal;
     private javax.swing.JMenuBar menu;
     private javax.swing.JMenu menuAccueil;
     private javax.swing.JMenu menuComp;
     private javax.swing.JMenu menuEmploye;
     private javax.swing.JMenu menuMission;
     // End of variables declaration//GEN-END:variables
+}
+
+class ClockLabel extends JLabel implements ActionListener {
+ 
+  String type;
+  SimpleDateFormat sdf;
+ 
+  public ClockLabel(String type) {
+    this.type = type;
+    setForeground(Color.black);
+ 
+    switch (type) {
+      case "date time" : sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                    setFont(new Font("sans-serif", Font.PLAIN, 16));
+                    break;
+      default     : sdf = new SimpleDateFormat();
+                    break;
+    }
+ 
+    Timer t = new Timer(10, this);
+    t.start();
+  }
+ 
+  public void actionPerformed(ActionEvent ae) {
+    Date d = new Date();
+    setText(sdf.format(d));
+  }
 }

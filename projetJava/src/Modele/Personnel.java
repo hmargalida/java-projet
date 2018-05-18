@@ -126,6 +126,7 @@ public class Personnel {
     
     /**
     * méthode retournant si l'employé possède la compétence passée en paramètre
+    * @param c competence
     * @return boolean - true si l'employé possède déjà la compétence, false sinon
     */
     public boolean aCompetence(Competence c) {

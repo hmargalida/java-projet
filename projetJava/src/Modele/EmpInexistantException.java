@@ -11,10 +11,17 @@ package Modele;
  */
 public class EmpInexistantException extends Exception {
     
+    /**
+     * Constructeur de l'exception EmpInexistantException
+     */
     public EmpInexistantException() {
         this.toString();
     }
     
+    /**
+     * Retourne le message d'erreur
+     * @return String message d'erreur
+     */
     public String getMessage() {
         return "Cet employé n'existe pas";
     }

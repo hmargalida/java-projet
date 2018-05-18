@@ -24,13 +24,13 @@ import javax.swing.table.DefaultTableModel;
  * @author heloise
  */
 public class GestionComp extends javax.swing.JFrame {
-    private Map<String,Modele.Competence> competences;
+    private Map<String,Modele.Competence> competences = Entreprise.competences;
     protected int idCompSelect;
    
     /**
      * Creates new form GestionComp
      */
-    public GestionComp(Map<String,Modele.Competence> competences) {
+    public GestionComp() {
         this.competences = competences;
         initComponents();
         this.setLocationRelativeTo(null);
@@ -343,7 +343,7 @@ public class GestionComp extends javax.swing.JFrame {
     }//GEN-LAST:event_tf_rechercheActionPerformed
 
     private void menuCompetence1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuCompetence1MouseClicked
-        new GestionComp(competences).setVisible(true);
+        new GestionComp().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_menuCompetence1MouseClicked
 
@@ -381,7 +381,7 @@ public class GestionComp extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new GestionComp(Entreprise.competences).setVisible(true);
+                new GestionComp().setVisible(true);
             }
         });
     }

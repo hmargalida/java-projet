@@ -76,6 +76,11 @@ public class Mission {
         this.modifiable = true;
     }
 
+    /**
+     * Retourne vrai si la mission est modifiable, faux sinon
+     *
+     * @return boolean vrai ou faux
+     */
     public boolean isModifiable() {
         return this.modifiable;
     }
@@ -85,6 +90,7 @@ public class Mission {
      *
      * @param p L'employé à affecter
      * @param c La compétence sur laquelle est affecté l'employé
+     * @throws QuotaDepasseException Si le quota pour la compétence est atteint
      */
     public void affecterPersonnel(Personnel p, Competence c) throws QuotaDepasseException {
         int nbPersAct = 0;
@@ -118,6 +124,11 @@ public class Mission {
         }
     }
 
+    /**
+     * Méthode permettant de désaffecter un employé sur la mission
+     * @param p L'employé à désaffecter
+     * @param c La compétence sur laquelle est affecté l'employé
+     */
     public void desaffecterEmploye(Personnel p, Competence c) {
         if (this.affectations.containsKey(c)) {
             ArrayList<Personnel> persAffect = this.affectations.get(c);
@@ -142,30 +153,26 @@ public class Mission {
         return this.statut.toString();
     }
 
+    /**
+     * Determine le statut de la mission 
+     */
     public void changerStatut() {
-
         if (this.statut == en_preparation) {
-
             if (this.bienPreparee()) {
                 this.statut = Statut.plannifie;
                 this.changerStatut();
             }
         }
-
         if (this.statut == plannifie) {
-
             // Vérifier si un employé n'a pas été modifié
             if (!this.bienPreparee()) {
                 this.statut = Statut.en_preparation;
-
             }
             // Vérifier si la mission a commencée 
             if (Outils.dateAuj.before(this.dateDebut) == false) {
                 this.statut = Statut.en_cours;
                 this.modifiable = false;
-
             }
-
         }
         if (this.statut == en_cours) {
             // Vérifier que la durée est respectée
@@ -180,6 +187,10 @@ public class Mission {
         }
     }
 
+    /**
+     * Retourne vrai si la mission est bien préparée, faux sinon
+     * @return boolean vrai ou faux
+     */
     private boolean bienPreparee() {
         int nbPersonneActMission = 0;
         int besoin;
@@ -187,7 +198,6 @@ public class Mission {
 
         //Vérifier que la mission est modifiable
         if (this.modifiable == false) {
-            System.err.println("La mission n'est plus modifiable");
             return false;
         }
 
@@ -197,9 +207,7 @@ public class Mission {
 
         // vérification nb de personnes totales nécessaires sur la mission
         if (this.besoins.getNbPersNecessaire() > nbPersonneActMission) {
-            int manque = this.besoins.getNbPersNecessaire() - nbPersonneActMission;
-            System.err.println("Le nombre de personne affectées à la mission est insufisant. Ajouter " + manque + " personnes");
-            return false;
+            int manque = this.besoins.getNbPersNecessaire() - nbPersonneActMission;return false;
         }
 
         // Vérifier que chaque compétence à le nb de personnes qu'il faut
@@ -218,11 +226,8 @@ public class Mission {
         return true;
     }
 
-    //public List<String> recommanderEmp(){
-    //}
     /**
      * Accesseur identifiant de la mission
-     *
      * @return int - l'identifiant de la mission
      */
     public int getIdM() {
@@ -231,7 +236,6 @@ public class Mission {
 
     /**
      * Accesseur besoin de la mission
-     *
      * @return Besoin
      */
     public Besoin getBesoins() {
@@ -240,7 +244,6 @@ public class Mission {
 
     /**
      * Accesseur des affectations de la mission
-     *
      * @return Map - Map des affectations
      */
     public Map<Competence, ArrayList<Personnel>> getAffectations() {
@@ -249,7 +252,6 @@ public class Mission {
 
     /**
      * Accesseur date de lancement de la mission
-     *
      * @return Date
      */
     public Date getDateDebut() {
@@ -258,7 +260,6 @@ public class Mission {
 
     /**
      * Accesseur durée de la mission (en jour)
-     *
      * @return int - nb de jour
      */
     public int getDuree() {
@@ -267,7 +268,6 @@ public class Mission {
 
     /**
      * Accesseur du statut de la mission
-     *
      * @return String
      */
     public String getStatut() {
@@ -276,13 +276,16 @@ public class Mission {
 
     /**
      * Accesseur de la couleur associée au statut de la mission
-     *
      * @return Color
      */
     public Color getColorStatut() {
         return this.statut.getCouleur();
     }
 
+    /**
+     * Retourne le nombre d'employé actuellement affecté sur la mission
+     * @return int nombre d'employé
+     */
     public int getNbActuelEmp() {
         int nbPersonneActMission = 0;
         for (Competence comp : this.getAffectations().keySet()) {
@@ -291,17 +294,24 @@ public class Mission {
         return nbPersonneActMission;
     }
 
+    /**
+     * Setteur durée de la mission
+     * @param dureeM nombre de jour
+     */
     public void setDuree(int dureeM) {
         this.dureeJ = dureeM;
     }
 
+    /**
+     * Setteur date de début de la mission
+     * @param dateDeb date de début
+     */
     public void setDateDeb(Date dateDeb) {
         this.dateDebut = dateDeb;
     }
 
     /**
      * Affichage d'une chaine de caractère comportant les infos de la mission
-     *
      * @return String
      */
     public String toString() {
@@ -319,7 +329,6 @@ public class Mission {
 
     /**
      * Chaine de caractère formatée pour l'export dans un fichier CSV
-     *
      * @return String
      */
     public String formatFic() {
@@ -341,13 +350,11 @@ public class Mission {
                 msg += ";" + p.getId();
             }
         }
-        //System.out.println(msg);
         return msg;
     }
 
     /**
      * Chaine de caractère formatée pour l'export dans un fichier CSV (Besoin)
-     *
      * @param c Competence
      * @return String
      */

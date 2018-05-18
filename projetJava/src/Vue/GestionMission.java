@@ -39,6 +39,7 @@ public class GestionMission extends javax.swing.JFrame {
 
     /**
      * Creates new form GestionMission
+     * @param missions missions de l'entreprise
      */
     public GestionMission(Map<Integer, Modele.Mission> missions) {
         listModifiable = Arrays.asList(statModifiable);
@@ -572,7 +573,7 @@ public class GestionMission extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosing
 
     private void menuCompetenceMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuCompetenceMouseClicked
-        new GestionComp(competences).setVisible(true);
+        new GestionComp().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_menuCompetenceMouseClicked
 
@@ -667,7 +668,7 @@ public class GestionMission extends javax.swing.JFrame {
     }//GEN-LAST:event_tf_rechercheKeyPressed
 
     private void menuCompMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuCompMouseClicked
-        new GestionComp(Entreprise.competences).setVisible(true);
+        new GestionComp().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_menuCompMouseClicked
 
