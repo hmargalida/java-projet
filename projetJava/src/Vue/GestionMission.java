@@ -184,6 +184,11 @@ public class GestionMission extends javax.swing.JFrame {
         });
 
         bAffectEmp.setText("Modifier les affectations");
+        bAffectEmp.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                bAffectEmpFocusGained(evt);
+            }
+        });
         bAffectEmp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bAffectEmpActionPerformed(evt);
@@ -262,6 +267,11 @@ public class GestionMission extends javax.swing.JFrame {
         tableMission.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 tableMissionMousePressed(evt);
+            }
+        });
+        tableMission.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                tableMissionPropertyChange(evt);
             }
         });
         jScrollPane2.setViewportView(tableMission);
@@ -484,6 +494,9 @@ public class GestionMission extends javax.swing.JFrame {
         if (listModifiable.contains(s)) {
             new ModifMission(idMissSelect).setVisible(true);
         } else {
+            bSuppr.setEnabled(false);
+            bModif.setEnabled(false);
+            bAffectEmp.setEnabled(false);
             JOptionPane.showMessageDialog(rootPane, "Une mission \"" + s + "\" ne peut plus être modifiée.", "Attention", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_bModifActionPerformed
@@ -554,6 +567,9 @@ public class GestionMission extends javax.swing.JFrame {
             //this.dispose();
         } else {
             JOptionPane.showMessageDialog(rootPane, "Une mission \"" + s + "\" ne peut plus être modifiée.", "Attention", JOptionPane.WARNING_MESSAGE);
+            bSuppr.setEnabled(false);
+            bModif.setEnabled(false);
+            bAffectEmp.setEnabled(false);
         }
     }//GEN-LAST:event_bAffectEmpActionPerformed
 
@@ -635,7 +651,7 @@ public class GestionMission extends javax.swing.JFrame {
                         for(Competence c : m.getAffectations().keySet()) {
                             List<Personnel> persM = m.getAffectations().get(c);
                             for(Personnel p : persM) {
-                                if (p.getNom().contains(nomRech) || p.getPrenom().contains(nomRech)) {
+                                if (p.getNom().toLowerCase().contains(nomRech.toLowerCase()) || p.getPrenom().toLowerCase().contains(nomRech.toLowerCase())) {
                                     if(!missionRech.contains(m)) {
                                         missionRech.add(m);
                                     }
@@ -682,6 +698,22 @@ public class GestionMission extends javax.swing.JFrame {
             modelMission.addRow(new Object[]{m.getIdM(), m.getBesoins().getNbPersNecessaire(), m.getNbActuelEmp(), Modele.Outils.sdf.format(m.getDateDebut()), m.getDuree(), m.getStatut()});
         }
     }//GEN-LAST:event_formWindowGainedFocus
+
+    private void tableMissionPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tableMissionPropertyChange
+        if(tableMission.getSelectedRow() == -1) {
+            bAffectEmp.setEnabled(false);
+            bSuppr.setEnabled(false);
+            bModif.setEnabled(false);
+        }
+    }//GEN-LAST:event_tableMissionPropertyChange
+
+    private void bAffectEmpFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_bAffectEmpFocusGained
+        if(tableMission.getSelectedRow() == -1) {
+            bAffectEmp.setEnabled(false);
+            bSuppr.setEnabled(false);
+            bModif.setEnabled(false);
+        }
+    }//GEN-LAST:event_bAffectEmpFocusGained
 
     /**
      * @param args the command line arguments

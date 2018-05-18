@@ -264,6 +264,7 @@
             <Property name="text" type="java.lang.String" value="Modifier les affectations"/>
           </Properties>
           <Events>
+            <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="bAffectEmpFocusGained"/>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bAffectEmpActionPerformed"/>
           </Events>
         </Component>
@@ -453,6 +454,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tableMissionMousePressed"/>
+                    <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="tableMissionPropertyChange"/>
                   </Events>
                 </Component>
               </SubComponents>
