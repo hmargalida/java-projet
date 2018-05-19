@@ -137,12 +137,14 @@ public class ModifMission extends javax.swing.JFrame {
 
         s_nbEmp.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
         s_nbEmp.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        s_nbEmp.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                s_nbEmpStateChanged(evt);
+            }
+        });
         s_nbEmp.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 s_nbEmpFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                s_nbEmpFocusLost(evt);
             }
         });
 
@@ -299,22 +301,6 @@ public class ModifMission extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tf_dureeFocusLost
 
-    private void s_nbEmpFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_s_nbEmpFocusGained
-        if (!tf_duree.getText().isEmpty() && !((int) s_nbEmp.getValue() <= 0) && !tf_date.getText().isEmpty()) {
-            b_enrg.setEnabled(true);
-        } else {
-            b_enrg.setEnabled(false);
-        }
-    }//GEN-LAST:event_s_nbEmpFocusGained
-
-    private void s_nbEmpFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_s_nbEmpFocusLost
-        if (!tf_duree.getText().isEmpty() && !((int) s_nbEmp.getValue() <= 0) && !tf_date.getText().isEmpty()) {
-            b_enrg.setEnabled(true);
-        } else {
-            b_enrg.setEnabled(false);
-        }
-    }//GEN-LAST:event_s_nbEmpFocusLost
-
     private void b_enrgActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_enrgActionPerformed
         int duree = 0;
         int nbEmp = 0;
@@ -357,6 +343,22 @@ public class ModifMission extends javax.swing.JFrame {
             Logger.getLogger(GestionPersonnel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_formWindowClosing
+
+    private void s_nbEmpStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_s_nbEmpStateChanged
+        if (!tf_duree.getText().isEmpty() && !((int) s_nbEmp.getValue() <= 0) && !tf_date.getText().isEmpty()) {
+            b_enrg.setEnabled(true);
+        } else {
+            b_enrg.setEnabled(false);
+        }
+    }//GEN-LAST:event_s_nbEmpStateChanged
+
+    private void s_nbEmpFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_s_nbEmpFocusGained
+        if (!tf_duree.getText().isEmpty() && !((int) s_nbEmp.getValue() <= 0) && !tf_date.getText().isEmpty()) {
+            b_enrg.setEnabled(true);
+        } else {
+            b_enrg.setEnabled(false);
+        }
+    }//GEN-LAST:event_s_nbEmpFocusGained
 
     /**
      * @param args the command line arguments
