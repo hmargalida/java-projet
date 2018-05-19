@@ -689,9 +689,6 @@ public class GestionMission extends javax.swing.JFrame {
     }//GEN-LAST:event_menuCompMouseClicked
 
     private void formWindowGainedFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowGainedFocus
-        bModif.setEnabled(false);
-        bSuppr.setEnabled(false);
-        bAffectEmp.setEnabled(false);
         DefaultTableModel modelMission = (DefaultTableModel) tableMission.getModel();
         modelMission.setRowCount(0);
         DefaultTableModel model = (DefaultTableModel) tableMissionEmp.getModel();

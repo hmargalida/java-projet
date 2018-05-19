@@ -638,8 +638,6 @@ public class GestionPersonnel extends javax.swing.JFrame {
     }//GEN-LAST:event_menuCompMouseClicked
 
     private void formWindowGainedFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowGainedFocus
-        bSuppr.setEnabled(false);
-        bModifComp.setEnabled(false);
         DefaultTableModel modelComp = (DefaultTableModel) tableCompEmp.getModel();
         modelComp.setRowCount(0);
         DefaultTableModel model = (DefaultTableModel) tableEmp.getModel();
