@@ -6,18 +6,12 @@
 package Vue;
 
 import Modele.Competence;
-import Modele.EmpAffecteException;
-import Modele.EmpInexistantException;
 import Modele.Entreprise;
-import static Modele.Entreprise.personnels;
 import Modele.FormatFichierException;
 import Modele.Mission;
 import Modele.Outils;
 import Modele.Personnel;
 import java.awt.event.KeyEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,7 +22,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -89,10 +82,8 @@ public class GestionPersonnel extends javax.swing.JFrame {
         menuAccueil = new javax.swing.JMenu();
         menuEmploye = new javax.swing.JMenu();
         itemAllEmp = new javax.swing.JMenuItem();
-        itemNewEmp = new javax.swing.JMenuItem();
         menuMission = new javax.swing.JMenu();
         itemAllMission = new javax.swing.JMenuItem();
-        itemNewMission = new javax.swing.JMenuItem();
         menuComp = new javax.swing.JMenu();
 
         exportFic.setApproveButtonText("");
@@ -384,9 +375,6 @@ public class GestionPersonnel extends javax.swing.JFrame {
         });
         menuEmploye.add(itemAllEmp);
 
-        itemNewEmp.setText("Nouvel employé");
-        menuEmploye.add(itemNewEmp);
-
         menu.add(menuEmploye);
 
         menuMission.setText("Missions");
@@ -398,9 +386,6 @@ public class GestionPersonnel extends javax.swing.JFrame {
             }
         });
         menuMission.add(itemAllMission);
-
-        itemNewMission.setText("Nouvelle mission");
-        menuMission.add(itemNewMission);
 
         menu.add(menuMission);
 
@@ -487,45 +472,50 @@ public class GestionPersonnel extends javax.swing.JFrame {
     }//GEN-LAST:event_bModifCompActionPerformed
 
     private void bSupprActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSupprActionPerformed
+        Personnel p = Entreprise.getEmploye(idEmpSelect);
+        boolean mPrepa = false;
+        boolean mEnCours = false;
+        boolean mTermine = false;
         for(int idm : Entreprise.missions.keySet()) {
             Mission m = Entreprise.getMission(idm);
-            if (m.getStatut().equals("En préparation")) {
-                for(Competence c : m.getAffectations().keySet()) {
-                    if (m.getAffectations().get(c).contains(Entreprise.getEmploye(idEmpSelect))) {
-                        int returnConfirm = JOptionPane.showConfirmDialog(rootPane, "Cet employé est affecté à une mission en préparation.\nSi vous confirmer la suppression, il sera désaffecté de la mission", "Confirmation de suppression", JOptionPane.YES_NO_OPTION);
-                        if (returnConfirm == JOptionPane.YES_OPTION) {
-                            try {
-                                Entreprise.desaffecterTouteMission(idEmpSelect);
-                                Entreprise.removePersonnel(idEmpSelect);
-                                // Pour mettre a jour la JTable après la suppression
-                                DefaultTableModel model = (DefaultTableModel) tableEmp.getModel();
-                                // remise à zéro de la jtable
-                                model.setRowCount(0);
-                                // re remplissage
-                                for (int pers : personnels.keySet()) {
-                                    Modele.Personnel p = Entreprise.getEmploye(pers);
-                                    model.addRow(new Object[]{p.getId(), p.getNom(), p.getPrenom(), Modele.Outils.sdf.format(p.getDateEntree())});
-                                }
-                                DefaultTableModel modelComp = (DefaultTableModel) tableCompEmp.getModel();
-                                modelComp.setRowCount(0);
-                            } catch (EmpInexistantException ex) {
-                                JOptionPane.showMessageDialog(rootPane, ex.getMessage() + " " + idEmpSelect, "Erreur", JOptionPane.ERROR_MESSAGE);
-                            }
-                        }
+            for (Competence c : m.getAffectations().keySet()) {
+                if (m.getAffectations().get(c).contains(p)) {
+                    if (m.getStatut().equals("En préparation")) {
+                        mPrepa = true;
+                    }
+                    if(m.getStatut().equals("En cours") || m.getStatut().equals("Plannifié")) {
+                        mEnCours = true;
+                    }
+                    else if (m.getStatut().equals("Terminé")) {
+                        mTermine = true;
                     }
                 }
             }
-            if(m.getStatut().equals("En cours") || m.getStatut().equals("Plannifié")) {
-                for(Competence c : m.getAffectations().keySet()) {
-                    if (m.getAffectations().get(c).contains(Entreprise.getEmploye(idEmpSelect))) {
-                        JOptionPane.showMessageDialog(rootPane, "Cet employé est affecté sur une mission non modifiable, vous ne pouvez pas le supprimer", "Erreur", JOptionPane.ERROR_MESSAGE);
-                    }
-                }
-            }
-            else if (m.getStatut().equals("Terminé")) {
+        }
+        if((!mPrepa && !mEnCours && !mTermine) || mTermine) {
+            Entreprise.personnels.remove(idEmpSelect);
+        }
+        else if ((mEnCours && mPrepa) || (mEnCours && !mPrepa)) {
+            JOptionPane.showMessageDialog(rootPane, "Cet employé est affecté sur une mission non modifiable, vous ne pouvez pas le supprimer", "Erreur", JOptionPane.ERROR_MESSAGE);
+        }
+        else if (mPrepa && !mEnCours) {
+            int returnConfirm = JOptionPane.showConfirmDialog(rootPane, "Cet employé est affecté à une mission en préparation.\nSi vous confirmer la suppression, il sera désaffecté de la mission", "Confirmation de suppression", JOptionPane.YES_NO_OPTION);
+            if (returnConfirm == JOptionPane.YES_OPTION) {
+                Entreprise.desaffecterTouteMission(idEmpSelect);
                 Entreprise.personnels.remove(idEmpSelect);
             }
         }
+        // Pour mettre a jour la JTable après la suppression
+        DefaultTableModel model = (DefaultTableModel) tableEmp.getModel();
+        // remise à zéro de la jtable
+        model.setRowCount(0);
+        // re remplissage
+        for (int pers : personnels.keySet()) {
+            Modele.Personnel emp = Entreprise.getEmploye(pers);
+            model.addRow(new Object[]{emp.getId(), emp.getNom(), emp.getPrenom(), Modele.Outils.sdf.format(emp.getDateEntree())});
+        }
+        DefaultTableModel modelComp = (DefaultTableModel) tableCompEmp.getModel();
+        modelComp.setRowCount(0);
     }//GEN-LAST:event_bSupprActionPerformed
 
     private void bExportFicActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bExportFicActionPerformed
@@ -694,8 +684,6 @@ public class GestionPersonnel extends javax.swing.JFrame {
     private javax.swing.JFileChooser exportFic;
     private javax.swing.JMenuItem itemAllEmp;
     private javax.swing.JMenuItem itemAllMission;
-    private javax.swing.JMenuItem itemNewEmp;
-    private javax.swing.JMenuItem itemNewMission;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;

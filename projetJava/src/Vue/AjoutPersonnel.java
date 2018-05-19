@@ -56,7 +56,6 @@ public class AjoutPersonnel extends javax.swing.JFrame {
         l_err = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(620, 360));
         setMinimumSize(new java.awt.Dimension(620, 360));
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -207,10 +206,6 @@ public class AjoutPersonnel extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void bRetourActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bRetourActionPerformed
-        this.dispose();
-    }//GEN-LAST:event_bRetourActionPerformed
-
     private void b_EnregActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_EnregActionPerformed
         // TODO add your handling code here:
         String nomEmp = tf_nom.getText();
@@ -221,7 +216,7 @@ public class AjoutPersonnel extends javax.swing.JFrame {
         } catch (ParseException ex) {
             l_err.setText("Le format de la date est incorrect");
         }
-        if(nomEmp.isEmpty() || prenomEmp.isEmpty() || dateEntreeEmp == null) {
+        if(nomEmp.isEmpty() || prenomEmp.isEmpty() || dateEntreeEmp == null || dateEntreeEmp.after(Outils.dateAuj)) {
             JOptionPane.showMessageDialog(rootPane, "Erreur lors de la saisie du formulaire", "Erreur", JOptionPane.ERROR_MESSAGE);
         }
         else {
@@ -288,6 +283,10 @@ public class AjoutPersonnel extends javax.swing.JFrame {
             Logger.getLogger(GestionPersonnel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_formWindowClosing
+
+    private void bRetourActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bRetourActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_bRetourActionPerformed
 
     /**
      * @param args the command line arguments

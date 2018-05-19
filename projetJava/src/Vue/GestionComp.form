@@ -28,11 +28,6 @@
                 <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="itemAllEmp.setEnabled(false);"/>
               </AuxValues>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="itemNewEmp">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Nouvel employ&#xe9;"/>
-              </Properties>
-            </MenuItem>
           </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="menuMission">
@@ -47,11 +42,6 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemAllMissionActionPerformed"/>
               </Events>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="itemNewMission">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Nouvelle mission"/>
-              </Properties>
             </MenuItem>
           </SubComponents>
         </Menu>

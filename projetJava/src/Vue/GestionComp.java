@@ -63,18 +63,13 @@ public class GestionComp extends javax.swing.JFrame {
         menuAccueil = new javax.swing.JMenu();
         menuEmploye = new javax.swing.JMenu();
         itemAllEmp = new javax.swing.JMenuItem();
-        itemNewEmp = new javax.swing.JMenuItem();
         menuMission = new javax.swing.JMenu();
         itemAllMission = new javax.swing.JMenuItem();
-        itemNewMission = new javax.swing.JMenuItem();
         menuComp = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(860, 600));
         setMinimumSize(new java.awt.Dimension(860, 600));
-        setPreferredSize(new java.awt.Dimension(855, 600));
         setResizable(false);
-        setSize(new java.awt.Dimension(860, 600));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
@@ -206,9 +201,6 @@ public class GestionComp extends javax.swing.JFrame {
         });
         menuEmploye.add(itemAllEmp);
 
-        itemNewEmp.setText("Nouvel employé");
-        menuEmploye.add(itemNewEmp);
-
         menu.add(menuEmploye);
 
         menuMission.setText("Missions");
@@ -220,9 +212,6 @@ public class GestionComp extends javax.swing.JFrame {
             }
         });
         menuMission.add(itemAllMission);
-
-        itemNewMission.setText("Nouvelle mission");
-        menuMission.add(itemNewMission);
 
         menu.add(menuMission);
 
@@ -390,8 +379,6 @@ public class GestionComp extends javax.swing.JFrame {
     private javax.swing.JButton bRetour;
     private javax.swing.JMenuItem itemAllEmp;
     private javax.swing.JMenuItem itemAllMission;
-    private javax.swing.JMenuItem itemNewEmp;
-    private javax.swing.JMenuItem itemNewMission;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel l_titre;
     private javax.swing.JMenuBar menu;

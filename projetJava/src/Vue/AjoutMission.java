@@ -239,11 +239,6 @@ public class AjoutMission extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void bRetourActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bRetourActionPerformed
-        //new GestionMission(Entreprise.missions).setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_bRetourActionPerformed
-
     private void b_enrgActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_enrgActionPerformed
         int duree = 0;
         int nbEmp = 0;
@@ -335,6 +330,11 @@ public class AjoutMission extends javax.swing.JFrame {
             b_enrg.setEnabled(false);
         }
     }//GEN-LAST:event_s_nbEmpStateChanged
+
+    private void bRetourActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bRetourActionPerformed
+        //new GestionMission(Entreprise.missions).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_bRetourActionPerformed
 
     /**
      * @param args the command line arguments

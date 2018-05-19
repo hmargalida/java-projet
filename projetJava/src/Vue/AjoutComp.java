@@ -114,7 +114,6 @@ public class AjoutComp extends javax.swing.JFrame {
         b_removeComp = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(820, 470));
         setMinimumSize(new java.awt.Dimension(820, 470));
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -282,10 +281,6 @@ public class AjoutComp extends javax.swing.JFrame {
         this.dispose();
     } 
       
-    private void bRetourActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bRetourActionPerformed
-        this.dispose();
-    }//GEN-LAST:event_bRetourActionPerformed
-
     private void b_removeCompActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_removeCompActionPerformed
         String value = list_compEmp.getSelectedValue();
         String id = value.split("-")[0].trim();
@@ -326,6 +321,10 @@ public class AjoutComp extends javax.swing.JFrame {
             Logger.getLogger(GestionPersonnel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_formWindowClosing
+
+    private void bRetourActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bRetourActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_bRetourActionPerformed
 
     /**
      * @param args the command line arguments

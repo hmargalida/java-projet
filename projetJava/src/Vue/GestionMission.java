@@ -95,10 +95,8 @@ public class GestionMission extends javax.swing.JFrame {
         menuAccueil = new javax.swing.JMenu();
         menuEmploye = new javax.swing.JMenu();
         itemAllEmp = new javax.swing.JMenuItem();
-        itemNewEmp = new javax.swing.JMenuItem();
         menuMission = new javax.swing.JMenu();
         itemAllMission = new javax.swing.JMenuItem();
-        itemNewMission = new javax.swing.JMenuItem();
         menuComp = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -384,9 +382,6 @@ public class GestionMission extends javax.swing.JFrame {
         });
         menuEmploye.add(itemAllEmp);
 
-        itemNewEmp.setText("Nouvel employé");
-        menuEmploye.add(itemNewEmp);
-
         menu.add(menuEmploye);
 
         menuMission.setText("Missions");
@@ -399,9 +394,6 @@ public class GestionMission extends javax.swing.JFrame {
             }
         });
         menuMission.add(itemAllMission);
-
-        itemNewMission.setText("Nouvelle mission");
-        menuMission.add(itemNewMission);
 
         menu.add(menuMission);
 
@@ -635,7 +627,7 @@ public class GestionMission extends javax.swing.JFrame {
                         for(Competence c : m.getAffectations().keySet()) {
                             List<Personnel> persM = m.getAffectations().get(c);
                             for(Personnel p : persM) {
-                                if (p.getNom().contains(nomRech) || p.getPrenom().contains(nomRech)) {
+                                if (p.getNom().toLowerCase().contains(nomRech.toLowerCase()) || p.getPrenom().toLowerCase().contains(nomRech.toLowerCase())) {
                                     if(!missionRech.contains(m)) {
                                         missionRech.add(m);
                                     }
@@ -729,8 +721,6 @@ public class GestionMission extends javax.swing.JFrame {
     private javax.swing.ButtonGroup group_filtres;
     private javax.swing.JMenuItem itemAllEmp;
     private javax.swing.JMenuItem itemAllMission;
-    private javax.swing.JMenuItem itemNewEmp;
-    private javax.swing.JMenuItem itemNewMission;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

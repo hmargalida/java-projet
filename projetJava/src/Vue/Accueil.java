@@ -87,10 +87,8 @@ public class Accueil extends javax.swing.JFrame {
         menuAccueil = new javax.swing.JMenu();
         menuEmploye = new javax.swing.JMenu();
         itemAllEmp = new javax.swing.JMenuItem();
-        itemNewEmp = new javax.swing.JMenuItem();
         menuMission = new javax.swing.JMenu();
         itemAllMission = new javax.swing.JMenuItem();
-        itemNewMission = new javax.swing.JMenuItem();
         menuComp = new javax.swing.JMenu();
 
         jMenu2.setText("jMenu2");
@@ -172,7 +170,7 @@ public class Accueil extends javax.swing.JFrame {
         l_rstNbEmpM.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
 
         jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPanel3.setLayout(new java.awt.GridLayout());
+        jPanel3.setLayout(new java.awt.GridLayout(1, 0));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -260,14 +258,6 @@ public class Accueil extends javax.swing.JFrame {
         });
         menuEmploye.add(itemAllEmp);
 
-        itemNewEmp.setText("Nouvel employé");
-        itemNewEmp.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itemNewEmpActionPerformed(evt);
-            }
-        });
-        menuEmploye.add(itemNewEmp);
-
         menu.add(menuEmploye);
 
         menuMission.setText("Missions");
@@ -279,9 +269,6 @@ public class Accueil extends javax.swing.JFrame {
             }
         });
         menuMission.add(itemAllMission);
-
-        itemNewMission.setText("Nouvelle mission");
-        menuMission.add(itemNewMission);
 
         menu.add(menuMission);
 
@@ -346,11 +333,6 @@ public class Accueil extends javax.swing.JFrame {
         new GestionMission(Modele.Entreprise.missions).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_itemAllMissionActionPerformed
-
-    private void itemNewEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemNewEmpActionPerformed
-        new AjoutPersonnel().setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_itemNewEmpActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         try {
@@ -427,8 +409,6 @@ public class Accueil extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem itemAllEmp;
     private javax.swing.JMenuItem itemAllMission;
-    private javax.swing.JMenuItem itemNewEmp;
-    private javax.swing.JMenuItem itemNewMission;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;

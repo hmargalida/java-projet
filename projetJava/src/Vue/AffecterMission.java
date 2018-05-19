@@ -120,7 +120,6 @@ public class AffecterMission extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(810, 530));
         setMinimumSize(new java.awt.Dimension(810, 530));
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -309,11 +308,6 @@ public class AffecterMission extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
    
-    private void bRetourActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bRetourActionPerformed
-        //new GestionMission(Entreprise.missions).setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_bRetourActionPerformed
-
     private void table_compMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_compMousePressed
         // recherche des employés ayant cette compétence
         int row = table_comp.getSelectedRow();
@@ -377,6 +371,11 @@ public class AffecterMission extends javax.swing.JFrame {
             Logger.getLogger(GestionPersonnel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_formWindowClosing
+
+    private void bRetourActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bRetourActionPerformed
+        //new GestionMission(Entreprise.missions).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_bRetourActionPerformed
 
     /**
      * @param args the command line arguments
