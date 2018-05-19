@@ -24,13 +24,15 @@ import javax.swing.table.DefaultTableModel;
  * @author heloise
  */
 public class ModifBesoinMission extends javax.swing.JFrame {
-    private static int idMission=0;
+
+    private static int idMission = 0;
     private Mission m;
     private Besoin b;
-    ArrayList<String> strings ;
-    
+    ArrayList<String> strings;
+
     /**
      * Creates new form ModifBesoinMission
+     *
      * @param idm identifiant de la mission
      */
     public ModifBesoinMission(int idm) {
@@ -39,22 +41,28 @@ public class ModifBesoinMission extends javax.swing.JFrame {
         idMission = idm;
         m = Entreprise.getMission(idMission);
         b = m.getBesoins();
-        
+
         // remplissage liste de compétence de l'entreprise
         l_besoinVal.setText(String.valueOf(b.getNbPersNecessaire()));
         s_nbEmpComp.setBounds(0, 0, b.getNbPersNecessaire(), 1);
         s_nbEmpComp.repaint();
         b_ajouter.setEnabled(false);
         strings = new ArrayList<>();
-        for(String comp : Entreprise.competences.keySet()) {
+        for (String comp : Entreprise.competences.keySet()) {
             strings.add(Entreprise.getCompetence(comp).getCompFR());
         }
         list_comp.setModel(new javax.swing.AbstractListModel<String>() {
             String[] elements = strings.toArray(new String[strings.size()]);
-            public int getSize() { return elements.length; }
-            public String getElementAt(int i) { return elements[i]; }
+
+            public int getSize() {
+                return elements.length;
+            }
+
+            public String getElementAt(int i) {
+                return elements[i];
+            }
         });
-        
+
         // remplissage tableau des compétences de la mission
         DefaultTableModel model = (DefaultTableModel) t_tabCompAjoutee.getModel();
         model.setRowCount(0);
@@ -306,8 +314,8 @@ public class ModifBesoinMission extends javax.swing.JFrame {
     private void list_compMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_list_compMousePressed
         String row = list_comp.getSelectedValue();
         String idComp = row.split("-")[0].trim();
-        int valueSpinner = (int)s_nbEmpComp.getValue();
-        if (idComp!=null && valueSpinner!=0 && idMission!=0) {
+        int valueSpinner = (int) s_nbEmpComp.getValue();
+        if (idComp != null && valueSpinner != 0 && idMission != 0) {
             b_ajouter.setEnabled(true);
         }
     }//GEN-LAST:event_list_compMousePressed
@@ -315,27 +323,55 @@ public class ModifBesoinMission extends javax.swing.JFrame {
     private void s_nbEmpCompMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_s_nbEmpCompMousePressed
         String row = list_comp.getSelectedValue();
         String idComp = row.split("-")[0].trim();
-        int valueSpinner = (int)s_nbEmpComp.getValue();
-        if (idComp!=null && valueSpinner!=0 && idMission!=0) {
+        int valueSpinner = (int) s_nbEmpComp.getValue();
+        if (idComp != null && valueSpinner != 0 && idMission != 0) {
             b_ajouter.setEnabled(true);
         }
     }//GEN-LAST:event_s_nbEmpCompMousePressed
 
     private void b_ajouterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_ajouterActionPerformed
         String row = list_comp.getSelectedValue();
-        String idComp = row.split("-")[0].trim();
-        int valueSpinner = (int)s_nbEmpComp.getValue();
-        if (idComp!=null && valueSpinner!=0 && idMission!=0) {
-            try {
-                b.besoinParCompetence(Entreprise.getCompetence(idComp), valueSpinner);
-            } catch (NbEmployeDepasseException ex) {
-                JOptionPane.showMessageDialog(rootPane, ex.getMessage() , "Erreur", JOptionPane.ERROR_MESSAGE);
+        String idC = null;
+        DefaultTableModel model = (DefaultTableModel) t_tabCompAjoutee.getModel();
+        model.setRowCount(0);
+
+        for (Competence comp : Entreprise.competences.values()) {
+            if (comp.getCompFR() == row) {
+                idC = comp.getIdComp();
             }
-            DefaultTableModel model = (DefaultTableModel) t_tabCompAjoutee.getModel();
-            model.setRowCount(0);
+        }
+
+        int valueSpinner = (int) s_nbEmpComp.getValue();
+
+        if (valueSpinner == 0) {
+            b.removebesoinParCompetence(Entreprise.competences.get(idC));
+
             for (Competence comp : b.getMapBesoins().keySet()) {
                 int c = b.getMapBesoins().get(comp);
                 model.addRow(new Object[]{comp.getCompFR(), c});
+            }
+        }
+
+        if (idC != null && valueSpinner != 0 && idMission != 0) {
+            try {
+                b.besoinParCompetence(Entreprise.getCompetence(idC), valueSpinner);
+            } catch (NbEmployeDepasseException ex) {
+                JOptionPane.showMessageDialog(rootPane, ex.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+            }
+
+            String fr = "";
+            Object[] newCpt = null;
+            int c = 0;
+            for (Competence comp : b.getMapBesoins().keySet()) {
+                c = b.getMapBesoins().get(comp);
+
+                for (Competence cpt : Entreprise.competences.values()) {
+                    if (cpt.getCompFR().equals(row)) {
+                        fr = cpt.getCompFR();
+                        //model.addRow(new Object[]{fr, c});
+                        model.addRow(new Object[]{comp.getCompFR(), c});
+                    }
+                }
             }
         }
     }//GEN-LAST:event_b_ajouterActionPerformed
@@ -349,7 +385,7 @@ public class ModifBesoinMission extends javax.swing.JFrame {
         int row = t_tabCompAjoutee.getSelectedRow();
         //System.out.println(row);
         String nomComp = (String) t_tabCompAjoutee.getValueAt(row, 0);
-        int nbEmp = (int)t_tabCompAjoutee.getValueAt(row, 1);
+        int nbEmp = (int) t_tabCompAjoutee.getValueAt(row, 1);
         s_nbEmpComp.setValue(nbEmp);
         list_comp.setSelectedIndex(strings.indexOf(nomComp));
         list_comp.ensureIndexIsVisible(strings.indexOf(nomComp));
