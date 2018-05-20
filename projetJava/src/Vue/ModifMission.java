@@ -6,10 +6,12 @@
 package Vue;
 
 import Modele.Besoin;
+import Modele.Competence;
 import Modele.Entreprise;
 import Modele.FormatFichierException;
 import Modele.Mission;
 import Modele.Outils;
+import Modele.Personnel;
 import java.awt.Color;
 import java.io.IOException;
 import java.text.ParseException;
@@ -312,14 +314,24 @@ public class ModifMission extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Erreur lors de la saisie du formulaire", "Erreur", JOptionPane.ERROR_MESSAGE);
         } else {
             Mission m = Entreprise.getMission(idMission);
-            m.setDateDeb(dateDeb);
-            m.setDuree(duree);
-            m.getBesoins().setNbPersNecessaire(nbEmp);
-            JOptionPane.showMessageDialog(rootPane, "La mission " + m.getIdM() + " a bien été modifiée.\nVous pouvez renseigner les compétences de la mission.", "Modification de la mission", JOptionPane.INFORMATION_MESSAGE);
-            // retour page précédente
-            new ModifBesoinMission(m.getIdM()).setVisible(true);
-            m.changerStatut();
-            this.dispose();
+            int nbActBesoin = 0;
+            for(Competence c : m.getBesoins().getMapBesoins().keySet()) {
+                nbActBesoin++;
+            }
+            if (nbEmp < nbActBesoin) {
+                JOptionPane.showMessageDialog(rootPane, "Le besoin par compétence est supérieur au nombre d'employé nécessaire total.\nVous devez d'abord supprimer ou réduire le nombre d'employés par compétence", "Attention", JOptionPane.OK_OPTION);
+                s_nbEmp.setValue(m.getBesoins().getNbPersNecessaire());
+            }
+            else {
+                m.setDateDeb(dateDeb);
+                m.setDuree(duree);
+                m.getBesoins().setNbPersNecessaire(nbEmp);
+                JOptionPane.showMessageDialog(rootPane, "La mission " + m.getIdM() + " a bien été modifiée.\nVous pouvez renseigner les compétences de la mission.", "Modification de la mission", JOptionPane.INFORMATION_MESSAGE);
+                // retour page précédente
+                new ModifBesoinMission(m.getIdM()).setVisible(true);
+                m.changerStatut();
+                this.dispose();
+            }
         }
     }//GEN-LAST:event_b_enrgActionPerformed
 

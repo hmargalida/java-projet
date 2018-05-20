@@ -86,9 +86,7 @@ public class Accueil extends javax.swing.JFrame {
         menu = new javax.swing.JMenuBar();
         menuAccueil = new javax.swing.JMenu();
         menuEmploye = new javax.swing.JMenu();
-        itemAllEmp = new javax.swing.JMenuItem();
         menuMission = new javax.swing.JMenu();
-        itemAllMission = new javax.swing.JMenuItem();
         menuComp = new javax.swing.JMenu();
 
         jMenu2.setText("jMenu2");
@@ -249,27 +247,19 @@ public class Accueil extends javax.swing.JFrame {
         menu.add(menuAccueil);
 
         menuEmploye.setText("Employés");
-
-        itemAllEmp.setText("Liste des employés");
-        itemAllEmp.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itemAllEmpActionPerformed(evt);
+        menuEmploye.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menuEmployeMouseClicked(evt);
             }
         });
-        menuEmploye.add(itemAllEmp);
-
         menu.add(menuEmploye);
 
         menuMission.setText("Missions");
-
-        itemAllMission.setText("Liste des missions");
-        itemAllMission.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itemAllMissionActionPerformed(evt);
+        menuMission.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menuMissionMouseClicked(evt);
             }
         });
-        menuMission.add(itemAllMission);
-
         menu.add(menuMission);
 
         menuComp.setText("Compétences");
@@ -317,22 +307,10 @@ public class Accueil extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void itemAllEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemAllEmpActionPerformed
-        // TODO add your handling code here:
-        new GestionPersonnel(Modele.Entreprise.personnels).setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_itemAllEmpActionPerformed
-
     private void menuAccueilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuAccueilMouseClicked
         new Accueil().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_menuAccueilMouseClicked
-
-    private void itemAllMissionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemAllMissionActionPerformed
-        // TODO add your handling code here:
-        new GestionMission(Modele.Entreprise.missions).setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_itemAllMissionActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         try {
@@ -353,6 +331,16 @@ public class Accueil extends javax.swing.JFrame {
         new GestionComp().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_menuCompMouseClicked
+
+    private void menuMissionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuMissionMouseClicked
+        new GestionMission(Entreprise.missions).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_menuMissionMouseClicked
+
+    private void menuEmployeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuEmployeMouseClicked
+       new GestionPersonnel(Entreprise.personnels).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_menuEmployeMouseClicked
 
     /**
      * @param args the command line arguments
@@ -407,8 +395,6 @@ public class Accueil extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem itemAllEmp;
-    private javax.swing.JMenuItem itemAllMission;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;

@@ -62,9 +62,7 @@ public class GestionComp extends javax.swing.JFrame {
         menu = new javax.swing.JMenuBar();
         menuAccueil = new javax.swing.JMenu();
         menuEmploye = new javax.swing.JMenu();
-        itemAllEmp = new javax.swing.JMenuItem();
         menuMission = new javax.swing.JMenu();
-        itemAllMission = new javax.swing.JMenuItem();
         menuComp = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -191,28 +189,19 @@ public class GestionComp extends javax.swing.JFrame {
         menu.add(menuAccueil);
 
         menuEmploye.setText("Employés");
-
-        itemAllEmp.setText("Liste des employés");
-        itemAllEmp.setEnabled(false);
-        itemAllEmp.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itemAllEmpActionPerformed(evt);
+        menuEmploye.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menuEmployeMouseClicked(evt);
             }
         });
-        menuEmploye.add(itemAllEmp);
-
         menu.add(menuEmploye);
 
         menuMission.setText("Missions");
-
-        itemAllMission.setText("Liste des missions");
-        itemAllMission.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itemAllMissionActionPerformed(evt);
+        menuMission.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menuMissionMouseClicked(evt);
             }
         });
-        menuMission.add(itemAllMission);
-
         menu.add(menuMission);
 
         menuComp.setEnabled(false);
@@ -245,18 +234,6 @@ public class GestionComp extends javax.swing.JFrame {
         new Accueil().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_menuAccueilMouseClicked
-
-    private void itemAllEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemAllEmpActionPerformed
-        // TODO add your handling code here:
-        new GestionPersonnel(Modele.Entreprise.personnels).setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_itemAllEmpActionPerformed
-
-    private void itemAllMissionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemAllMissionActionPerformed
-        // TODO add your handling code here:
-        new GestionMission(Modele.Entreprise.missions).setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_itemAllMissionActionPerformed
 
     private void bRetourActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bRetourActionPerformed
         new Accueil().setVisible(true);
@@ -340,6 +317,16 @@ public class GestionComp extends javax.swing.JFrame {
 
     }//GEN-LAST:event_tableMissionMousePressed
 
+    private void menuEmployeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuEmployeMouseClicked
+        new GestionPersonnel(Entreprise.personnels).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_menuEmployeMouseClicked
+
+    private void menuMissionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuMissionMouseClicked
+        new GestionMission(Entreprise.missions).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_menuMissionMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -377,8 +364,6 @@ public class GestionComp extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bRetour;
-    private javax.swing.JMenuItem itemAllEmp;
-    private javax.swing.JMenuItem itemAllMission;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel l_titre;
     private javax.swing.JMenuBar menu;

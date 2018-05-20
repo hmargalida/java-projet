@@ -32,34 +32,17 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Employ&#xe9;s"/>
           </Properties>
-          <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="itemAllEmp">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Liste des employ&#xe9;s"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemAllEmpActionPerformed"/>
-              </Events>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="itemAllEmp.setEnabled(false);"/>
-              </AuxValues>
-            </MenuItem>
-          </SubComponents>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="menuEmploye.setEnabled(false);"/>
+          </AuxValues>
         </Menu>
         <Menu class="javax.swing.JMenu" name="menuMission">
           <Properties>
             <Property name="text" type="java.lang.String" value="Missions"/>
           </Properties>
-          <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="itemAllMission">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Liste des missions"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemAllMissionActionPerformed"/>
-              </Events>
-            </MenuItem>
-          </SubComponents>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="menuMissionMouseClicked"/>
+          </Events>
         </Menu>
         <Menu class="javax.swing.JMenu" name="menuComp">
           <Properties>

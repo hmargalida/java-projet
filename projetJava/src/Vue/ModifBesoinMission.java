@@ -160,7 +160,7 @@ public class ModifBesoinMission extends javax.swing.JFrame {
 
         l_titreSpinner.setText("Nombre d'employé nécessaire :");
 
-        b_ajouter.setText("Modifier");
+        b_ajouter.setText("Mettre à jour");
         b_ajouter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 b_ajouterActionPerformed(evt);
@@ -318,6 +318,7 @@ public class ModifBesoinMission extends javax.swing.JFrame {
     }//GEN-LAST:event_bRetourActionPerformed
 
     private void list_compMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_list_compMousePressed
+        s_nbEmpComp.setValue(Integer.valueOf(0));
         String row = list_comp.getSelectedValue();
         String idComp = row.split("-")[0].trim();
         int valueSpinner = (int)s_nbEmpComp.getValue();
