@@ -6,6 +6,7 @@
 package Vue;
 
 import Modele.Besoin;
+import Modele.BesoinNonExistantException;
 import Modele.Competence;
 import Modele.Entreprise;
 import Modele.FormatFichierException;
@@ -39,12 +40,12 @@ public class ModifBesoinMission extends javax.swing.JFrame {
         idMission = idm;
         m = Entreprise.getMission(idMission);
         b = m.getBesoins();
+        b_suppr.setEnabled(false);
         
         // remplissage liste de compétence de l'entreprise
         l_besoinVal.setText(String.valueOf(b.getNbPersNecessaire()));
         s_nbEmpComp.setBounds(0, 0, b.getNbPersNecessaire(), 1);
         s_nbEmpComp.repaint();
-        b_ajouter.setEnabled(false);
         strings = new ArrayList<>();
         for(String comp : Entreprise.competences.keySet()) {
             strings.add(Entreprise.getCompetence(comp).getCompFR());
@@ -87,6 +88,7 @@ public class ModifBesoinMission extends javax.swing.JFrame {
         l_compAjoutee = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         t_tabCompAjoutee = new javax.swing.JTable();
+        b_suppr = new javax.swing.JButton();
         b_retourMission = new javax.swing.JButton();
         l_besoin = new javax.swing.JLabel();
         l_besoinVal = new javax.swing.JLabel();
@@ -158,7 +160,7 @@ public class ModifBesoinMission extends javax.swing.JFrame {
 
         l_titreSpinner.setText("Nombre d'employé nécessaire :");
 
-        b_ajouter.setText("Ajouter");
+        b_ajouter.setText("Modifier");
         b_ajouter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 b_ajouterActionPerformed(evt);
@@ -190,6 +192,13 @@ public class ModifBesoinMission extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(t_tabCompAjoutee);
 
+        b_suppr.setText("Supprimer");
+        b_suppr.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                b_supprActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout p_compLayout = new javax.swing.GroupLayout(p_comp);
         p_comp.setLayout(p_compLayout);
         p_compLayout.setHorizontalGroup(
@@ -206,8 +215,11 @@ public class ModifBesoinMission extends javax.swing.JFrame {
                                 .addGroup(p_compLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(l_titreSpinner)
                                     .addComponent(s_nbEmpComp, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(b_ajouter, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addContainerGap(111, Short.MAX_VALUE))
+                                    .addGroup(p_compLayout.createSequentialGroup()
+                                        .addComponent(b_ajouter, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(b_suppr, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addContainerGap(95, Short.MAX_VALUE))
                     .addGroup(p_compLayout.createSequentialGroup()
                         .addGroup(p_compLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(l_compAjoutee)
@@ -226,7 +238,9 @@ public class ModifBesoinMission extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(s_nbEmpComp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(b_ajouter, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(p_compLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(b_ajouter, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(b_suppr, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
                 .addComponent(l_compAjoutee, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -322,20 +336,28 @@ public class ModifBesoinMission extends javax.swing.JFrame {
     }//GEN-LAST:event_s_nbEmpCompMousePressed
 
     private void b_ajouterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_ajouterActionPerformed
-        String row = list_comp.getSelectedValue();
-        String idComp = row.split("-")[0].trim();
-        int valueSpinner = (int)s_nbEmpComp.getValue();
-        if (idComp!=null && valueSpinner!=0 && idMission!=0) {
-            try {
-                b.besoinParCompetence(Entreprise.getCompetence(idComp), valueSpinner);
-            } catch (NbEmployeDepasseException ex) {
-                JOptionPane.showMessageDialog(rootPane, ex.getMessage() , "Erreur", JOptionPane.ERROR_MESSAGE);
+        if (!list_comp.isSelectionEmpty() || t_tabCompAjoutee.getSelectedRow()!=-1) {
+            String row = list_comp.getSelectedValue();
+            String idComp = "";
+            for (String c : Entreprise.competences.keySet()) {
+                Competence comp = Entreprise.getCompetence(c);
+                if(comp.getCompFR().equals(row)) {
+                    idComp = comp.getIdComp();
+                }
             }
-            DefaultTableModel model = (DefaultTableModel) t_tabCompAjoutee.getModel();
-            model.setRowCount(0);
-            for (Competence comp : b.getMapBesoins().keySet()) {
-                int c = b.getMapBesoins().get(comp);
-                model.addRow(new Object[]{comp.getCompFR(), c});
+            int valueSpinner = (int)s_nbEmpComp.getValue();
+            if (idComp!=null && valueSpinner!=0 && idMission!=0) {
+                try {
+                    b.besoinParCompetence(Entreprise.getCompetence(idComp), valueSpinner);
+                } catch (NbEmployeDepasseException ex) {
+                    JOptionPane.showMessageDialog(rootPane, ex.getMessage() , "Erreur", JOptionPane.ERROR_MESSAGE);
+                }
+                DefaultTableModel model = (DefaultTableModel) t_tabCompAjoutee.getModel();
+                model.setRowCount(0);
+                for (Competence comp : b.getMapBesoins().keySet()) {
+                    int c = b.getMapBesoins().get(comp);
+                    model.addRow(new Object[]{comp.getCompFR(), c});
+                }
             }
         }
     }//GEN-LAST:event_b_ajouterActionPerformed
@@ -346,8 +368,9 @@ public class ModifBesoinMission extends javax.swing.JFrame {
     }//GEN-LAST:event_b_retourMissionActionPerformed
 
     private void t_tabCompAjouteeMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_t_tabCompAjouteeMousePressed
+        b_suppr.setEnabled(true);
         int row = t_tabCompAjoutee.getSelectedRow();
-        //System.out.println(row);
+        
         String nomComp = (String) t_tabCompAjoutee.getValueAt(row, 0);
         int nbEmp = (int)t_tabCompAjoutee.getValueAt(row, 1);
         s_nbEmpComp.setValue(nbEmp);
@@ -369,6 +392,33 @@ public class ModifBesoinMission extends javax.swing.JFrame {
             Logger.getLogger(GestionPersonnel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_formWindowClosing
+
+    private void b_supprActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_supprActionPerformed
+        if(t_tabCompAjoutee.getSelectedRow()!=-1) {
+            String row = list_comp.getSelectedValue();
+            String idComp = "";
+            for (String c : Entreprise.competences.keySet()) {
+                Competence comp = Entreprise.getCompetence(c);
+                if(comp.getCompFR().equals(row)) {
+                    idComp = comp.getIdComp();
+                }
+            }
+            try {
+                b.removebesoinParCompetence(Entreprise.getCompetence(idComp));
+            } catch (BesoinNonExistantException ex) {
+                JOptionPane.showMessageDialog(rootPane, ex.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+            }
+            DefaultTableModel model = (DefaultTableModel) t_tabCompAjoutee.getModel();
+            model.setRowCount(0);
+            for (Competence comp : b.getMapBesoins().keySet()) {
+                int c = b.getMapBesoins().get(comp);
+                model.addRow(new Object[]{comp.getCompFR(), c});
+            }
+        }
+        else {
+            JOptionPane.showMessageDialog(rootPane, "Vous devez sélectionner une compétence déjà ajoutée à la mission", "Attention", JOptionPane.OK_OPTION);
+        }
+    }//GEN-LAST:event_b_supprActionPerformed
 
     /**
      * @param args the command line arguments
@@ -409,6 +459,7 @@ public class ModifBesoinMission extends javax.swing.JFrame {
     private javax.swing.JButton bRetour;
     private javax.swing.JButton b_ajouter;
     private javax.swing.JButton b_retourMission;
+    private javax.swing.JButton b_suppr;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel l_besoin;

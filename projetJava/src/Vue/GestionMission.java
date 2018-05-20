@@ -570,6 +570,9 @@ public class GestionMission extends javax.swing.JFrame {
     }//GEN-LAST:event_menuCompetenceMouseClicked
 
     private void cb_statutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_statutActionPerformed
+        bSuppr.setEnabled(false);
+        bModif.setEnabled(false);
+        bAffectEmp.setEnabled(false);
         List<Mission> statutRech = new ArrayList<>();
         String statSelected = (String)cb_statut.getSelectedItem();
         if(statSelected.equals("Tout")) {
@@ -657,6 +660,9 @@ public class GestionMission extends javax.swing.JFrame {
                 missionRech.clear();
             }
         }
+        bModif.setEnabled(false);
+        bAffectEmp.setEnabled(false);
+        bSuppr.setEnabled(false);
     }//GEN-LAST:event_tf_rechercheKeyPressed
 
     private void menuCompMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuCompMouseClicked
@@ -665,6 +671,9 @@ public class GestionMission extends javax.swing.JFrame {
     }//GEN-LAST:event_menuCompMouseClicked
 
     private void formWindowGainedFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowGainedFocus
+        bModif.setEnabled(false);
+        bAffectEmp.setEnabled(false);
+        bSuppr.setEnabled(false);
         DefaultTableModel modelMission = (DefaultTableModel) tableMission.getModel();
         modelMission.setRowCount(0);
         DefaultTableModel model = (DefaultTableModel) tableMissionEmp.getModel();

@@ -297,20 +297,22 @@ public class AjoutBesoinMission extends javax.swing.JFrame {
     }//GEN-LAST:event_s_nbEmpCompMousePressed
 
     private void b_ajouterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_ajouterActionPerformed
-        String row = list_comp.getSelectedValue();
-        String idComp = row.split("-")[0].trim();
-        int valueSpinner = (int)s_nbEmpComp.getValue();
-        if (idComp!=null && valueSpinner!=0 && idMission!=0) {
-            try {
-                b.besoinParCompetence(Entreprise.getCompetence(idComp), valueSpinner);
-            } catch (NbEmployeDepasseException ex) {
-                JOptionPane.showMessageDialog(rootPane, ex.getMessage() , "Erreur", JOptionPane.ERROR_MESSAGE);
-            }
-            DefaultTableModel model = (DefaultTableModel) t_tabCompAjoutee.getModel();
-            model.setRowCount(0);
-            for (Competence comp : b.getMapBesoins().keySet()) {
-                int c = b.getMapBesoins().get(comp);
-                model.addRow(new Object[]{comp.getCompFR(), c});
+        if (!list_comp.isSelectionEmpty()) {
+            String row = list_comp.getSelectedValue();
+            String idComp = row.split("-")[0].trim();
+            int valueSpinner = (int)s_nbEmpComp.getValue();
+            if (idComp!=null && valueSpinner!=0 && idMission!=0) {
+                try {
+                    b.besoinParCompetence(Entreprise.getCompetence(idComp), valueSpinner);
+                } catch (NbEmployeDepasseException ex) {
+                    JOptionPane.showMessageDialog(rootPane, ex.getMessage() , "Erreur", JOptionPane.ERROR_MESSAGE);
+                }
+                DefaultTableModel model = (DefaultTableModel) t_tabCompAjoutee.getModel();
+                model.setRowCount(0);
+                for (Competence comp : b.getMapBesoins().keySet()) {
+                    int c = b.getMapBesoins().get(comp);
+                    model.addRow(new Object[]{comp.getCompFR(), c});
+                }
             }
         }
     }//GEN-LAST:event_b_ajouterActionPerformed

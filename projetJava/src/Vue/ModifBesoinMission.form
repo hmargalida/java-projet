@@ -164,11 +164,15 @@
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Component id="l_titreSpinner" alignment="0" min="-2" max="-2" attributes="0"/>
                                           <Component id="s_nbEmpComp" alignment="0" min="-2" pref="66" max="-2" attributes="0"/>
-                                          <Component id="b_ajouter" alignment="0" min="-2" pref="100" max="-2" attributes="0"/>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <Component id="b_ajouter" min="-2" pref="100" max="-2" attributes="0"/>
+                                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                              <Component id="b_suppr" min="-2" pref="100" max="-2" attributes="0"/>
+                                          </Group>
                                       </Group>
                                   </Group>
                               </Group>
-                              <EmptySpace pref="111" max="32767" attributes="0"/>
+                              <EmptySpace pref="95" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
@@ -193,7 +197,10 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="s_nbEmpComp" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
-                              <Component id="b_ajouter" min="-2" pref="42" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="b_ajouter" alignment="3" min="-2" pref="42" max="-2" attributes="0"/>
+                                  <Component id="b_suppr" alignment="3" min="-2" pref="42" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
                           <Component id="jScrollPane1" alignment="0" min="-2" pref="118" max="-2" attributes="0"/>
                       </Group>
@@ -251,7 +258,7 @@
             </Component>
             <Component class="javax.swing.JButton" name="b_ajouter">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Ajouter"/>
+                <Property name="text" type="java.lang.String" value="Modifier"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="b_ajouterActionPerformed"/>
@@ -287,6 +294,14 @@
                 </Component>
               </SubComponents>
             </Container>
+            <Component class="javax.swing.JButton" name="b_suppr">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Supprimer"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="b_supprActionPerformed"/>
+              </Events>
+            </Component>
           </SubComponents>
         </Container>
         <Component class="javax.swing.JButton" name="b_retourMission">

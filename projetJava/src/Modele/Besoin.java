@@ -37,11 +37,36 @@ public class Besoin {
         for(Competence comp : this.nbPersComp.keySet()) {
             nbAct += this.nbPersComp.get(comp);
         }
-        if((nbPers+nbAct)<=nbPersNecessaire) {
-            this.nbPersComp.put(c, nbPers);
+        if (this.nbPersComp.containsKey(c)) {
+            int nbActCompModif = this.nbPersComp.get(c);
+            if(((nbAct-nbActCompModif)+nbPers) <= nbPersNecessaire) {
+                 this.nbPersComp.put(c, nbPers);
+            }
+            else {
+                throw new NbEmployeDepasseException();
+            }
         }
         else {
-            throw new NbEmployeDepasseException();
+            if((nbPers+nbAct)<=nbPersNecessaire) {
+                this.nbPersComp.put(c, nbPers);
+            }
+            else {
+                throw new NbEmployeDepasseException();
+            }
+        }
+    }
+    
+    /**
+     * Suppression d'une compétence de la mission 
+     * @param c Compétence
+     * @throws BesoinNonExistantException un besoin introuvable
+     */
+    public void removebesoinParCompetence(Competence c) throws BesoinNonExistantException {
+        if (this.nbPersComp.containsKey(c)) {
+            this.nbPersComp.remove(c);
+        }
+        else {
+            throw new BesoinNonExistantException();
         }
     }
     
