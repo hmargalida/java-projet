@@ -564,6 +564,8 @@ public class GestionPersonnel extends javax.swing.JFrame {
                 persRech.clear();
             }
         }
+        bModifComp.setEnabled(false);
+        bSuppr.setEnabled(false);
     }//GEN-LAST:event_tf_rechercheKeyPressed
 
     private void tableEmpFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tableEmpFocusLost

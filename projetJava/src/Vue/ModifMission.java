@@ -78,7 +78,7 @@ public class ModifMission extends javax.swing.JFrame {
         pBandeau.setPreferredSize(new java.awt.Dimension(317, 73));
 
         l_titre.setFont(new java.awt.Font("Lucida Grande", 0, 22)); // NOI18N
-        l_titre.setText("Modification d'une mission");
+        l_titre.setText("Modification d'une mission (1/2)");
 
         bRetour.setText("<");
         bRetour.addActionListener(new java.awt.event.ActionListener() {
@@ -96,7 +96,7 @@ public class ModifMission extends javax.swing.JFrame {
                 .addComponent(bRetour, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27)
                 .addComponent(l_titre)
-                .addContainerGap(431, Short.MAX_VALUE))
+                .addContainerGap(370, Short.MAX_VALUE))
         );
         pBandeauLayout.setVerticalGroup(
             pBandeauLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

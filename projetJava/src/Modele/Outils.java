@@ -24,7 +24,6 @@ public class Outils {
     
     public static final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     public static Date dateAuj = new Date();
-    public static File jarDir = new File(ClassLoader.getSystemClassLoader().getResource(".").getPath());
     
     /**
      * méthode de chargement du fichier CSV de compétence de l'entreprise
