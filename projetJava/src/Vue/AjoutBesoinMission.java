@@ -83,11 +83,6 @@ public class AjoutBesoinMission extends javax.swing.JFrame {
         setMaximumSize(new java.awt.Dimension(790, 605));
         setMinimumSize(new java.awt.Dimension(790, 605));
         setResizable(false);
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosing(java.awt.event.WindowEvent evt) {
-                formWindowClosing(evt);
-            }
-        });
 
         pBandeau.setBackground(new java.awt.Color(255, 153, 51));
         pBandeau.setPreferredSize(new java.awt.Dimension(317, 73));
@@ -320,21 +315,6 @@ public class AjoutBesoinMission extends javax.swing.JFrame {
     private void b_retourMissionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_retourMissionActionPerformed
         this.dispose();
     }//GEN-LAST:event_b_retourMissionActionPerformed
-
-    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        try {
-            Outils.sauvegarderPersonnel("data/liste_personnel.csv");
-            Outils.sauvegarderCompPersonnel("data/competences_personnel.csv");
-            Outils.sauvegarderCompetence("data/liste_competences.csv");
-            Outils.sauvegarderMission("data/liste_missions.csv");
-            Outils.sauvegarderBesoinMission("data/liste_besoins.csv");
-            Outils.sauvegarderAffectation("data/liste_affectations.csv");
-        } catch (IOException ex) {
-            Logger.getLogger(GestionPersonnel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (FormatFichierException ex) {
-            Logger.getLogger(GestionPersonnel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_formWindowClosing
 
     private void bRetourActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bRetourActionPerformed
         new GestionMission(Entreprise.missions).setVisible(true);

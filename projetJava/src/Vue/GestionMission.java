@@ -523,17 +523,20 @@ public class GestionMission extends javax.swing.JFrame {
     }//GEN-LAST:event_bAffectEmpActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        try {
-            Outils.sauvegarderPersonnel("data/liste_personnel.csv");
-            Outils.sauvegarderCompPersonnel("data/competences_personnel.csv");
-            Outils.sauvegarderCompetence("data/liste_competences.csv");
-            Outils.sauvegarderMission("data/liste_missions.csv");
-            Outils.sauvegarderBesoinMission("data/liste_besoins.csv");
-            Outils.sauvegarderAffectation("data/liste_affectations.csv");
-        } catch (IOException ex) {
-            Logger.getLogger(GestionPersonnel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (FormatFichierException ex) {
-            Logger.getLogger(GestionPersonnel.class.getName()).log(Level.SEVERE, null, ex);
+        int returnAnswer = JOptionPane.showConfirmDialog(rootPane, "Voulez-vous enregistrer les modifications apportées aux données ?", "Confirmer la fermeture", JOptionPane.YES_NO_OPTION);
+        if (returnAnswer == JOptionPane.YES_OPTION) {
+            try {
+                Outils.sauvegarderPersonnel("data/liste_personnel.csv");
+                Outils.sauvegarderCompPersonnel("data/competences_personnel.csv");
+                Outils.sauvegarderCompetence("data/liste_competences.csv");
+                Outils.sauvegarderMission("data/liste_missions.csv");
+                Outils.sauvegarderBesoinMission("data/liste_besoins.csv");
+                Outils.sauvegarderAffectation("data/liste_affectations.csv");
+            } catch (IOException ex) {
+                Logger.getLogger(GestionPersonnel.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (FormatFichierException ex) {
+                Logger.getLogger(GestionPersonnel.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_formWindowClosing
 

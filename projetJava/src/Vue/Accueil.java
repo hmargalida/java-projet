@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
 /**
@@ -124,6 +125,7 @@ public class Accueil extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
+        jButton3.setBackground(new java.awt.Color(255, 255, 255));
         jButton3.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Vue/img/folder.png"))); // NOI18N
         jButton3.setText("Consultation des compétences");
@@ -133,8 +135,9 @@ public class Accueil extends javax.swing.JFrame {
             }
         });
 
+        jButton2.setBackground(new java.awt.Color(255, 255, 255));
         jButton2.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Vue/img/calendar.png"))); // NOI18N
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Vue/img/calendar2.png"))); // NOI18N
         jButton2.setText("Gestion des missions");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -167,7 +170,8 @@ public class Accueil extends javax.swing.JFrame {
 
         l_rstNbEmpM.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 102, 102)));
+        jPanel3.setForeground(new java.awt.Color(51, 51, 51));
         jPanel3.setLayout(new java.awt.GridLayout(1, 0));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -313,17 +317,20 @@ public class Accueil extends javax.swing.JFrame {
     }//GEN-LAST:event_menuAccueilMouseClicked
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        try {
-            Outils.sauvegarderPersonnel("data/liste_personnel.csv");
-            Outils.sauvegarderCompPersonnel("data/competences_personnel.csv");
-            Outils.sauvegarderCompetence("data/liste_competences.csv");
-            Outils.sauvegarderMission("data/liste_missions.csv");
-            Outils.sauvegarderBesoinMission("data/liste_besoins.csv");
-            Outils.sauvegarderAffectation("data/liste_affectations.csv");
-        } catch (IOException ex) {
-            Logger.getLogger(GestionPersonnel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (FormatFichierException ex) {
-            Logger.getLogger(GestionPersonnel.class.getName()).log(Level.SEVERE, null, ex);
+        int returnAnswer = JOptionPane.showConfirmDialog(rootPane, "Voulez-vous enregistrer les modifications apportées aux données ?", "Confirmer la fermeture", JOptionPane.YES_NO_OPTION);
+        if (returnAnswer == JOptionPane.YES_OPTION) {
+            try {
+                Outils.sauvegarderPersonnel("data/liste_personnel.csv");
+                Outils.sauvegarderCompPersonnel("data/competences_personnel.csv");
+                Outils.sauvegarderCompetence("data/liste_competences.csv");
+                Outils.sauvegarderMission("data/liste_missions.csv");
+                Outils.sauvegarderBesoinMission("data/liste_besoins.csv");
+                Outils.sauvegarderAffectation("data/liste_affectations.csv");
+            } catch (IOException ex) {
+                Logger.getLogger(GestionPersonnel.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (FormatFichierException ex) {
+                Logger.getLogger(GestionPersonnel.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_formWindowClosing
 
